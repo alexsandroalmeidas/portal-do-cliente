@@ -76,6 +76,8 @@ export const mockDetails: (ReceivableDetail & { establishmentCode: string })[] =
 ========================= */
 
 export const mockReceivables: Receivable[] = mockDetails.map((d, i) => ({
+  documentNumber: d.establishmentCode,
+
   account: d.account,
   acquirerBranch: '0001',
   administrationFeeValue: d.discountFee,
@@ -177,6 +179,101 @@ export const mockReceivables: Receivable[] = mockDetails.map((d, i) => ({
    CALENDAR
 ========================= */
 
+export function buildReceivablesCalendar(
+  items: Receivable[],
+  adjustments: Adjustment[],
+): ReceivableCalendar[] {
+  const result: ReceivableCalendar[] = [];
+
+  // 🔥 filtra status válido
+  const valid = items.filter(
+    (x) => x.paymentStatus === 'Pago' || x.paymentStatus === 'Em Aberto',
+  );
+
+  const groups = new Map<string, Receivable[]>();
+
+  valid.forEach((item) => {
+    const key = new Date(item.sortingDate).toDateString();
+
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(item);
+  });
+
+  groups.forEach((group, key) => {
+    const first = group[0];
+    const date = new Date(first.sortingDate);
+
+    // 🔥 ajustes débito
+    const adjustmentsDebit = adjustments.filter(
+      (x) =>
+        x.adjustmentType === 2 &&
+        new Date(x.releaseDate).toDateString() === key,
+    );
+
+    const adjustmentsDebitAmount = adjustmentsDebit.reduce(
+      (s, a) => s + a.netSaleValue,
+      0,
+    );
+
+    // 🔥 ajustes crédito
+    const adjustmentsCredit = adjustments.filter(
+      (x) =>
+        x.adjustmentType === 1 &&
+        new Date(x.releaseDate).toDateString() === key,
+    );
+
+    const adjustmentsCreditAmount = adjustmentsCredit.reduce(
+      (s, a) => s + a.netSaleValue,
+      0,
+    );
+
+    const alreadyExists = result.some(
+      (x) => new Date(x.sortingDate).toDateString() === key,
+    );
+
+    const adjCredit = alreadyExists ? 0 : adjustmentsCreditAmount;
+    const adjDebit = alreadyExists ? 0 : adjustmentsDebitAmount;
+
+    result.push({
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+      yearMonthDay: date.toISOString(),
+
+      sortingDate: date,
+      paymentDate: first.paymentDate,
+
+      amount:
+        group.reduce((s, x) => s + x.paymentValue, 0) + adjCredit + adjDebit,
+
+      paymentStatus: first.paymentStatus,
+
+      receivablesPrepaymentAmount: group.reduce(
+        (s, x) => s + x.prepaymentFeeValue,
+        0,
+      ),
+
+      receivablesCreditAmount: group.reduce((s, x) => s + x.paymentValue, 0),
+
+      isCancelled: first.isCancelled,
+      isAdjust: first.isAdjust,
+      isPix: group.some((x) => x.isPix),
+
+      adjustmentsCredits: adjustmentsCredit.map((a) => ({
+        description: a.descriptionReasonAdjustment,
+        amount: a.netSaleValue,
+      })),
+
+      adjustmentsDebits: adjustmentsDebit.map((a) => ({
+        description: a.descriptionReasonAdjustment,
+        amount: a.netSaleValue,
+      })),
+    });
+  });
+
+  return result;
+}
+
 export const mockCalendar: ReceivableCalendar[] = mockReceivables.map((r) => ({
   day: r.sortingDate.getDate(),
   month: r.sortingDate.getMonth() + 1,
@@ -202,6 +299,31 @@ export const mockCalendar: ReceivableCalendar[] = mockReceivables.map((r) => ({
 /* =========================
    SUMMARY
 ========================= */
+
+export function buildReceivablesSummary(items: Receivable[]) {
+  const totalAmount = items.reduce((s, d) => s + d.paymentValue, 0);
+
+  const pix = items.filter((d) => d.isPix);
+
+  return {
+    totalAmount,
+    totalCount: items.length,
+
+    debitAmount: 0,
+    debitCount: 0,
+    debitPercent: '0',
+
+    creditAmount: totalAmount,
+    creditCount: items.length,
+    creditPercent: '100',
+
+    futureAmount: totalAmount * 0.2,
+    todayAmount: items[0]?.paymentValue || 0,
+
+    pixAmount: pix.reduce((s, d) => s + d.paymentValue, 0),
+    pixPercent: ((pix.length / items.length) * 100).toFixed(2),
+  };
+}
 
 const total = mockReceivables.reduce((s, d) => s + d.paymentValue, 0);
 

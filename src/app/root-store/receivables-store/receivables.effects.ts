@@ -7,6 +7,9 @@ import { map, switchMap } from 'rxjs/operators';
 import { AppState } from '../state';
 import * as ReceivablesStoreActions from './receivables.actions';
 
+// 🔥 IMPORT DO MOCK DE UID
+import { mockEstablishments } from '../administration-store/administration.mock';
+
 import {
   mockSummary,
   mockDetails,
@@ -14,6 +17,8 @@ import {
   mockLastUpdate,
   mockAdjustments,
   mockReceivables,
+  buildReceivablesSummary,
+  buildReceivablesCalendar,
 } from './receivables.mock';
 import { Receivable, ReceivableDetail } from './receivables.models';
 
@@ -24,19 +29,56 @@ export class ReceivablesStoreEffects {
     private actions$: Actions,
   ) {}
 
-  isBetweenDates(date: Date, start: Date, end: Date) {
-    return date >= new Date(start) && date <= new Date(end);
+  /* =========================
+     HELPERS
+  ========================= */
+
+  isBetweenDates(date: Date, start: Date, end: Date): boolean {
+    const d = new Date(date);
+
+    const startDate = new Date(start);
+    startDate.setHours(0, 0, 0, 0);
+
+    const endDate = new Date(end);
+    endDate.setHours(23, 59, 59, 999);
+
+    return d >= startDate && d <= endDate;
   }
 
-  filterByDate<T>(
+  // 🔥 RESOLVE UID → DOCUMENT NUMBER
+  private resolveDocumentNumbers(uids?: string[]): string[] {
+    if (!uids || uids.length === 0) return [];
+
+    return mockEstablishments
+      .filter((e) => uids.includes(e.uid))
+      .map((e) => e.documentNumber);
+  }
+
+  // 🔥 FILTRO FINAL UNIFICADO
+  private applyFilters<T>(
     items: T[],
     getDate: (item: T) => Date,
     start: Date,
     end: Date,
-  ) {
-    return items.filter((item) =>
-      this.isBetweenDates(getDate(item), start, end),
-    );
+    documentNumber?: string,
+    uids?: string[],
+  ): T[] {
+    const docsFromUid = this.resolveDocumentNumbers(uids);
+
+    const finalDocs = [
+      ...(documentNumber ? [String(documentNumber)] : []),
+      ...docsFromUid,
+    ];
+
+    return items.filter((item: any) => {
+      const matchDate = this.isBetweenDates(getDate(item), start, end);
+
+      const matchDocument =
+        finalDocs.length === 0 ||
+        finalDocs.includes(String(item.documentNumber));
+
+      return matchDate && matchDocument;
+    });
   }
 
   // =============================
@@ -46,13 +88,15 @@ export class ReceivablesStoreEffects {
     this.actions$.pipe(
       ofType(ReceivablesStoreActions.ActionTypes.SELECT_PAST_RECEIVABLES),
       switchMap((action: any) => {
-        const { initialDate, finalDate, uids } = action.payload;
+        const { initialDate, finalDate, documentNumber, uids } = action.payload;
 
-        let filtered = this.filterByDate(
+        let filtered = this.applyFilters(
           mockReceivables,
           (d) => d.sortingDate,
           initialDate,
           finalDate,
+          documentNumber,
+          uids,
         );
 
         if (uids?.length) {
@@ -76,23 +120,19 @@ export class ReceivablesStoreEffects {
     this.actions$.pipe(
       ofType(ReceivablesStoreActions.ActionTypes.SELECT_RECEIVABLES_SUMMARY),
       switchMap((action: any) => {
-        const { initialDate, finalDate } = action.payload;
+        const { initialDate, finalDate, documentNumber, uids } = action.payload;
 
-        const filtered = this.filterByDate(
-          mockCalendar,
-          (d) => d.sortingDate,
+        const filtered = this.applyFilters(
+          mockReceivables,
+          (d) => d.paymentDate,
           initialDate,
           finalDate,
+          documentNumber,
+          uids,
         );
 
-        const totalAmount = filtered.reduce((sum, d) => sum + d.amount, 0);
-
-        const result = {
-          ...mockSummary,
-          totalAmount,
-          totalCount: filtered.length,
-          todayAmount: filtered[0]?.amount || 0,
-        };
+        debugger;
+        const result = buildReceivablesSummary(filtered);
 
         return of(result).pipe(
           map(
@@ -113,13 +153,15 @@ export class ReceivablesStoreEffects {
     this.actions$.pipe(
       ofType(ReceivablesStoreActions.ActionTypes.SELECT_RECEIVABLES_DETAIL),
       switchMap((action: any) => {
-        const { initialDate, finalDate } = action.payload;
+        const { initialDate, finalDate, documentNumber, uids } = action.payload;
 
-        const filtered = this.filterByDate(
+        const filtered = this.applyFilters(
           mockDetails,
-          (d) => new Date(d.saleDate),
+          (d) => new Date(d.paymentDate),
           initialDate,
           finalDate,
+          documentNumber,
+          uids,
         );
 
         return of(filtered).pipe(
@@ -141,16 +183,32 @@ export class ReceivablesStoreEffects {
     this.actions$.pipe(
       ofType(ReceivablesStoreActions.ActionTypes.SELECT_RECEIVABLES_CALENDAR),
       switchMap((action: any) => {
-        const { initialDate, finalDate } = action.payload;
+        const { initialDate, finalDate, documentNumber, uids } = action.payload;
 
-        const filtered = this.filterByDate(
-          mockCalendar,
-          (d) => d.sortingDate,
+        const filteredReceivables = this.applyFilters(
+          mockReceivables,
+          (d) => d.paymentDate,
           initialDate,
           finalDate,
+          documentNumber,
+          uids,
         );
 
-        return of(filtered).pipe(
+        const filteredAdjustments = this.applyFilters(
+          mockAdjustments,
+          (d) => d.releaseDate,
+          initialDate,
+          finalDate,
+          documentNumber,
+          uids,
+        );
+
+        const result = buildReceivablesCalendar(
+          filteredReceivables,
+          filteredAdjustments,
+        );
+
+        return of(result).pipe(
           map(
             (result) =>
               new ReceivablesStoreActions.LoadReceivablesCalendarAction({
@@ -171,13 +229,15 @@ export class ReceivablesStoreEffects {
         ReceivablesStoreActions.ActionTypes.SELECT_RECEIVABLES_DETAIL_EXCEL,
       ),
       switchMap((action: any) => {
-        const { initialDate, finalDate } = action.payload;
+        const { initialDate, finalDate, documentNumber, uids } = action.payload;
 
-        const filtered = this.filterByDate(
+        const filtered = this.applyFilters(
           mockDetails,
-          (d) => new Date(d.saleDate),
+          (d) => new Date(d.paymentDate),
           initialDate,
           finalDate,
+          documentNumber,
+          uids,
         );
 
         return of(filtered).pipe(
@@ -201,13 +261,15 @@ export class ReceivablesStoreEffects {
         ReceivablesStoreActions.ActionTypes.SELECT_RECEIVABLES_CALENDAR_EXCEL,
       ),
       switchMap((action: any) => {
-        const { initialDate, finalDate } = action.payload;
+        const { initialDate, finalDate, documentNumber, uids } = action.payload;
 
-        const filtered = this.filterByDate(
+        const filtered = this.applyFilters(
           mockCalendar,
           (d) => d.sortingDate,
           initialDate,
           finalDate,
+          documentNumber,
+          uids,
         );
 
         return of(filtered).pipe(
@@ -229,13 +291,15 @@ export class ReceivablesStoreEffects {
     this.actions$.pipe(
       ofType(ReceivablesStoreActions.ActionTypes.SELECT_ADJUSTMENTS_CALENDAR),
       switchMap((action: any) => {
-        const { initialDate, finalDate } = action.payload;
+        const { initialDate, finalDate, documentNumber, uids } = action.payload;
 
-        const filtered = this.filterByDate(
+        const filtered = this.applyFilters(
           mockAdjustments,
           (d) => d.releaseDate,
           initialDate,
           finalDate,
+          documentNumber,
+          uids,
         );
 
         return of(filtered).pipe(

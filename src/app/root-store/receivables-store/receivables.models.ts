@@ -30,7 +30,7 @@ export interface Receivable {
   netSaleValue: number;
   nsu: number;
   paymentAccountNumber: number;
-  paymentDate?: Date;
+  paymentDate: Date;
   paymentIdPayware: number;
   paywareFinancialId: number;
   prepaymentFeeValue: number;
@@ -98,7 +98,7 @@ export interface ReceivableDetail {
   bank: number;
   agency: number;
   account: string;
-  paymentDate?: string;
+  paymentDate: string;
   saleAmount: number;
   paymentAmount: number;
   paymentValue: number;
