@@ -1,65 +1,137 @@
-import {
-  EconomicGroupRatesResponse,
-  EconomicGroupReserveResponse,
-  EconomicGroupBankingAccountsResponse,
-} from './administration.models';
-
 /* =========================
-   MOCK RATES
+   MOCK RATES DATABASE
 ========================= */
 
-export const mockRatesResponse = {
-  success: true,
-  errors: [],
-  result: {
+function emptyRates(cardBrand: string) {
+  return {
+    cardBrand,
+    prepaidDebit: 0,
+    prepaidDebitPeriod: 0,
+    prepaidCredit: 0,
+    prepaidCreditPeriod: 0,
+    cashCredit: 0,
+    cashCreditPeriod: 0,
+    installment02: 0,
+    installment02Period: 0,
+    installment03: 0,
+    installment03Period: 0,
+    installment04: 0,
+    installment04Period: 0,
+    installment05: 0,
+    installment05Period: 0,
+    installment06: 0,
+    installment06Period: 0,
+    installment07: 0,
+    installment07Period: 0,
+    installment08: 0,
+    installment08Period: 0,
+    installment09: 0,
+    installment09Period: 0,
+    installment10: 0,
+    installment10Period: 0,
+    installment11: 0,
+    installment11Period: 0,
+    installment12: 0,
+    installment12Period: 0,
+  };
+}
+
+function filledRates(cardBrand: string) {
+  return {
+    cardBrand,
+    prepaidDebit: 1.5,
+    prepaidDebitPeriod: 1,
+    prepaidCredit: 2.2,
+    prepaidCreditPeriod: 2,
+    cashCredit: 3.0,
+    cashCreditPeriod: 30,
+
+    installment02: 3.2,
+    installment02Period: 30,
+    installment03: 3.5,
+    installment03Period: 60,
+    installment04: 3.8,
+    installment04Period: 90,
+    installment05: 4.0,
+    installment05Period: 120,
+    installment06: 4.2,
+    installment06Period: 150,
+    installment07: 4.5,
+    installment07Period: 180,
+    installment08: 4.8,
+    installment08Period: 210,
+    installment09: 5.0,
+    installment09Period: 240,
+    installment10: 5.2,
+    installment10Period: 270,
+    installment11: 5.5,
+    installment11Period: 300,
+    installment12: 5.8,
+    installment12Period: 330,
+  };
+}
+
+export const mockRatesDatabase = [
+  /* =========================
+     CNPJ 1 (ZERADO - IGUAL AO BACKEND)
+  ========================= */
+  {
+    documentNumber: '00225434000190',
+
+    pixBank: 'FXP',
+    pixRate: 0.9,
+    pixMinRate: 0,
+    pixDisabled: false,
+
+    prepaymentRate: 0,
+    hasPrepayment: false,
+
+    reserve: 0,
+    idetp: '',
+    liquidationtime: '',
+    isEntrePay: false,
+
+    lastUpdateDate: new Date(),
+
+    rates: [
+      emptyRates('Visa'),
+      emptyRates('Mastercard'),
+      emptyRates('Elo'),
+      emptyRates('Hipercard'),
+      emptyRates('American Express'),
+    ],
+  },
+
+  /* =========================
+     CNPJ 2 (COM TAXAS)
+  ========================= */
+  {
     documentNumber: '12345678000199',
+
     pixBank: '341',
     pixRate: 1.2,
     pixMinRate: 0.5,
     pixDisabled: false,
-    hasPrepayment: true,
+
     prepaymentRate: 2.5,
+    hasPrepayment: true,
+
+    reserve: 1500,
     idetp: 'ETP001',
     liquidationtime: 'D+1',
     isEntrePay: false,
-    lastUpdateDate: new Date(),
-    reserve: 1500,
-    rates: [
-      {
-        cardBrand: 'Visa',
-        prepaidDebit: 1.5,
-        prepaidDebitPeriod: 1,
-        prepaidCredit: 2.2,
-        prepaidCreditPeriod: 2,
-        cashCredit: 3.0,
-        cashCreditPeriod: 30,
 
-        installment02: 3.2,
-        installment02Period: 30,
-        installment03: 3.5,
-        installment03Period: 60,
-        installment04: 3.8,
-        installment04Period: 90,
-        installment05: 4.0,
-        installment05Period: 120,
-        installment06: 4.2,
-        installment06Period: 150,
-        installment07: 4.5,
-        installment07Period: 180,
-        installment08: 4.8,
-        installment08Period: 210,
-        installment09: 5.0,
-        installment09Period: 240,
-        installment10: 5.2,
-        installment10Period: 270,
-        installment11: 5.5,
-        installment11Period: 300,
-        installment12: 5.8,
-        installment12Period: 330,
-      },
+    lastUpdateDate: new Date(),
+
+    rates: [
+      filledRates('Visa'),
+      filledRates('Mastercard'),
+      filledRates('Elo'),
+      filledRates('Hipercard'),
+      filledRates('American Express'),
     ],
   },
-};
+];
 
 /* =========================
    MOCK RESERVE
@@ -74,13 +146,14 @@ export const mockReserveResponse = {
 };
 
 /* =========================
-   MOCK BANKING ACCOUNTS
+   MOCK BANKING DATABASE
 ========================= */
 
-export const mockBankingAccountsResponse = {
-  success: true,
-  errors: [],
-  result: {
+export const mockBankingAccountsDatabase = [
+  /* =========================
+     CNPJ 1
+  ========================= */
+  {
     documentNumber: '12345678000199',
     failureMessage: '',
     isSuccessful: true,
@@ -106,7 +179,56 @@ export const mockBankingAccountsResponse = {
       },
     ],
   },
-};
+
+  /* =========================
+     CNPJ 2 (DIFERENTE)
+  ========================= */
+  {
+    documentNumber: '98765432000188',
+    failureMessage: '',
+    isSuccessful: true,
+    bankingAccounts: [
+      {
+        bankCode: '1',
+        bankName: 'Banco do Brasil',
+        agency: '5678',
+        account: '98765-0',
+
+        elo: { debit: false, credit: true },
+        visa: { debit: true, credit: false },
+        master: { debit: true, credit: true },
+        hiper: { debit: true, credit: false },
+        amex: { debit: false, credit: false },
+
+        hasElo: true,
+        hasVisa: true,
+        hasMaster: true,
+        hasHiper: true,
+        hasAmex: false,
+        pix: true,
+      },
+      {
+        bankCode: '033',
+        bankName: 'Santander',
+        agency: '9999',
+        account: '11111-1',
+
+        elo: { debit: true, credit: false },
+        visa: { debit: true, credit: true },
+        master: { debit: false, credit: true },
+        hiper: { debit: false, credit: false },
+        amex: { debit: false, credit: true },
+
+        hasElo: true,
+        hasVisa: true,
+        hasMaster: true,
+        hasHiper: false,
+        hasAmex: true,
+        pix: false,
+      },
+    ],
+  },
+];
 
 export const mockEstablishments = [
   {

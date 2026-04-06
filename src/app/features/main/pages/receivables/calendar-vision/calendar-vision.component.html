@@ -15,21 +15,28 @@
       <div class="card-body">
         <div class="row" *ngIf="totalAmount > 0">
           <div class="col-12 text-end">
-            <button class="btn btn-primary me-1 btn-export" (click)="onExport()">Exportar</button>
+            <button
+              class="btn btn-primary me-1 btn-export"
+              (click)="onExport()"
+            >
+              Exportar
+            </button>
           </div>
         </div>
 
         <div class="row pt-3">
           <div class="col-sm-5">
             <label class="fw-bolder lbl-receivables">
-              {{ oneDaySelected ? 'Total do dia' : 'Total' }}</label
+              {{ oneDaySelected ? "Total do dia" : "Total" }}</label
             >
           </div>
           <div class="col-sm-7 text-end">
-            <label class="fw-bolder fs-5"> {{ totalAmount | currency : 'BRL' }}</label>
+            <label class="fw-bolder fs-5">
+              {{ totalAmount | currency: "BRL" }}</label
+            >
           </div>
         </div>
-
+        <!-- 
         <div class="row pt-3">
           <div class="col-sm-5">
             <label class="fw-bolder lbl-receivables"> Reserva de Valor</label>
@@ -37,7 +44,7 @@
           <div class="col-sm-7 text-end">
             <label class="fw-bolder fs-5"> {{ reserve }}%</label>
           </div>
-        </div>
+        </div> -->
 
         <div class="row pt-3" *ngIf="oneDaySelected && !!situation">
           <div class="col-sm-5">
@@ -50,7 +57,9 @@
 
         <div class="row pt-3" *ngIf="oneDaySelected && !!bank">
           <div class="col-sm-7">
-            <label class="fw-bolder lbl-receivables">{{ bank }} {{ agency }} {{ account }}</label>
+            <label class="fw-bolder lbl-receivables"
+              >{{ bank }} {{ agency }} {{ account }}</label
+            >
           </div>
         </div>
 
@@ -64,10 +73,12 @@
           </div>
           <div class="row pt-3">
             <div class="col-sm-7">
-              <label class="fw-bolder lbl-receivables">Recebimentos de vendas</label>
+              <label class="fw-bolder lbl-receivables"
+                >Recebimentos de vendas</label
+              >
             </div>
             <div class="col-sm-5 text-end">
-              <label>{{ receivablesCreditAmount | currency : 'BRL' }}</label>
+              <label>{{ receivablesCreditAmount | currency: "BRL" }}</label>
             </div>
           </div>
           <div class="row pt-3">
@@ -75,15 +86,20 @@
               <label class="fw-bolder lbl-receivables">Ajustes à Crédito</label>
             </div>
             <div class="col-sm-5 text-end">
-              <label>{{ adjustmentsCreditAmount | currency : 'BRL' }}</label>
+              <label>{{ adjustmentsCreditAmount | currency: "BRL" }}</label>
             </div>
 
-            <div class="row pt-3 pl-2 pr-0" *ngFor="let adjustmentCredit of adjustmentsCredits">
+            <div
+              class="row pt-3 pl-2 pr-0"
+              *ngFor="let adjustmentCredit of adjustmentsCredits"
+            >
               <div class="col-sm-7">
-                <label class="fw-bolder lbl-receivables">{{ adjustmentCredit.description }}</label>
+                <label class="fw-bolder lbl-receivables">{{
+                  adjustmentCredit.description
+                }}</label>
               </div>
               <div class="col-sm-5 text-end pr-0">
-                <label>{{ adjustmentCredit.amount | currency : 'BRL' }}</label>
+                <label>{{ adjustmentCredit.amount | currency: "BRL" }}</label>
               </div>
             </div>
           </div>
@@ -97,10 +113,12 @@
           </div>
           <div class="row pt-3">
             <div class="col-sm-8">
-              <label class="fw-bolder lbl-receivables">Recebimentos antecipados</label>
+              <label class="fw-bolder lbl-receivables"
+                >Recebimentos antecipados</label
+              >
             </div>
             <div class="col-sm-4 text-end">
-              <label>{{ receivablesPrepaymentAmount | currency : 'BRL' }}</label>
+              <label>{{ receivablesPrepaymentAmount | currency: "BRL" }}</label>
             </div>
           </div>
           <div class="row pt-3">
@@ -108,15 +126,20 @@
               <label class="fw-bolder lbl-receivables">Ajustes à Débito</label>
             </div>
             <div class="col-sm-4 text-end">
-              <label>{{ adjustmentsDebitAmount | currency : 'BRL' }}</label>
+              <label>{{ adjustmentsDebitAmount | currency: "BRL" }}</label>
             </div>
 
-            <div class="row pt-3 pl-2 pr-0" *ngFor="let adjustmentDebit of adjustmentsDebits">
+            <div
+              class="row pt-3 pl-2 pr-0"
+              *ngFor="let adjustmentDebit of adjustmentsDebits"
+            >
               <div class="col-sm-7">
-                <label class="fw-bolder lbl-receivables">{{ adjustmentDebit.description }}</label>
+                <label class="fw-bolder lbl-receivables">{{
+                  adjustmentDebit.description
+                }}</label>
               </div>
               <div class="col-sm-5 text-end pr-0">
-                <label>{{ adjustmentDebit.amount | currency : 'BRL' }}</label>
+                <label>{{ adjustmentDebit.amount | currency: "BRL" }}</label>
               </div>
             </div>
           </div>
@@ -133,7 +156,8 @@
             style="padding: 1rem; padding-top: 0 !important"
           >
             <span class="me-2"
-              >Última atualização: {{ lastUpdateDate | date : 'dd/MM/yyyy HH:mm' }}</span
+              >Última atualização:
+              {{ lastUpdateDate | date: "dd/MM/yyyy HH:mm" }}</span
             >
 
             <app-tooltip icon="info" position="bottom right">

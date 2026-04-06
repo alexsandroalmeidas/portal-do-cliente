@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { Store } from '@ngrx/store';
@@ -7,7 +13,7 @@ import { takeUntil } from 'rxjs';
 import { AuthStoreSelectors } from 'src/app/root-store';
 import {
   AdministrationStoreActions,
-  AdministrationStoreSelectors
+  AdministrationStoreSelectors,
 } from 'src/app/root-store/administration-store';
 import { EconomicGroupBankingAccountResponse } from 'src/app/root-store/administration-store/administration.models';
 import { SelectOption } from 'src/app/shared/models/select-options';
@@ -21,9 +27,12 @@ import { SharedModule } from './../../../../shared/shared.module';
   templateUrl: './my-data-page.component.html',
   styleUrls: ['./my-data-page.component.scss'],
   standalone: true,
-  imports: [SharedModule, SelectEstablishmentsComponent]
+  imports: [SharedModule, SelectEstablishmentsComponent],
 })
-export class MyDataPageComponent extends BasePage implements OnInit, OnDestroy, AfterViewInit {
+export class MyDataPageComponent
+  extends BasePage
+  implements OnInit, OnDestroy, AfterViewInit
+{
   establishmentsToSelect: SelectOption[] = [];
   establishmentsSelected: string = null as any;
   establishmentsSelectedDocNumber: string = null as any;
@@ -37,7 +46,7 @@ export class MyDataPageComponent extends BasePage implements OnInit, OnDestroy, 
   constructor(
     store$: Store<AppState>,
     navigationService: NavigationService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ) {
     super(store$, navigationService);
 
@@ -63,9 +72,9 @@ export class MyDataPageComponent extends BasePage implements OnInit, OnDestroy, 
               (establishment) =>
                 new SelectOption(
                   `${establishment.documentNumber} - ${establishment.companyName}`,
-                  establishment.uid
-                )
-            )
+                  establishment.uid,
+                ),
+            ),
           ];
         }
       });
@@ -77,34 +86,49 @@ export class MyDataPageComponent extends BasePage implements OnInit, OnDestroy, 
       .pipe(takeUntil(this.$unsub))
       .subscribe((bankingAccounts) => {
         if (!!bankingAccounts) {
-          this.economicGroupBankingAccounts = (bankingAccounts?.bankingAccounts || [])?.filter(
-            (x) => x.hasAmex || x.hasElo || x.hasHiper || x.hasMaster || x.hasVisa || x.pix
+          this.economicGroupBankingAccounts = (
+            bankingAccounts?.bankingAccounts || []
+          )?.filter(
+            (x) =>
+              x.hasAmex ||
+              x.hasElo ||
+              x.hasHiper ||
+              x.hasMaster ||
+              x.hasVisa ||
+              x.pix,
           );
         }
       });
   }
 
   private verifyEstablishmentSelected() {
+    debugger;
     if (!this.establishmentsSelected) {
-      this.establishmentsSelected = this.selectedEstablishmentsUids.firstOrDefault((x) => !!x);
+      this.establishmentsSelected =
+        this.selectedEstablishmentsUids.firstOrDefault((x) => !!x);
       this.establishmentsSelectedDocNumber = this.selectedEstablishments.filter(
-        (x) => x.uid == this.establishmentsSelected
+        (x) => x.uid == this.establishmentsSelected,
       )[0].documentNumber;
     } else {
       if (
         !isEmpty(this.selectedEstablishmentsUids) &&
         this.selectedEstablishmentsUids.length === 1
       ) {
-        const firstEstablishment: string = this.selectedEstablishmentsUids.firstOrDefault(
-          (x) => !!x
-        );
+        const firstEstablishment: string =
+          this.selectedEstablishmentsUids.firstOrDefault((x) => !!x);
 
         if (firstEstablishment !== this.establishmentsSelected) {
           this.establishmentsSelected = firstEstablishment;
-          this.establishmentsSelectedDocNumber = this.selectedEstablishments.filter(
-            (x) => x.uid == this.establishmentsSelected
-          )[0].documentNumber;
+          this.establishmentsSelectedDocNumber =
+            this.selectedEstablishments.filter(
+              (x) => x.uid == this.establishmentsSelected,
+            )[0].documentNumber;
         }
+      } else {
+        this.establishmentsSelectedDocNumber =
+          this.selectedEstablishments.filter(
+            (x) => x.uid == this.establishmentsSelected,
+          )[0].documentNumber;
       }
     }
   }
@@ -124,8 +148,8 @@ export class MyDataPageComponent extends BasePage implements OnInit, OnDestroy, 
     if (!!this.establishmentsSelected) {
       this.store$.dispatch(
         new AdministrationStoreActions.GetEconomicGroupBankingAccountsAction({
-          uid: this.establishmentsSelected
-        })
+          uid: this.establishmentsSelected,
+        }),
       );
     }
   }
@@ -133,6 +157,7 @@ export class MyDataPageComponent extends BasePage implements OnInit, OnDestroy, 
   onSelectedEstablishmentsClick(event: any) {
     this.establishmentsSelected = event;
     this.selectGetEconomicGroupBankingAccounts();
+    this.verifyEstablishmentSelected();
   }
 
   protected override onChangeSelectedEstablishments(): void {

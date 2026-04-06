@@ -25,10 +25,10 @@ import { LoggingService } from 'src/app/shared/services/logging.service';
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service';
 import { Establishment } from './administration.models';
 import {
-  mockRatesResponse,
   mockReserveResponse,
-  mockBankingAccountsResponse,
   mockEstablishments,
+  mockRatesDatabase,
+  mockBankingAccountsDatabase,
 } from './administration.mock';
 
 @Injectable()
@@ -185,8 +185,22 @@ export class AdministrationStoreEffects {
   getEconomicGroupRatesEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AdministrationStoreActions.ActionTypes.GET_ECONOMIC_GROUP_RATES),
-      switchMap(() =>
-        of(mockRatesResponse).pipe(
+      switchMap((action: any) => {
+        const { uid } = action.payload;
+
+        const establishment = mockEstablishments.find((e) => e.uid === uid);
+
+        const rates = mockRatesDatabase.find(
+          (r) => r.documentNumber === establishment?.documentNumber,
+        );
+
+        const response = {
+          success: true,
+          errors: [],
+          result: rates ?? undefined,
+        };
+
+        return of(response).pipe(
           map(
             (response) =>
               new AdministrationStoreActions.GetEconomicGroupRatesSuccessAction(
@@ -195,8 +209,8 @@ export class AdministrationStoreEffects {
                 },
               ),
           ),
-        ),
-      ),
+        );
+      }),
     ),
   );
 
@@ -224,8 +238,24 @@ export class AdministrationStoreEffects {
         AdministrationStoreActions.ActionTypes
           .GET_ECONOMIC_GROUP_BANKING_ACCOUNTS,
       ),
-      switchMap(() =>
-        of(mockBankingAccountsResponse).pipe(
+      switchMap((action: any) => {
+        const { uid } = action.payload;
+
+        // 🔎 1. UID → Establishment
+        const establishment = mockEstablishments.find((e) => e.uid === uid);
+
+        // 🔎 2. documentNumber → Banking
+        const banking = mockBankingAccountsDatabase.find(
+          (b) => b.documentNumber === establishment?.documentNumber,
+        );
+
+        const response = {
+          success: true,
+          errors: [],
+          result: banking ?? undefined, // ⚠️ importante: undefined (não null)
+        };
+
+        return of(response).pipe(
           map(
             (response) =>
               new AdministrationStoreActions.GetEconomicGroupBankingAccountsSuccessAction(
@@ -234,8 +264,8 @@ export class AdministrationStoreEffects {
                 },
               ),
           ),
-        ),
-      ),
+        );
+      }),
     ),
   );
 }
