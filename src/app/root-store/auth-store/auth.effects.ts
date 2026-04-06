@@ -80,6 +80,7 @@ export class AuthStoreEffects {
         AuthStoreActions.ActionTypes.SIGNIN_SUCCESS,
       ),
       tap(({ payload }) => {
+        debugger;
         if (!payload.user) {
           this.store$.dispatch(new AuthStoreActions.SignOutAction());
           return;

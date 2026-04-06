@@ -19,6 +19,7 @@ import {
   mockReceivables,
   buildReceivablesSummary,
   buildReceivablesCalendar,
+  buildReceivablesSummaryFromCalendar,
 } from './receivables.mock';
 import { Receivable, ReceivableDetail } from './receivables.models';
 
@@ -122,7 +123,7 @@ export class ReceivablesStoreEffects {
       switchMap((action: any) => {
         const { initialDate, finalDate, documentNumber, uids } = action.payload;
 
-        const filtered = this.applyFilters(
+        const filteredReceivables = this.applyFilters(
           mockReceivables,
           (d) => d.paymentDate,
           initialDate,
@@ -131,8 +132,23 @@ export class ReceivablesStoreEffects {
           uids,
         );
 
-        debugger;
-        const result = buildReceivablesSummary(filtered);
+        const filteredAdjustments = this.applyFilters(
+          mockAdjustments,
+          (d) => d.releaseDate,
+          initialDate,
+          finalDate,
+          documentNumber,
+          uids,
+        );
+
+        // 🔥 BASE CORRETA
+        const calendar = buildReceivablesCalendar(
+          filteredReceivables,
+          filteredAdjustments,
+        );
+
+        // 🔥 SUMMARY BASEADO NO CALENDAR
+        const result = buildReceivablesSummaryFromCalendar(calendar);
 
         return of(result).pipe(
           map(
@@ -164,6 +180,8 @@ export class ReceivablesStoreEffects {
           uids,
         );
 
+        debugger;
+
         return of(filtered).pipe(
           map(
             (result) =>
@@ -185,6 +203,7 @@ export class ReceivablesStoreEffects {
       switchMap((action: any) => {
         const { initialDate, finalDate, documentNumber, uids } = action.payload;
 
+        debugger;
         const filteredReceivables = this.applyFilters(
           mockReceivables,
           (d) => d.paymentDate,

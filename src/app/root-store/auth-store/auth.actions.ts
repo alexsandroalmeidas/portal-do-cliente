@@ -106,8 +106,6 @@ export class ValidateUserAdFailureAction implements Action {
   constructor(public payload: { error: any }) {}
 }
 
-/* ==== MISC ==== */
-
 export class UnauthorizedAction implements Action {
   readonly type = ActionTypes.UNAUTHORIZED;
 }
