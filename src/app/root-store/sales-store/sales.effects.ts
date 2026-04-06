@@ -9,13 +9,12 @@ import * as SalesStoreActions from './sales.actions';
 
 import {
   mockDetails,
-  mockSummary,
-  mockSalesCalendar,
   mockLastUpdate,
   mockLastSales,
+  buildCalendar,
 } from './sales.mock';
 
-import { SalesCalendar, SummaryLastSales } from './sales.models';
+import { SalesCalendar, SalesDetail, SummaryLastSales } from './sales.models';
 
 // 🔥 IMPORT DO MOCK DE UID
 import { mockEstablishments } from '../administration-store/administration.mock';
@@ -197,16 +196,22 @@ export class SalesStoreEffects {
     this.actions$.pipe(
       ofType(SalesStoreActions.ActionTypes.SELECT_SALES_CALENDAR),
       switchMap((action: any) => {
-        const { initialDate, finalDate } = action.payload;
+        const { initialDate, finalDate, documentNumber, uids } = action.payload;
 
-        const filtered = this.applyFilters(
-          mockSalesCalendar,
-          (d: SalesCalendar) => d.sortingDate,
+        // 🔥 1. filtra detalhes
+        const filteredDetails = this.applyFilters(
+          mockDetails,
+          (d) => new Date(d.saleDate),
           initialDate,
           finalDate,
+          documentNumber,
+          uids,
         );
 
-        return of(filtered).pipe(
+        // 🔥 2. monta calendário baseado nos dados filtrados
+        const calendar = buildCalendar(filteredDetails);
+
+        return of(calendar).pipe(
           map(
             (result) =>
               new SalesStoreActions.LoadSalesCalendarAction({ result }),
@@ -253,14 +258,16 @@ export class SalesStoreEffects {
       switchMap((action: any) => {
         const { initialDate, finalDate } = action.payload;
 
-        const filtered = this.applyFilters(
-          mockSalesCalendar,
-          (d: SalesCalendar) => d.sortingDate,
+        const filteredDetails = this.applyFilters(
+          mockDetails,
+          (d) => new Date(d.saleDate),
           initialDate,
           finalDate,
         );
 
-        return of(filtered).pipe(
+        const calendar = buildCalendar(filteredDetails);
+
+        return of(calendar).pipe(
           map(
             (result) =>
               new SalesStoreActions.LoadSalesCalendarExcelAction({

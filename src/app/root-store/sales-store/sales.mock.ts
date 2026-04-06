@@ -43,39 +43,163 @@ function getSettlement(type: string) {
   return 30;
 }
 
+function isWeekend(date: Date): boolean {
+  const day = date.getDay(); // 0 = domingo, 6 = sábado
+  return day === 0 || day === 6;
+}
+
+function generateBusinessDays(totalDays: number) {
+  const result: { date: Date; amount: number }[] = [];
+
+  let i = 0;
+  let cursor = new Date();
+
+  while (result.length < totalDays) {
+    const current = new Date(cursor);
+    current.setDate(cursor.getDate() - i);
+
+    if (!isWeekend(current)) {
+      result.push({
+        date: current,
+        amount: 100 + result.length * 10,
+      });
+    }
+
+    i++;
+  }
+
+  return result;
+}
+
+const baseDates = generateBusinessDays(30);
+
 /* =========================
    CALENDAR
 ========================= */
 
-export const mockSalesCalendar: SalesCalendar[] = Array.from({
-  length: 30,
-}).map((_, i) => {
-  const date = new Date();
-  date.setDate(date.getDate() - i);
+export function buildCalendar(details: SalesDetail[]): SalesCalendar[] {
+  const map = new Map<string, SalesCalendar>();
 
-  return {
-    sortingDate: date,
-    amount: 100 + i * 10,
+  details.forEach((d) => {
+    const date = new Date(d.saleDate);
+    const key = date.toDateString();
 
-    debitAmount: 30,
-    debitCount: 1,
+    if (!map.has(key)) {
+      map.set(key, {
+        day: date.getDate(),
+        month: date.getMonth() + 1,
+        year: date.getFullYear(),
+        yearMonthDay: date.toISOString(),
 
-    creditAmount: 70,
-    creditCount: 1,
+        paymentStatus: 'Pago',
+        amount: 0,
+        sortingDate: date,
 
-    voucherAmount: 0,
-    voucherCount: 0,
+        isCancelled: false,
 
-    pixAmount: 0,
-    pixCount: 0,
-  } as SalesCalendar;
-});
+        debitAmount: 0,
+        debitCount: 0,
+
+        prepaidDebitAmount: 0,
+        prepaidDebitCount: 0,
+
+        creditAmount: 0,
+        creditCount: 0,
+
+        internationalCreditAmount: 0,
+        internationalCreditCount: 0,
+
+        prepaidCreditAmount: 0,
+        prepaidCreditCount: 0,
+
+        voucherAmount: 0,
+        voucherCount: 0,
+
+        installmentsAmount: 0,
+        installmentsCount: 0,
+
+        pixAmount: 0,
+        pixCount: 0,
+
+        isDebit: false,
+        isPrepaidDebit: false,
+        isCredit: false,
+        isPrepaidCredit: false,
+        isInternationalCredit: false,
+        isVoucher: false,
+        isPix: false,
+        isInstallments: false,
+      });
+    }
+
+    const item = map.get(key)!;
+
+    // 🔥 TOTAL
+    item.amount += d.saleAmount;
+
+    // 🔥 DEBIT
+    if (d.isDebit) {
+      item.debitAmount += d.saleAmount;
+      item.debitCount++;
+      item.isDebit = true;
+    }
+
+    // 🔥 CREDIT
+    if (d.isCredit) {
+      item.creditAmount += d.saleAmount;
+      item.creditCount++;
+      item.isCredit = true;
+    }
+
+    // 🔥 PIX
+    if (d.isPix) {
+      item.pixAmount += d.saleAmount;
+      item.pixCount++;
+      item.isPix = true;
+    }
+
+    // 🔥 VOUCHER
+    if (d.isVoucher) {
+      item.voucherAmount += d.saleAmount;
+      item.voucherCount++;
+      item.isVoucher = true;
+    }
+  });
+
+  return Array.from(map.values()).sort(
+    (a, b) => a.sortingDate.getTime() - b.sortingDate.getTime(),
+  );
+}
+
+// export const mockSalesCalendar: SalesCalendar[] = Array.from({
+//   length: 30,
+// }).map((_, i) => {
+//   const date = new Date();
+//   date.setDate(date.getDate() - i);
+
+//   return {
+//     sortingDate: date,
+//     amount: 100 + i * 10,
+
+//     debitAmount: 30,
+//     debitCount: 1,
+
+//     creditAmount: 70,
+//     creditCount: 1,
+
+//     voucherAmount: 0,
+//     voucherCount: 0,
+
+//     pixAmount: 0,
+//     pixCount: 0,
+//   } as SalesCalendar;
+// });
 
 /* =========================
    DETAILS
 ========================= */
 
-export const mockDetails: SalesDetail[] = mockSalesCalendar.flatMap((d, i) =>
+export const mockDetails: SalesDetail[] = baseDates.flatMap((d, i: number) =>
   ESTABLISHMENTS.map((e) => {
     const paymentType = ['Crédito', 'Débito', 'Pix'][i % 3];
     const settlement = getSettlement(paymentType);
@@ -83,8 +207,8 @@ export const mockDetails: SalesDetail[] = mockSalesCalendar.flatMap((d, i) =>
     return {
       documentNumber: e.documentNumber,
 
-      saleDate: d.sortingDate,
-      paymentDate: addDays(d.sortingDate, settlement),
+      saleDate: d.date,
+      paymentDate: addDays(d.date, settlement),
 
       saleAmount: d.amount,
       paymentAmount: d.amount * 0.95,
@@ -99,16 +223,6 @@ export const mockDetails: SalesDetail[] = mockSalesCalendar.flatMap((d, i) =>
 
       isCancelled: false,
 
-      debitAmount: d.debitAmount,
-      debitCount: d.debitCount,
-      creditAmount: d.creditAmount,
-      creditCount: d.creditCount,
-
-      voucherAmount: 0,
-      voucherCount: 0,
-
-      pixAmount: 0,
-      pixCount: 0,
       paymentType,
 
       isDebit: paymentType === 'Débito',
@@ -116,6 +230,15 @@ export const mockDetails: SalesDetail[] = mockSalesCalendar.flatMap((d, i) =>
       isPix: paymentType === 'Pix',
       isVoucher: false,
       isInstallments: false,
+
+      debitAmount: 0,
+      debitCount: 0,
+      creditAmount: 0,
+      creditCount: 0,
+      voucherAmount: 0,
+      voucherCount: 0,
+      pixAmount: 0,
+      pixCount: 0,
     } as SalesDetail;
   }),
 );
