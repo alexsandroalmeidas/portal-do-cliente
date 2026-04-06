@@ -1,0 +1,253 @@
+:host {
+
+  .fs-small {
+    font-size: small !important;
+  }
+
+  .fs-14 {
+    font-size: medium !important;
+  }
+
+  .fs-2 {
+    font-size: 2rem !important;
+  }
+
+  .fs-28 {
+    font-size: 28px !important;
+  }
+
+  .fs-30 {
+    font-size: 30px !important;
+  }
+
+  .pl-3 {
+    padding-left: 3rem !important;
+  }
+
+  .pl-4 {
+    padding-left: 4px !important;
+  }
+
+  .pl-5 {
+    padding-left: 5rem !important;
+  }
+
+  .pl-0 {
+    padding-left: 0px !important;
+  }
+
+  .pl-05 {
+    padding-left: 0.5rem !important;
+  }
+
+  .pr-05 {
+    padding-right: 0.5rem !important;
+  }
+
+  .mb-01 {
+    margin-bottom: 1rem !important;
+  }
+
+  .mb-0 {
+    margin-bottom: 0px !important;
+  }
+
+  .mt-04 {
+    margin-top: 0.4rem;
+  }
+
+  .fs-20 {
+    font-size: 20px !important;
+  }
+
+  .fs-28 {
+    font-size: 28px !important;
+  }
+
+  .pb-0 {
+    padding-bottom: 0px !important;
+  }
+
+  .pt-0 {
+    padding-top: 0px !important;
+  }
+
+  .pt-04 {
+    padding-top: 4rem;
+  }
+
+  .card-scheduled {
+    height: 28rem !important;
+    background: var(--bs-primary);
+    color: white;
+    margin-left: 1rem;
+    border-radius: 1.375rem !important;
+    height: 17rem;
+
+    .card-body {
+
+      .card-prepayment {
+
+        .prepayment-icon-scheduled {
+          padding-bottom: 1rem;
+
+          .material-symbols-outlined {
+            font-size: 35px;
+          }
+        }
+
+        .prepayment-icon-scheduled-finalized {
+          padding-bottom: 14rem;
+
+          .material-symbols-outlined {
+            font-size: 35px;
+          }
+        }
+
+        .card-scheduled-2 {
+          background: #99F6DB;
+          color: white;
+          width: 8rem;
+          padding-top: 1rem;
+          padding-right: 1rem;
+          padding-bottom: 1rem;
+          padding-left: 1rem;
+          border-radius: 0.5rem;
+        }
+      }
+
+      .container-btn-position {
+        padding-top: 0.6rem;
+      }
+
+      .btn-scheduled-activate {
+        width: 100%;
+        font-size: 1.3rem;
+        color: white;
+        background-color: #C00400;
+        padding: 0.5rem;
+      }
+
+      .text-white {
+        color: white;
+      }
+
+      .icon-activate {
+        display: inline-flex !important;
+        vertical-align: middle !important;
+      }
+
+      .list-prepayments {
+        width: 10%;
+        --bs-list-group-bg: unset !important;
+
+        .list-group {
+          .list-group-item {
+            padding: 0.5rem 0;
+            border: unset;
+            padding-bottom: 0.2rem !important;
+            padding-top: 0.2rem !important;
+            background-color: unset !important;
+
+            .form-check-input:disabled {
+              opacity: unset !important;
+            }
+          }
+        }
+      }
+
+      .fs-bullet {
+        font-size: 15px !important;
+      }
+
+      ul {
+        list-style-type: none;
+        margin-top: 4px;
+      }
+    }
+  }
+
+  .card-scheduled-active {
+    height: 28rem !important;
+    background: #99F6DB;
+    color: #99F6DB;
+    margin-left: 1rem;
+    border-radius: 1.375rem !important;
+    height: 17rem;
+
+    .card-body-scheduled-1 {
+      background: #99F6DB;
+      color: var(--bs-primary);
+      border-radius: 1.375rem !important;
+      height: 10rem;
+      width: 50%;
+      padding-left: 30%;
+    }
+
+    .card-body-scheduled-2 {
+      background: var(--bs-primary);
+      color: #99F6DB;
+      border-top-left-radius: 0px !important;
+      border-top-right-radius: 0px !important;
+      border-bottom-right-radius: 1.375rem !important;
+      border-bottom-left-radius: 1.375rem !important;
+      height: 17rem;
+    }
+
+    .icon-prepayment-active {
+      font-size: 6rem;
+    }
+
+    .card-body {
+
+      .card-scheduled-2 {
+        background: #99F6DB;
+        color: white;
+        width: 8rem;
+        padding-top: 0.5rem;
+        padding-right: 1rem;
+        padding-bottom: 0.5rem;
+        padding-left: 1rem;
+        border-radius: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .card-prepayment {
+        background: #99F6DB;
+        color: var(--bs-primary);
+
+        .prepayment-icon-scheduled {
+          padding-bottom: 1rem;
+
+          .material-symbols-outlined {
+            font-size: 35px;
+          }
+        }
+      }
+
+      .container-btn-position {
+        bottom: 24px;
+        position: absolute !important;
+        padding-top: 3rem;
+      }
+
+      .btn-scheduled {
+        width: 100%;
+        font-size: 1rem;
+        border-color: white;
+      }
+
+      .icon-edit {
+        display: inline-flex !important;
+        vertical-align: middle !important;
+        font-size: 1rem !important;
+      }
+
+      .icon-cancel {
+        display: inline-flex !important;
+        vertical-align: middle !important;
+        font-size: 1rem !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+<ng-container *ngFor="let step of steps;">
+  <hr *ngIf="step > 0"
+      class="border opacity-75"
+      [class.border-secondary]="active >= step"
+      [class.border-white]="active < step && color === 'white'"
+      [class.border-gray-200]="active < step && color === 'gray'">
+  <span class="badge rounded-circle"
+        [class.bg-secondary]="active >= step"
+        [class.bg-white]="active < step && color === 'white'"
+        [class.bg-gray-200]="active < step && color === 'gray'">
+  </span>
+</ng-container>

@@ -1,0 +1,74 @@
+::ng-deep .theme-blue .bs-datepicker-head {
+  background-color: #0D8AFF !important;
+  color: white !important;
+}
+
+::ng-deep .theme-blue .bs-datepicker-body table td span.selected,
+.theme-blue .bs-datepicker-body table td.selected span,
+.theme-blue .bs-datepicker-body table td span[class*=select-]:after,
+.theme-blue .bs-datepicker-body table td[class*=select-] span:after {
+  background-color: #0D8AFF !important;
+  border-radius: 1.375rem !important;
+}
+
+:host {
+  @import "./../../../../assets/scss/variables";
+
+  .filter {
+
+    .btn {
+      width: 14% !important;
+      border-radius: 10rem;
+    }
+
+    .form-control {
+      border-radius: 1.375rem !important;
+      background-color: #0D8AFF;
+      color: white;
+    }
+
+  }
+
+  ::ng-deep .mat-calendar-body-cell-content .mat-focus-indicator .mat-calendar-body-selected {
+    background-color: #0D8AFF !important;
+    color: white !important;
+  }
+
+  ::ng-deep .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input,
+  ::ng-deep .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label,
+  ::ng-deep .mat-calendar-body-cell-content,
+  ::ng-deep .mat-date-range-input-separator,
+  ::ng-deep .mat-mdc-icon-button {
+    color: white !important;
+  }
+
+  ::ng-deep .mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
+    padding-top: 0% !important;
+    padding-bottom: 0% !important;
+  }
+
+  ::ng-deep .mat-mdc-form-field {
+    height: 3.4rem !important;
+  }
+
+  ::ng-deep .mdc-text-field--no-label:not(.mdc-text-field--textarea) .mat-mdc-form-field-input-control.mdc-text-field__input,
+  .mat-mdc-text-field-wrapper .mat-mdc-form-field-input-control {
+    padding: 0.3rem !important;
+  }
+
+  ::ng-deep .mat-mdc-form-field-icon-prefix,
+  [dir=rtl] .mat-mdc-form-field-icon-suffix {
+    padding-right: 0% !important;
+  }
+
+  ::placeholder {
+    color: white;
+    opacity: 1;
+    /* Firefox */
+  }
+
+  ::-ms-input-placeholder {
+    /* Edge 12 -18 */
+    color: white;
+  }
+}

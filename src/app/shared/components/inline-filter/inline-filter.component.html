@@ -1,0 +1,19 @@
+<div class="filter">
+  <h5 class="filter-title" *ngIf="!!title">{{ title }}</h5>
+  <div class="filter-option-list">
+    <ng-container *ngFor="let option of options">
+
+      <button class="btn btn-primary" *ngIf="isSelected(option); else light_button" [ngClass]="optionClass"
+        (click)="selectOption(option)">
+        {{ option.label }}
+      </button>
+
+      <ng-template #light_button>
+        <button class="btn bg-gray-600 text-white" [ngClass]="optionClass" (click)="selectOption(option)">
+          {{ option.label }}
+        </button>
+      </ng-template>
+
+    </ng-container>
+  </div>
+</div>

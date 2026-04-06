@@ -1,0 +1,14 @@
+$navbar-height: 75px !default;
+$menu-height: 75px !default;
+$toolbar-height: 250px !default;
+$sidenav-width: 200px !default;
+$page-header-height: 4rem !default;
+
+:root {
+  --navbar-height: #{$navbar-height};
+  --menu-height: #{$menu-height};
+  --toolbar-height: #{$toolbar-height};
+  --navbar-mobile-height: var(--navbar-height);
+  --sidenav-width: #{$sidenav-width};
+  --page-header-height: #{$page-header-height};
+}

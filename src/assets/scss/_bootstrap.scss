@@ -1,0 +1,86 @@
+// Custom.scss
+// Option B: Include parts of Bootstrap
+
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../../../node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+$primary: #4e2096;
+$secondary: #fbf9f7;
+$font-family-sans-serif: "Montserrat", Roboto, "Helvetica Neue", sans-serif;
+$font-size-base: 1rem * 0.8;
+
+// 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/variables-dark";
+
+// 4. Include any default variable overrides here (though functions won't be available)
+$primary-contrast: color-contrast($primary);
+$primary-100: tint-color($primary, 80%);
+$primary-200: tint-color($primary, 60%);
+$primary-300: tint-color($primary, 40%);
+$primary-400: tint-color($primary, 20%);
+$primary-500: $primary;
+$primary-600: shade-color($primary, 20%);
+$primary-700: shade-color($primary, 40%);
+$primary-800: shade-color($primary, 60%);
+$primary-900: shade-color($primary, 80%);
+
+$secondary-contrast: color-contrast($secondary);
+$secondary-100: tint-color($secondary, 80%);
+$secondary-200: tint-color($secondary, 60%);
+$secondary-300: tint-color($secondary, 40%);
+$secondary-400: tint-color($secondary, 20%);
+$secondary-500: $secondary;
+$secondary-600: shade-color($secondary, 20%);
+$secondary-700: shade-color($secondary, 40%);
+$secondary-800: shade-color($secondary, 60%);
+$secondary-900: shade-color($secondary, 80%);
+
+$custom-colors: (
+  "tiny-blue": #0d8aff,
+  "soft-blue": #99f6db,
+  "soft-green": #00a183,
+  "success": #00a184,
+  "warning": #ffac33,
+  "primary-contrast": $primary-contrast,
+  "primary-100": $primary-100,
+  "primary-200": $primary-200,
+  "primary-300": $primary-300,
+  "primary-400": $primary-400,
+  "primary-500": $primary-500,
+  "primary-600": $primary-600,
+  "primary-700": $primary-700,
+  "primary-800": $primary-800,
+  "primary-900": $primary-900,
+  "secondary-contrast": $secondary-contrast,
+  "secondary-100": $secondary-100,
+  "secondary-200": $secondary-200,
+  "secondary-300": $secondary-300,
+  "secondary-400": $secondary-400,
+  "secondary-500": $secondary-500,
+  "secondary-600": $secondary-600,
+  "secondary-700": $secondary-700,
+  "secondary-800": $secondary-800,
+  "secondary-900": $secondary-900,
+);
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+@each $color, $value in $grays {
+  .text-gray-#{$color} {
+    color: $value !important;
+  }
+
+  .bg-gray-#{$color} {
+    background: $value !important;
+  }
+
+  .border-gray-#{$color} {
+    --bs-border-opacity: 1;
+    border-color: var(--bs-gray-#{$color}) !important;
+  }
+}

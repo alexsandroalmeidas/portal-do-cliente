@@ -1,0 +1,11 @@
+:host {
+  .filter {
+    .filter-option-list {
+      .btn {
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<div class="d-flex flex-column gap-4 p-0 mt-3">
+
+  <app-two-factor-email *ngIf="step === 1" [emailSelected]="emailSelected" (continue)="onContinueEmailClick($event)"
+    (resendEmail)="onResendEmailClick()" (cancel)="onCancelClick()">
+  </app-two-factor-email>
+
+  <app-two-factor-phone-number *ngIf="step === 2" (continue)="onContinuePhoneNumberClick($event)"
+    (cancel)="onCancelClick()">
+  </app-two-factor-phone-number>
+
+  <app-two-factor-sms *ngIf="step === 3" [phoneNumber]="phoneNumber" [isVerify]="isVerify" [isScheduled]="isScheduled"
+    (confirmSms)="onConfirmSmsClick($event)" (resendSms)="onResendSmsClick()" (cancel)="onCancelClick()">
+  </app-two-factor-sms>
+
+</div>

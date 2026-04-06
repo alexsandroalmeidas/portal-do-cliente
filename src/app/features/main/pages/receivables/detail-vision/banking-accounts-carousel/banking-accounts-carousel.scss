@@ -1,0 +1,88 @@
+@import "./../../../../../../../assets/scss/variables";
+
+:host {
+  ::ng-deep .carousel-item {
+    height: 13rem;
+  }
+
+  ::ng-deep .carousel-inner {
+    width: 97%;
+    min-height: 9rem;
+  }
+
+  ::ng-deep .carousel .carousel-control-next {
+    right: -6%;
+  }
+
+  ::ng-deep .carousel .carousel-control-prev {
+    left: -6%;
+  }
+
+  ::ng-deep .carousel .carousel-control-prev-icon,
+  ::ng-deep .carousel .carousel-control-next-icon {
+    width: 50px;
+    height: 50px;
+    background-size: 41%;
+    border-radius: 50%;
+  }
+
+  ::ng-deep .carousel .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%236c757d' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+  }
+
+  ::ng-deep .carousel .carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%236c757d' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+  }
+
+  ::ng-deep .carousel .carousel-item {
+    padding-left: 1rem !important;
+    padding-top: 1rem !important;
+  }
+
+  .card-b-height {
+    min-height: 10.2rem;
+    border: none;
+  }
+
+  .banking-carousel {
+    padding: 1.5rem !important;
+  }
+
+  .pb-amount {
+    padding-bottom: 2.1rem;
+  }
+
+  .br-2 {
+    border-radius: 2rem;
+  }
+
+  .bank-icon {
+    width: 100%;
+    border-radius: 0.5rem;
+  }
+
+  .pr-0 {
+    padding-right: 0% !important;
+  }
+
+  .mb-0 {
+    margin-bottom: 0px !important;
+  }
+
+  .card-header {
+    border-color: var(--bs-light);
+    border: none;
+    width: 100%;
+    background-color: unset;
+  }
+
+  .card-footer {
+    border-color: var(--bs-light);
+    border: none;
+    bottom: 0px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    background-color: unset;
+  }
+}

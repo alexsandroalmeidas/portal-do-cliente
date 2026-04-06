@@ -1,0 +1,10 @@
+<app-navbar *ngIf="showMenu"></app-navbar>
+<app-sidebar *ngIf="showMenu"></app-sidebar>
+
+<div id="page-content-wrapper">
+  <div class="container-fluid">
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

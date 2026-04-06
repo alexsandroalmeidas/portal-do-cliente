@@ -1,0 +1,102 @@
+<div class="row card-group-row mb-lg-8pt">
+  <div class="col card-group-row__col mb-3">
+    <div class="card card-group-row__card">
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-12 text-start">
+
+            <app-date-filter (changeValue)="onPeriodChange($event)" [initialValue]="periodInitialValue"
+              [limitDays]="365" [justCustom]="false" [isPrimary]="true" [customInitialDate]="customInitialDate"
+              [customFinalDate]="customFinalDate" title="" time="past">
+            </app-date-filter>
+          </div>
+
+        </div>
+
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+
+          <!-- Status  Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef sortable="status" (sort)="onSort($event)">
+              Status
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="flex-fill" [style.width]="'60%'">
+                <div class="alert rounded-pill m-0 px-3 py-1 fs-7" [style.width]="'fit-content'" role="alert"
+                  [class.alert-success]="element.status === 1" [class.text-success]="element.status === 1"
+                  [class.alert-warning]="element.status === 0" [class.text-warning]="element.status === 0"
+                  [class.alert-secondary]="element.status === 2" [class.text-secondary]="element.status === 2">
+
+                  <ng-container [ngSwitch]="element.status">
+                    <span *ngSwitchCase="0">Em andamento</span>
+                    <span *ngSwitchCase="1">Concluído</span>
+                    <span *ngSwitchCase="2">Erro na antecipação</span>
+                  </ng-container>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- PrepaymentValue  Column -->
+          <ng-container matColumnDef="prepaymentValue">
+            <th mat-header-cell *matHeaderCellDef sortable="prepaymentValue" (sort)="onSort($event)">
+              Valor Antecipado
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.prepaymentValue | currency:'BRL':'symbol':'1.2-2'}}
+            </td>
+          </ng-container>
+
+          <!-- Tipo Column -->
+          <ng-container matColumnDef="isPunctual">
+            <th mat-header-cell *matHeaderCellDef sortable="isPunctual" (sort)="onSort($event)">
+              Tipo
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.isPunctual ? 'Antecipação pontual': 'Antecipação programada' }}
+            </td>
+          </ng-container>
+
+          <!-- RegistrationDate  Column -->
+          <ng-container matColumnDef="registrationDate">
+            <th mat-header-cell *matHeaderCellDef sortable="registrationDate" (sort)="onSort($event)">
+              Data
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.registrationDate | date: "dd/MM/yyyy" }}
+            </td>
+          </ng-container>
+
+          <!-- Code  Column -->
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef sortable="code" (sort)="onSort($event)">
+              Código
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.code || 0 }}
+            </td>
+          </ng-container>
+
+          <!-- Channel  Column -->
+          <ng-container matColumnDef="channel">
+            <th mat-header-cell *matHeaderCellDef sortable="channel" (sort)="onSort($event)">
+              Canal
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.channel }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *cdkHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="element-row"> </tr>
+        </table>
+
+        <pagination class="pagination pagination-secondary d-flex justify-content-end"
+          [totalItems]="filteredItems.length" [boundaryLinks]="true" [maxSize]="maxSize" [itemsPerPage]="itemsPerPage"
+          [(ngModel)]="tablePage" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+          (pageChanged)="onPaginate($event)">
+        </pagination>
+      </div>
+    </div>
+  </div>
+</div>

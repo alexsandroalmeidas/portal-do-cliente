@@ -1,0 +1,148 @@
+<div class="row">
+  <div class="col-sm-8">
+    <app-calendar
+      [events]="myEvents"
+      [startYear]="startYear"
+      [startMonth]="startMonth"
+      (selectedDays)="dayClicked($event)"
+      (outCurrentDate)="outCurrentDate($event)"
+    >
+    </app-calendar>
+  </div>
+
+  <div class="col-sm-4 pl-1">
+    <div class="card calendar-card">
+      <div class="card-body">
+        <div class="row" *ngIf="totalAmount > 0">
+          <div class="col-12 text-end">
+            <button class="btn btn-primary me-1 btn-export" (click)="onExport()">Exportar</button>
+          </div>
+        </div>
+
+        <div class="row pt-3">
+          <div class="col-sm-5">
+            <label class="fw-bolder lbl-receivables">
+              {{ oneDaySelected ? 'Total do dia' : 'Total' }}</label
+            >
+          </div>
+          <div class="col-sm-7 text-end">
+            <label class="fw-bolder fs-5"> {{ totalAmount | currency : 'BRL' }}</label>
+          </div>
+        </div>
+
+        <div class="row pt-3">
+          <div class="col-sm-5">
+            <label class="fw-bolder lbl-receivables"> Reserva de Valor</label>
+          </div>
+          <div class="col-sm-7 text-end">
+            <label class="fw-bolder fs-5"> {{ reserve }}%</label>
+          </div>
+        </div>
+
+        <div class="row pt-3" *ngIf="oneDaySelected && !!situation">
+          <div class="col-sm-5">
+            <label class="fw-bolder lbl-receivables">Situação</label>
+          </div>
+          <div class="col-sm-7 text-end">
+            <label class="fw-bolder fs-5">{{ situation }}</label>
+          </div>
+        </div>
+
+        <div class="row pt-3" *ngIf="oneDaySelected && !!bank">
+          <div class="col-sm-7">
+            <label class="fw-bolder lbl-receivables">{{ bank }} {{ agency }} {{ account }}</label>
+          </div>
+        </div>
+
+        <hr class="hr-tot" />
+
+        <div class="container p-0">
+          <div class="row pt-3">
+            <div class="col-sm-5">
+              <label class="fw-bolder text-start">Créditos</label>
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-sm-7">
+              <label class="fw-bolder lbl-receivables">Recebimentos de vendas</label>
+            </div>
+            <div class="col-sm-5 text-end">
+              <label>{{ receivablesCreditAmount | currency : 'BRL' }}</label>
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-sm-7">
+              <label class="fw-bolder lbl-receivables">Ajustes à Crédito</label>
+            </div>
+            <div class="col-sm-5 text-end">
+              <label>{{ adjustmentsCreditAmount | currency : 'BRL' }}</label>
+            </div>
+
+            <div class="row pt-3 pl-2 pr-0" *ngFor="let adjustmentCredit of adjustmentsCredits">
+              <div class="col-sm-7">
+                <label class="fw-bolder lbl-receivables">{{ adjustmentCredit.description }}</label>
+              </div>
+              <div class="col-sm-5 text-end pr-0">
+                <label>{{ adjustmentCredit.amount | currency : 'BRL' }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container p-0 pt-debits">
+          <div class="row pt-3">
+            <div class="col-sm-5">
+              <label class="fw-bolder text-start">Débitos</label>
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-sm-8">
+              <label class="fw-bolder lbl-receivables">Recebimentos antecipados</label>
+            </div>
+            <div class="col-sm-4 text-end">
+              <label>{{ receivablesPrepaymentAmount | currency : 'BRL' }}</label>
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-sm-8">
+              <label class="fw-bolder lbl-receivables">Ajustes à Débito</label>
+            </div>
+            <div class="col-sm-4 text-end">
+              <label>{{ adjustmentsDebitAmount | currency : 'BRL' }}</label>
+            </div>
+
+            <div class="row pt-3 pl-2 pr-0" *ngFor="let adjustmentDebit of adjustmentsDebits">
+              <div class="col-sm-7">
+                <label class="fw-bolder lbl-receivables">{{ adjustmentDebit.description }}</label>
+              </div>
+              <div class="col-sm-5 text-end pr-0">
+                <label>{{ adjustmentDebit.amount | currency : 'BRL' }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="hr-tot" />
+
+        <div class="row">
+          <div class="d-flex justify-content-center align-items-center">
+            <span>Os recebimentos futuros poderão sofrer alterações</span>
+          </div>
+          <div
+            class="d-flex justify-content-center align-items-center"
+            style="padding: 1rem; padding-top: 0 !important"
+          >
+            <span class="me-2"
+              >Última atualização: {{ lastUpdateDate | date : 'dd/MM/yyyy HH:mm' }}</span
+            >
+
+            <app-tooltip icon="info" position="bottom right">
+              <p><strong>Cartões:</strong> Atualizado diariamente</p>
+              <p><strong>Pix:</strong> Atualizado a cada 5 minutos</p>
+            </app-tooltip>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

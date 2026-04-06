@@ -1,0 +1,62 @@
+<ng-container *ngIf="!hasSelectedEstablishments; else establishments_found">
+  <app-establishments-not-found></app-establishments-not-found>
+</ng-container>
+
+<ng-template #establishments_found>
+  <section class="heading">
+    <div class="page-title">
+      <h3>{{ 'app.commercial-terms.title' | translate }}</h3>
+      <span class="page-subtitle">{{ 'app.commercial-terms.subtitle' | translate }}</span>
+    </div>
+
+    <div class="page-actions">
+      <section class="section-actions">
+        <!-- <span class="px-2 fw-bolder">{{ 'app.message-navbar-title' | translate }} </span> -->
+      </section>
+    </div>
+  </section>
+
+  <app-banner-carousel
+    [showIndicators]="true"
+    [noWrap]="false"
+    [slides]="slides"
+    *ngIf="hasBannersPermission && !!slides.length"
+  >
+  </app-banner-carousel>
+
+  <div class="content">
+    <div class="row" *ngIf="!!establishmentsToSelect">
+      <div class="col-12">
+        <div class="card mt-3 card-establishments">
+          <div class="card-body d-flex flex-column align-items-start gap-2">
+            <span class="fw-bolder">Selecione um estabelecimento:</span>
+            <div
+              class="card-commercial-terms w-100 d-flex align-items-center justify-content-start gap-2"
+            >
+              <app-select-establishments
+                class="w-50"
+                [establishments]="establishmentsToSelect"
+                [multiple]="false"
+                [markFirst]="true"
+                [selectedEstablishmentDocument]="establishmentsSelected"
+                (selectedEstablishments)="onSelectedEstablishmentsClick($event)"
+              >
+              </app-select-establishments>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <app-card-prepayments-scheduled-conditions
+        *ngIf="!!scheduledFinalized && !!scheduledFinalized.id"
+        [prepaymentEstablishmentsSelected]="establishmentsSelected"
+        [scheduledFinalized]="scheduledFinalized"
+        (cancelClick)="onCancelClick()"
+        (editClick)="onEditClick()"
+      >
+      </app-card-prepayments-scheduled-conditions>
+    </div>
+  </div>
+</ng-template>

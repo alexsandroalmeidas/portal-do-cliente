@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h5 class="modal-title pull-left">Notificações</h5>
+</div>
+<div class="modal-body">
+  <div class="table-responsive">
+    <input id="filter" placeholder="Pesquisar notificação" class="form-control" type="text" [formControl]="filter" autocomplete="off" />
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col" class="col-3" sortable="documentNumber" (sort)="onSort($event)">Número Documento</th>
+          <th scope="col" class="col-2" sortable="readDescription" (sort)="onSort($event)">Lida?</th>
+          <th scope="col" class="col-3" sortable="readDate" (sort)="onSort($event)">Data da Leitura</th>
+          <th scope="col" class="col-4" sortable="exclusionDate" (sort)="onSort($event)">Data da Exclusão</th>
+        </tr>
+      </thead>
+      <tbody (scroll)="onScroll($event)">
+        <tr *ngFor="let element of filteredItens | slice:pageStart:pageEnd">
+          <th class="col-3" scope="row">{{element.documentNumber | mask:'CPF_CNPJ'}}</th>
+          <td class="col-2"> {{element.readDescription}} </td>
+          <td class="col-3"> {{element.readDate | date:'dd/MM/yyyy HH:mm'}} </td>
+          <td class="col-4"> {{element.exclusionDate | date:'dd/MM/yyyy HH:mm'}} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="onCancelarClick()">Cancelar</button>
+</div>

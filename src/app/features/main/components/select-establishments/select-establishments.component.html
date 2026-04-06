@@ -1,0 +1,7 @@
+<ng-select class="select text-secondary" aria-placeholder="Selecione..." placeholder="Selecione..."
+  [items]="establishments" id="establishments" name="establishments" [attr.name]="'establishments'" bindLabel="label"
+  bindValue="value" notFoundText="Nenhum estabelecimento encontrado" [markFirst]="markFirst" dropdownPosition="auto"
+  [multiple]="multiple" [closeOnSelect]="true" [clearSearchOnAdd]="false" [searchable]="true" [clearable]="true"
+  [virtualScroll]="true" style="overflow: visible;" (change)="onEstablishmentChange($event)"
+  [(ngModel)]="selectedEstablishmentDocument">
+</ng-select>

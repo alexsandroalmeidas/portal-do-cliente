@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>
+  <div class="p-1-title">
+    Permissão Notificação
+  </div>
+</h1>
+
+<hr class="hr-position">
+
+<mat-dialog-content class="mt-2">
+  <div class="bg-primary rounded d-flex align-items-center justify-content-center p-4">
+    <mat-icon class="material-symbols-outlined text-light">smartphone</mat-icon>
+  </div>
+  <p class="my-2 mt-3 text-center">Deseja permitir o recebimento de notificações?</p>
+</mat-dialog-content>
+
+<hr class="hr-position">
+
+<mat-dialog-actions align="end">
+  <button type="button"
+          class="btn btn-outline-primary d-flex align-items-center gap-2"
+          (click)="onCancel()">
+    Não Permitir
+  </button>
+  <button type="button"
+          class="btn btn-primary d-flex align-items-center gap-2"
+          #buttonSubscriber>
+    Permitir
+  </button>
+</mat-dialog-actions>

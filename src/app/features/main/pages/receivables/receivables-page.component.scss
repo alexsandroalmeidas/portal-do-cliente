@@ -1,0 +1,65 @@
+.card {
+  border: none;
+}
+
+.dv-lbl-filter {
+  display: table;
+}
+
+.lbl-filter {
+  display: table-cell;
+  vertical-align: middle !important;
+  text-align: left;
+}
+
+.content-info-list {
+  width: 100% !important;
+  padding: 0px !important;
+
+
+  .list {
+    width: 100%;
+
+    .list-group {
+      .list-group-item {
+        padding: 0.5rem 0;
+        border: none !important;
+      }
+    }
+  }
+}
+
+.break-text {
+  width: 90%;
+  /* Ou um tamanho específico, ex: 300px */
+  word-wrap: break-word;
+  /* Para navegadores mais antigos */
+  overflow-wrap: break-word;
+  /* Para navegadores modernos */
+  white-space: normal;
+}
+
+
+.lbl-filter-attention {
+  display: table-cell;
+  vertical-align: middle !important;
+  text-align: left;
+  font-size: 0.7rem !important;
+}
+
+.pl-5 {
+  padding-left: 5rem !important;
+}
+
+.whats-img {
+  width: 10%;
+}
+
+.section-actions {
+  overflow: auto;
+
+  table {
+    width: 40%;
+    float: right;
+  }
+}

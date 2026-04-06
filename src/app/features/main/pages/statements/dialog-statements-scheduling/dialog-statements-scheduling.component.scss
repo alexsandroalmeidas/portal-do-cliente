@@ -1,0 +1,22 @@
+.card {
+  border: none;
+}
+
+.dv-lbl-filter {
+  display: table;
+}
+
+.lbl-filter {
+  display: table-cell;
+  vertical-align: middle !important;
+  text-align: left;
+}
+
+::ng-deep .ng-dropdown-panel {
+  z-index: 9999999 !important;
+}
+
+.allEstablishments {
+  display: inline-block;
+  margin-left: 1rem;
+}

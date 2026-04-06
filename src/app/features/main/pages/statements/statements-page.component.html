@@ -1,0 +1,132 @@
+<ng-container *ngIf="!hasSelectedEstablishments; else establishments_found">
+  <app-establishments-not-found></app-establishments-not-found>
+</ng-container>
+
+<ng-template #establishments_found>
+  <section class="heading">
+    <div class="page-title">
+      <h3>{{ 'app.statements.title' | translate }}</h3>
+      <span class="page-subtitle">{{ 'app.statements.subtitle' | translate }}</span>
+    </div>
+
+    <div class="page-actions">
+      <section class="section-actions">
+        <!-- <span class="px-2 fw-bolder">{{ 'app.message-navbar-title' | translate }} </span> -->
+      </section>
+    </div>
+  </section>
+
+  <div class="content" *ngIf="enabledStatement; else no_enabled_statement">
+    <div class="row card-group-row mb-lg-8pt">
+      <div class="col card-group-row__col mb-3">
+        <div class="card card-group-row__card">
+          <div
+            class="card-body"
+            style="display: flex; justify-content: flex-end; align-items: center"
+          >
+            <button class="btn btn-primary mr-1" (click)="onSchedulingClick()">Agendamento</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row card-group-row mb-lg-8pt" *ngIf="enabledStatement">
+    <div class="col card-group-row__col">
+      <div class="card card-group-row__card">
+        <div class="card-body">
+          <ng-container *ngIf="!!statements; else no_statement">
+            <div class="table-responsive">
+              <table cdk-table [dataSource]="dataSource" class="table table-hover">
+                <ng-container cdkColumnDef="createdDate">
+                  <th cdk-header-cell *cdkHeaderCellDef>Data Geração</th>
+                  <td cdk-cell *cdkCellDef="let row" class="fw-bolder">
+                    {{ row.createdDate | date : 'dd/MM/yyyy HH:mm:ss' }}
+                  </td>
+                </ng-container>
+
+                <ng-container cdkColumnDef="period">
+                  <th cdk-header-cell *cdkHeaderCellDef>Período</th>
+                  <td cdk-cell *cdkCellDef="let row" class="fw-bolder">
+                    {{ row.initialDate | date : 'dd/MM/yyyy' }} -
+                    {{ row.finalDate | date : 'dd/MM/yyyy' }}
+                  </td>
+                </ng-container>
+
+                <ng-container cdkColumnDef="documentNumber">
+                  <th cdk-header-cell *cdkHeaderCellDef>Número do Documento</th>
+                  <td cdk-cell *cdkCellDef="let row">
+                    {{ row.documentNumber }}
+                  </td>
+                </ng-container>
+
+                <ng-container cdkColumnDef="action">
+                  <th cdk-header-cell *cdkHeaderCellDef>Opções</th>
+                  <td cdk-cell *cdkCellDef="let row">
+                    <div>
+                      <button
+                        class="btn btn-outline-secondary mr-1"
+                        title="{{ row.fileName }}.txt"
+                        (click)="onDownloadTxtClick(row.fileName)"
+                      >
+                        TXT
+                      </button>
+                      <button
+                        class="btn btn-outline-secondary mr-1"
+                        title="{{ row.fileName }}.xml"
+                        (click)="onDownloadXmlClick(row.fileName)"
+                      >
+                        XML
+                      </button>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr cdk-header-row *cdkHeaderRowDef="columnsToDisplay"></tr>
+                <tr
+                  cdk-row
+                  *cdkRowDef="let element; columns: columnsToDisplay"
+                  class="element-row"
+                ></tr>
+              </table>
+
+              <pagination
+                class="pagination pagination-secondary d-flex justify-content-end"
+                [totalItems]="statements.length"
+                [boundaryLinks]="true"
+                [maxSize]="5"
+                [itemsPerPage]="itemsPerPage"
+                [(ngModel)]="tablePage"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;"
+                (pageChanged)="onPaginate($event)"
+              >
+              </pagination>
+            </div>
+          </ng-container>
+
+          <ng-template #no_statement>
+            <h5>Nenhum extrato disponível</h5>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #no_enabled_statement>
+    <div class="row card-group-row mb-lg-8pt">
+      <div class="col card-group-row__col">
+        <div class="card card-group-row__card">
+          <div class="card-body">
+            <h6 class="card-title fw-bolder text-secondary">
+              Estabelecimento não está habilitado para o extrato.
+            </h6>
+            <span>Caso haja interesse, entre em contato com a Punto.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>

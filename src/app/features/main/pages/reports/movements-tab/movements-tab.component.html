@@ -1,0 +1,377 @@
+<div class="row card-group-row mb-lg-8pt">
+  <div class="col">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <form [formGroup]="form">
+          <!-- LINHA 1 — O QUÊ + QUANDO -->
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <app-select-filter
+                title="Tipo de Movimento"
+                [entries]="filterEntriesMovement"
+                [initialValue]="movementTypeSelected"
+                (changeValue)="onMovementTypeChange($event)"
+              >
+              </app-select-filter>
+            </div>
+
+            <div
+              class="col-md-7 mb-3"
+              *ngIf="showPastPeriod; else futurePeriod"
+            >
+              <app-period-filter
+                initialValue="today"
+                [limitDays]="limitDays"
+                time="past"
+                dateFormat="YYYY-MM-DDTHH:mm:ss"
+                (changeValue)="onPeriodChange($event)"
+              >
+              </app-period-filter>
+            </div>
+
+            <ng-template #futurePeriod>
+              <div class="col-md-7 mb-3">
+                <app-period-filter
+                  initialValue="today"
+                  [limitDays]="limitDays"
+                  time="future"
+                  dateFormat="YYYY-MM-DDTHH:mm:ss"
+                  (changeValue)="onPeriodChange($event)"
+                >
+                </app-period-filter>
+              </div>
+            </ng-template>
+          </div>
+
+          <!-- LINHA 2 — ESTABELECIMENTOS -->
+          <div class="row mt-3">
+            <div class="col-sm-4">
+              <div *ngIf="showCheckAllEstablishments">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="allEstablishments"
+                  formControlName="allEstablishments"
+                />
+                Selecionar Todos os Estabelecimentos
+              </div>
+
+              <div *ngIf="showEditEstablishments">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="editEstablishments"
+                  formControlName="editEstablishments"
+                />
+                Informar os Estabelecimentos
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col" *ngIf="showAllEstablishments">
+              <label class="h5 filter-title" for="establishments"
+                >Estabelecimentos</label
+              >
+              <ng-select
+                class="select"
+                formControlName="establishments"
+                aria-placeholder="Selecione..."
+                placeholder="Selecione..."
+                [items]="customersOptions"
+                id="establishments"
+                name="establishments"
+                [attr.name]="'establishments'"
+                bindLabel="label"
+                bindValue="value"
+                notFoundText="Nenhum estabelecimento encontrado"
+                [markFirst]="true"
+                dropdownPosition="auto"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [clearSearchOnAdd]="false"
+                [searchable]="true"
+                [clearable]="true"
+                [virtualScroll]="true"
+                [readonly]="!!form.get('allEstablishments')?.value"
+                style="overflow: visible"
+              >
+              </ng-select>
+            </div>
+
+            <div
+              class="col"
+              *ngIf="!showAllEstablishments && showEditEstablishments"
+            >
+              <label class="h5 filter-title" for="txtAreaEstablishments"
+                >Estabelecimentos
+                <i
+                  class="material-icons info-ajuste text-secondary"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="informar os CNPJs separados por ponto e vírgula (;) e sem pontuação. Ex: 00000000000100;00000000000200"
+                >
+                  info
+                </i>
+              </label>
+              <textarea
+                id="txtAreaEstablishments"
+                name="txtAreaEstablishments"
+                formControlName="txtAreaEstablishments"
+                class="form-control custom-control-textarea"
+                rows="5"
+                cols="33"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- ERRO -->
+          <div class="mt-2">
+            <span
+              class="establishment-error-message"
+              *ngIf="showEstablishmentRequired"
+            >
+              É obrigatório informar um ou mais estabelecimentos.
+            </span>
+          </div>
+
+          <!-- EQUIPAMENTOS -->
+          <div class="row" *ngIf="showEquipments">
+            <div class="col-md-6">
+              <label class="h6">Equipamentos</label>
+
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-chip-grid #chipGrid aria-label="Informe equpamentos">
+                  <mat-chip-row
+                    *ngFor="let equip of equipmentsChips"
+                    (removed)="remove(equip)"
+                    [editable]="true"
+                    (edited)="edit(equip, $event)"
+                    [aria-description]="'press enter to edit ' + equip.name"
+                  >
+                    {{ equip.name }}
+                    <button
+                      matChipRemove
+                      [attr.aria-label]="'remove ' + equip.name"
+                    >
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip-row>
+                  <input
+                    placeholder="..."
+                    [matChipInputFor]="chipGrid"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="add($event)"
+                  />
+                </mat-chip-grid>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- FOOTER DO CARD (CTA) -->
+      <div class="card-footer bg-white border-top d-flex justify-content-end">
+        <button class="btn btn-primary px-5" (click)="onSubmit()">
+          Pesquisar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row card-group-row mb-lg-8pt mt-2">
+  <div class="col card-group-row__col">
+    <div class="card card-group-row__card">
+      <div class="card-body">
+        <h6 class="text-secondary">Última pesquisa realizada</h6>
+
+        <ng-container *ngIf="!!lastRequest; else nenhuma_solicitacao_realizada">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Data Geração</th>
+                  <th scope="col">Movimento</th>
+                  <th scope="col">Período</th>
+                  <th scope="col">Estabelecimentos</th>
+                  <th scope="col">Equipamentos</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    {{ lastRequest.requested | date: "dd/MM/yyyy" }}
+                  </th>
+                  <td>{{ lastRequest.movementTypeDescription }}</td>
+                  <td>
+                    {{ lastRequest.initialDate | date: "dd/MM/yyyy" }} -
+                    {{ lastRequest.finalDate | date: "dd/MM/yyyy" }}
+                  </td>
+                  <td
+                    class="text-truncate coluna-cnpjs"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="{{ lastRequest.documents }}"
+                  >
+                    {{
+                      lastRequest.documents.length > 15
+                        ? lastRequest.documents.slice(0, 15) + "..."
+                        : lastRequest.documents
+                    }}
+                  </td>
+                  <td
+                    class="text-truncate coluna-equipments"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="{{ lastRequest.equipments }}"
+                  >
+                    {{
+                      !!lastRequest.equipments &&
+                      lastRequest.equipments.length > 18
+                        ? lastRequest.equipments.slice(0, 18) + "..."
+                        : lastRequest.equipments
+                    }}
+                  </td>
+                  <td>
+                    <div style="width: 100%; padding-top: 1rem">
+                      <progressbar
+                        [animate]="false"
+                        [value]="progressValue"
+                        type="success"
+                      >
+                        <b>{{ progressValue }}%</b>
+                      </progressbar>
+                    </div>
+                    <p style="text-align: center">{{ progressStatus }}</p>
+                  </td>
+                  <td>
+                    <div class="d-flex-justify-content-between">
+                      <button
+                        class="btn btn-outline-secondary mr-1"
+                        [disabled]="lastRequest.status !== 3"
+                        (click)="
+                          downloadExcel(
+                            lastRequest.id,
+                            lastRequest.movementType
+                          )
+                        "
+                      >
+                        Excel
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-center">
+            <div class="card card-resumo">
+              <div class="card-body">
+                <h6 class="card-title">Valor Bruto</h6>
+                <p
+                  *ngIf="showValues(); else loader_gross_value"
+                  class="card-text"
+                >
+                  {{
+                    lastRequest.grossValue || 0
+                      | currency: "BRL" : "symbol" : "1.2-2"
+                  }}
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="card card-resumo"
+              *ngIf="lastRequest.movementType !== 3"
+            >
+              <div class="card-body">
+                <h6 class="card-title">Valor Líquido</h6>
+                <p
+                  *ngIf="showValues(); else loader_net_value"
+                  class="card-text"
+                >
+                  {{
+                    lastRequest.netValue || 0
+                      | currency: "BRL" : "symbol" : "1.2-2"
+                  }}
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="card card-resumo"
+              *ngIf="lastRequest.movementType === 3"
+            >
+              <div class="card-body">
+                <h6 class="card-title">Quantidade de Vendas</h6>
+                <p
+                  *ngIf="showValues(); else loader_qtd_sales"
+                  class="card-text"
+                >
+                  {{ lastRequest.qtdSales || 0 }}
+                </p>
+              </div>
+            </div>
+
+            <ng-template #loader_net_value>
+              <div class="card-loader">
+                <ngx-ui-loader
+                  loaderId="loader_net_value"
+                  logoUrl=""
+                  [hasProgressBar]="false"
+                  [fgsSize]="30"
+                  [fgsColor]="'#4E2096'"
+                  [fgsPosition]="LOADER_POSITION.bottomCenter"
+                  fgsType="ball-spin-fade-rotating"
+                  overlayColor="rgba(122,122,122,0.5)"
+                >
+                </ngx-ui-loader>
+              </div>
+            </ng-template>
+
+            <ng-template #loader_gross_value>
+              <div class="card-loader">
+                <ngx-ui-loader
+                  loaderId="loader_gross_value"
+                  logoUrl=""
+                  [hasProgressBar]="false"
+                  [fgsSize]="30"
+                  [fgsColor]="'#4E2096'"
+                  [fgsPosition]="LOADER_POSITION.bottomCenter"
+                  fgsType="ball-spin-fade-rotating"
+                  overlayColor="rgba(122,122,122,0.5)"
+                >
+                </ngx-ui-loader>
+              </div>
+            </ng-template>
+
+            <ng-template #loader_qtd_sales>
+              <div class="card-loader">
+                <ngx-ui-loader
+                  loaderId="loader_qtd_sales"
+                  logoUrl=""
+                  [hasProgressBar]="false"
+                  [fgsSize]="30"
+                  [fgsColor]="'#4E2096'"
+                  [fgsPosition]="LOADER_POSITION.bottomCenter"
+                  fgsType="ball-spin-fade-rotating"
+                  overlayColor="rgba(122,122,122,0.5)"
+                >
+                </ngx-ui-loader>
+              </div>
+            </ng-template>
+          </div>
+        </ng-container>
+
+        <ng-template #nenhuma_solicitacao_realizada>
+          <h5>Nenhuma solicitação realizada</h5>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

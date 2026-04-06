@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h5 class="modal-title pull-left">Selecione o período</h5>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form" autocomplete="off" novalidate>
+    <div class="row">
+      <div class="col form-group mb-3">
+        <input
+          type="text"
+          placeholder="Selecione o intervalo"
+          class="form-control"
+          bsDaterangepicker
+          formControlName="dateRange"
+          [bsConfig]="{
+            dateInputFormat: dateFormat || 'DD/MM/YYYY',
+            containerClass: 'theme-dark-blue',
+            maxDateRange: limitDays,
+            showWeekNumbers: false
+          }"
+        />
+      </div>
+    </div>
+  </form>
+
+  <span class="interval-error-message" *ngIf="showIntervalError">
+    O intervalo entre as datas não pode ser superior a {{ limitDays }} dias.
+  </span>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn bg-gray-500 text-white" (click)="onCancellClick()">
+    Cancelar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onSubmit()">OK</button>
+</div>

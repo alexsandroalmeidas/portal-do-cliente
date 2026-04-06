@@ -1,0 +1,104 @@
+<ng-container *ngIf="!hasSelectedEstablishments; else establishments_found">
+  <app-establishments-not-found *ngIf="!isAd"></app-establishments-not-found>
+</ng-container>
+
+<ng-template #establishments_found>
+  <section class="heading">
+    <div class="page-title">
+      <h3>{{ "app.summary.title" | translate }}</h3>
+      <span class="page-subtitle">{{
+        "app.summary.subtitle" | translate
+      }}</span>
+    </div>
+
+    <div class="page-actions">
+      <section class="section-actions">
+        <!-- <span class="px-2 fw-bolder">{{ 'app.message-navbar-title' | translate }} </span> -->
+      </section>
+    </div>
+  </section>
+
+  <app-banner-carousel
+    [showIndicators]="true"
+    [noWrap]="false"
+    [slides]="slides"
+    *ngIf="hasBannersPermission && !!slides.length"
+  >
+  </app-banner-carousel>
+
+  <div class="content">
+    <div class="row row-cols-1 row-cols-lg-2 g-3 h-50">
+      <div class="col">
+        <app-card-my-sales
+          [sales]="sales"
+          [lastUpdateDate]="lastUpdateDateSales"
+          [hasError]="summaryCardSalesHasError"
+          (periodChange)="onPeriodChange($event)"
+        ></app-card-my-sales>
+      </div>
+      <div class="col">
+        <app-card-my-receivables
+          [receivables]="receivables"
+          [reserve]="reserve"
+          [lastUpdateDate]="lastUpdateDateReceivables"
+        ></app-card-my-receivables>
+      </div>
+    </div>
+
+    <div class="row row-cols-1 g-3 h-50 pt-3">
+      <div class="col">
+        <div class="card summary-card card-last-sales">
+          <div class="card-body">
+            <section class="summary-card-header">
+              <span class="material-icons summary-card-icon">credit_card</span>
+
+              <div class="summary-card-title">
+                <h5
+                  class="card-title d-flex justify-content-between align-items-center"
+                >
+                  <div class="d-flex align-items-center">
+                    <span class="fw-bolder">Últimas vendas</span>
+                    <span class="material-icons">help_outline</span>
+                  </div>
+                </h5>
+              </div>
+
+              <div class="spacer"></div>
+
+              <div class="summary-card-actions">
+                <app-inline-filter
+                  (filter)="onLastSalesFilterChange($event)"
+                  [options]="salesFilterOptions"
+                  optionClass="btn-sm summary-card-action ms-1"
+                  initialValue="today"
+                >
+                </app-inline-filter>
+
+                <button
+                  type="button"
+                  class="btn btn-link summary-card-link fw-bolder"
+                  [routerLink]="['/sales']"
+                  [queryParams]="{
+                    initialDate: lastSalesFilterValue.from,
+                    finalDate: lastSalesFilterValue.to,
+                    filterName: currentFilterName,
+                  }"
+                >
+                  {{ "app.summary.more-details" | translate }}
+                </button>
+              </div>
+            </section>
+
+            <section class="summary-card-content">
+              <app-my-sales-detail-vision
+                class="my-sales-detail-vision"
+                [filterSales]="lastSales"
+              >
+              </app-my-sales-detail-vision>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

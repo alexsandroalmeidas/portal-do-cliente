@@ -1,0 +1,113 @@
+<div class="modal-header">
+  <h5 class="modal-title pull-left" mat-dialog-title>
+    Seleção de estabelecimentos
+  </h5>
+</div>
+
+<hr class="mt-0" />
+
+<mat-dialog-content class="pt-0">
+  <ng-container *ngIf="!!fullData; else no_establishment">
+    <div class="filter">
+      <div class="form-floating w-100">
+        <input
+          type="text"
+          id="filter"
+          class="form-control"
+          (input)="applyFilter($event)"
+          placeholder="Pesquisar estabelecimento"
+        />
+        <label for="filter">Pesquisar estabelecimento</label>
+      </div>
+    </div>
+
+    <div
+      class="table-container"
+      style="height: 45vh; overflow-y: auto"
+      (scroll)="onScroll($event)"
+    >
+      <table class="table table-hover" mat-table [dataSource]="displayedData">
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              *ngIf="!!displayedData && displayedData.length > 0"
+              (change)="toggleSelectAll($event)"
+              [checked]="isAllSelected()"
+            ></mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              [(ngModel)]="selection[row.zuriId]"
+              (change)="onCheckChange(row, $event.checked)"
+            ></mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="{{ element.nameFull }}"
+          >
+            {{ element.name }}
+          </td>
+        </ng-container>
+
+        <!-- CompanyName Column -->
+        <ng-container matColumnDef="companyName">
+          <th mat-header-cell *matHeaderCellDef>Razão Social</th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="{{ element.companyNameFull }}"
+          >
+            {{ element.companyName }}
+          </td>
+        </ng-container>
+
+        <!-- Document Column -->
+        <ng-container matColumnDef="document">
+          <th mat-header-cell *matHeaderCellDef>Documento</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.document | mask: "CPF_CNPJ" }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </ng-container>
+
+  <ng-template #no_establishment>
+    <h5>Não há nenhum estabelecimento</h5>
+  </ng-template>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    type="button"
+    class="btn btn-outline-secondary"
+    (click)="onCancelClick()"
+    *ngIf="showCancel"
+  >
+    Cancelar
+  </button>
+  <button
+    type="button"
+    class="btn btn-outline-secondary"
+    [disabled]="
+      !((!!selectedData && selectedData.length > 0) || isAllSelected())
+    "
+    (click)="onSelectClick()"
+  >
+    Selecionar
+  </button>
+</mat-dialog-actions>

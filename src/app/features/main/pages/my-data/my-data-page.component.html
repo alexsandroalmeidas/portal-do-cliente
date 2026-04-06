@@ -1,0 +1,465 @@
+<ng-container *ngIf="!hasSelectedEstablishments; else establishments_found">
+  <app-establishments-not-found></app-establishments-not-found>
+</ng-container>
+
+<ng-template #establishments_found>
+  <section class="heading">
+    <div class="page-title">
+      <h3>{{ "app.my-data.title" | translate }}</h3>
+      <span class="page-subtitle">{{
+        "app.my-data.subtitle" | translate
+      }}</span>
+    </div>
+  </section>
+
+  <div class="content">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mt-3 card-establishments">
+          <div class="card-body d-flex flex-column align-items-start gap-2">
+            <span class="fw-bolder">Selecione um estabelecimento:</span>
+            <div
+              class="card-prepayment w-100 d-flex align-items-center justify-content-start gap-2"
+            >
+              <app-select-establishments
+                class="w-50"
+                [establishments]="establishmentsToSelect"
+                [multiple]="false"
+                [markFirst]="true"
+                [selectedEstablishmentDocument]="establishmentsSelected"
+                (selectedEstablishments)="onSelectedEstablishmentsClick($event)"
+              >
+              </app-select-establishments>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="row">
+      <div class="col-3">
+        <div class="card mt-3 w-100" style="height: 100%; max-height: 291px">
+          <div class="card-body pb-0">
+            <div class="row my-data-card-header">
+              <div class="col d-flex align-items-start">
+                <span class="material-icons my-data-card-icon">store</span>
+                <div class="my-data-card-title">
+                  <h5
+                    class="d-flex align-items-center mb-0 mt-01"
+                    style="padding-left: 0.5rem"
+                  >
+                    <span><strong>Estabelecimento</strong></span>
+                  </h5>
+                </div>
+              </div>
+            </div>
+
+            <hr class="hr-position" />
+
+            <div
+              class="d-flex flex-column align-items-center gap-2 pb-4"
+              style="font-size: larger"
+            >
+              <div class="row">
+                <span class="circle-establishment">
+                  <mat-icon class="icon-store">store</mat-icon>
+                </span>
+              </div>
+
+              <div
+                class="row"
+                *ngIf="!!establishmentsSelectedDocNumber"
+                style="padding-top: 1rem"
+              >
+                <div class="col d-flex justify-content-center pt-01">
+                  <span class="infos"
+                    >CNPJ:
+                    {{
+                      establishmentsSelectedDocNumber | mask: "CPF_CNPJ"
+                    }}</span
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col d-flex justify-content-center">
+                  <span>E-mail: {{ userEmail }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-9">
+        <div
+          class="card mt-3 h-94 w-100"
+          style="min-height: 273px; height: 100%"
+        >
+          <div class="card-body d-flex flex-column align-items-start pb-0">
+            <div class="row my-data-card-header">
+              <div class="col d-flex align-items-start">
+                <span class="material-icons my-data-card-icon"
+                  >account_balance</span
+                >
+                <div class="my-data-card-title">
+                  <h5
+                    class="d-flex align-items-center mb-0 mt-01"
+                    style="padding-left: 0.5rem"
+                  >
+                    <span><strong>Dados Bancários</strong></span>
+                  </h5>
+                </div>
+              </div>
+            </div>
+
+            <div class="row my-data-card-header pt-4">
+              <div class="col d-flex align-items-start">
+                <h6 class="d-flex align-items-center mb-0 mt-01">
+                  <span><strong>Domicílio Bancário</strong></span>
+                </h6>
+              </div>
+            </div>
+
+            <div class="row pt-4 w-100">
+              <div class="col d-flex align-items-start">
+                <mat-accordion class="my-data-headers-align w-100">
+                  <mat-expansion-panel
+                    *ngFor="let bankingAccount of economicGroupBankingAccounts"
+                    [expanded]="step === 0"
+                  >
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="msg-header-img">
+                        <img
+                          src="../../../../../../../assets/icons/banks/{{
+                            bankingAccount.bankCode
+                          }}.jpg"
+                          class="bank-icon"
+                        />
+                      </mat-panel-title>
+                      <mat-panel-description class="msg-header-description">
+                        <div
+                          class="d-flex justify-content-between align-items-center w-100"
+                        >
+                          <div class="list-my-data">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item">
+                                {{ bankingAccount.bankName }}
+                              </li>
+                              <li class="list-group-item">
+                                Agência: <b>{{ bankingAccount.agency }}</b> -
+                                Conta corrente:
+                                <b>{{ bankingAccount.account }}</b>
+                              </li>
+                            </ul>
+                          </div>
+                          <span class="fw-bolder text-primary"
+                            >Mais detalhes</span
+                          >
+                        </div>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <table class="table table-hover">
+                      <th
+                        class="text-center v-align-middle"
+                        *ngIf="bankingAccount.hasElo"
+                      >
+                        <img
+                          src="../../../../../../../assets/icons/cards/elo.png"
+                          class="card-img-top card-brand-icon"
+                          alt="..."
+                        />
+                      </th>
+                      <th
+                        class="text-center v-align-middle"
+                        *ngIf="bankingAccount.hasVisa"
+                      >
+                        <img
+                          src="../../../../../../../assets/icons/cards/visa.png"
+                          class="card-img-top card-brand-icon"
+                          alt="..."
+                        />
+                      </th>
+                      <th
+                        class="text-center v-align-middle"
+                        *ngIf="bankingAccount.hasMaster"
+                      >
+                        <img
+                          src="../../../../../../../assets/icons/cards/master.png"
+                          class="card-img-top card-brand-icon"
+                          alt="..."
+                        />
+                      </th>
+                      <th
+                        class="text-center v-align-middle"
+                        *ngIf="bankingAccount.hasHiper"
+                      >
+                        <img
+                          src="../../../../../../../assets/icons/cards/hiper.png"
+                          class="card-img-top card-brand-icon"
+                          alt="..."
+                        />
+                      </th>
+                      <th
+                        class="text-center v-align-middle"
+                        *ngIf="bankingAccount.hasAmex"
+                      >
+                        <img
+                          src="../../../../../../../assets/icons/cards/amex.png"
+                          class="card-img-top card-brand-icon"
+                          alt="..."
+                        />
+                      </th>
+                      <th class="text-center v-align-middle">
+                        <img
+                          src="../../../../../../../assets/icons/pix/logo-pix-256.png"
+                          class="card-img-top card-brand-icon-pix"
+                          alt="..."
+                        />
+                      </th>
+
+                      <tr>
+                        <td
+                          style="text-align: left; vertical-align: middle"
+                          *ngIf="bankingAccount.hasElo"
+                        >
+                          <div
+                            *ngIf="
+                              bankingAccount.elo.debit ||
+                              bankingAccount.elo.credit
+                            "
+                          >
+                            <mat-icon matSuffix class="icon-check"
+                              >check_circle</mat-icon
+                            >
+                            {{
+                              bankingAccount.elo.debit
+                                ? "Débito"
+                                : bankingAccount.elo.credit
+                                  ? "Crédito"
+                                  : ""
+                            }}
+                          </div>
+                        </td>
+                        <td
+                          style="text-align: left; vertical-align: middle"
+                          *ngIf="bankingAccount.hasVisa"
+                        >
+                          <div
+                            *ngIf="
+                              bankingAccount.visa.debit ||
+                              bankingAccount.visa.credit
+                            "
+                          >
+                            <mat-icon matSuffix class="icon-check"
+                              >check_circle</mat-icon
+                            >
+                            {{
+                              bankingAccount.visa.debit
+                                ? "Débito"
+                                : bankingAccount.visa.credit
+                                  ? "Crédito"
+                                  : ""
+                            }}
+                          </div>
+                        </td>
+                        <td
+                          style="text-align: left; vertical-align: middle"
+                          *ngIf="bankingAccount.hasMaster"
+                        >
+                          <div
+                            *ngIf="
+                              bankingAccount.master.debit ||
+                              bankingAccount.master.credit
+                            "
+                          >
+                            <mat-icon matSuffix class="icon-check"
+                              >check_circle</mat-icon
+                            >
+                            {{
+                              bankingAccount.master.debit
+                                ? "Débito"
+                                : bankingAccount.master.credit
+                                  ? "Crédito"
+                                  : ""
+                            }}
+                          </div>
+                        </td>
+                        <td
+                          style="text-align: left; vertical-align: middle"
+                          *ngIf="bankingAccount.hasHiper"
+                        >
+                          <div
+                            *ngIf="
+                              bankingAccount.hiper.debit ||
+                              bankingAccount.hiper.credit
+                            "
+                          >
+                            <mat-icon matSuffix class="icon-check"
+                              >check_circle</mat-icon
+                            >
+                            {{
+                              bankingAccount.hiper.debit
+                                ? "Débito"
+                                : bankingAccount.hiper.credit
+                                  ? "Crédito"
+                                  : ""
+                            }}
+                          </div>
+                        </td>
+                        <td
+                          style="text-align: left; vertical-align: middle"
+                          *ngIf="bankingAccount.hasAmex"
+                        >
+                          <div
+                            *ngIf="
+                              bankingAccount.amex.debit ||
+                              bankingAccount.amex.credit
+                            "
+                          >
+                            <mat-icon matSuffix class="icon-check"
+                              >check_circle</mat-icon
+                            >
+                            {{
+                              bankingAccount.amex.debit
+                                ? "Débito"
+                                : bankingAccount.amex.credit
+                                  ? "Crédito"
+                                  : ""
+                            }}
+                          </div>
+                        </td>
+                        <td style="text-align: left; vertical-align: middle">
+                          <div *ngIf="bankingAccount.pix">
+                            <mat-icon matSuffix class="icon-check"
+                              >check_circle</mat-icon
+                            >
+                            Pix
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td
+                          style="text-align: left; vertical-align: middle"
+                          *ngIf="bankingAccount.hasElo"
+                        >
+                          <div
+                            *ngIf="
+                              bankingAccount.elo.debit &&
+                              bankingAccount.elo.credit
+                            "
+                          >
+                            <mat-icon matSuffix class="icon-check"
+                              >check_circle</mat-icon
+                            >
+                            {{
+                              bankingAccount.elo.debit &&
+                              bankingAccount.elo.credit
+                                ? "Crédito"
+                                : ""
+                            }}
+                          </div>
+                        </td>
+                        <td
+                          style="text-align: left; vertical-align: middle"
+                          *ngIf="bankingAccount.hasVisa"
+                        >
+                          <div
+                            *ngIf="
+                              bankingAccount.visa.debit &&
+                              bankingAccount.visa.credit
+                            "
+                          >
+                            <mat-icon matSuffix class="icon-check"
+                              >check_circle</mat-icon
+                            >
+                            {{
+                              bankingAccount.visa.debit &&
+                              bankingAccount.visa.credit
+                                ? "Crédito"
+                                : ""
+                            }}
+                          </div>
+                        </td>
+                        <td
+                          style="text-align: left; vertical-align: middle"
+                          *ngIf="bankingAccount.hasMaster"
+                        >
+                          <div
+                            *ngIf="
+                              bankingAccount.master.debit &&
+                              bankingAccount.master.credit
+                            "
+                          >
+                            <mat-icon matSuffix class="icon-check"
+                              >check_circle</mat-icon
+                            >
+                            {{
+                              bankingAccount.master.debit &&
+                              bankingAccount.master.credit
+                                ? "Crédito"
+                                : ""
+                            }}
+                          </div>
+                        </td>
+                        <td
+                          style="text-align: left; vertical-align: middle"
+                          *ngIf="bankingAccount.hasHiper"
+                        >
+                          <div
+                            *ngIf="
+                              bankingAccount.hiper.debit &&
+                              bankingAccount.hiper.credit
+                            "
+                          >
+                            <mat-icon matSuffix class="icon-check"
+                              >check_circle</mat-icon
+                            >
+                            {{
+                              bankingAccount.hiper.debit &&
+                              bankingAccount.hiper.credit
+                                ? "Crédito"
+                                : ""
+                            }}
+                          </div>
+                        </td>
+                        <td
+                          style="text-align: left; vertical-align: middle"
+                          *ngIf="bankingAccount.hasAmex"
+                        >
+                          <div
+                            *ngIf="
+                              bankingAccount.amex.debit &&
+                              bankingAccount.amex.credit
+                            "
+                          >
+                            <mat-icon matSuffix class="icon-check"
+                              >check_circle</mat-icon
+                            >
+                            {{
+                              bankingAccount.amex.debit &&
+                              bankingAccount.amex.credit
+                                ? "Crédito"
+                                : ""
+                            }}
+                          </div>
+                        </td>
+                        <td style="text-align: left; vertical-align: middle">
+                          <div></div>
+                        </td>
+                      </tr>
+                    </table>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

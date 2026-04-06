@@ -1,0 +1,132 @@
+<ng-container *ngIf="showCarousel; else no_bank">
+  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div
+        class="carousel-item {{ index === 0 ? 'active' : '' }}"
+        *ngFor="let item of slides; let index = index"
+      >
+        <div class="row">
+          <div class="col-6" *ngFor="let slide of item; let cardIndex = index">
+            <div
+              class="card mb-3"
+              style="max-width: 540px; padding: 0.5rem; min-height: 10.7rem"
+              [style.background]="'#e6e6e6'"
+              [id]="cardIndex"
+            >
+              <div class="card-header p-0">
+                <div class="container">
+                  <div class="row align-items-center">
+                    <div class="col-md-4">
+                      <img
+                        src="../../../../../../../assets/icons/banks/{{slide.bank}}.jpg"
+                        class="bank-icon"
+                        *ngIf="!slide.isPix"
+                      />
+                      <img
+                        src="../../../../../../../assets/icons/pix/logo-pix-256.png"
+                        class="bank-icon"
+                        *ngIf="slide.isPix"
+                      />
+                    </div>
+                    <div class="col" style="padding-left: 0px">
+                      <div
+                        class="card-body"
+                        style="
+                          padding-top: 0.5rem;
+                          padding-right: 0.5rem;
+                          padding-bottom: 1.5rem;
+                          padding-left: 0.5rem;
+                        "
+                      >
+                        <p class="card-text mb-0">
+                          <label class="fw-bolder lbl-receivables"> Banco: {{ slide.bank }}</label>
+                        </p>
+                        <div class="d-flex align-items-center justify-content-between">
+                          <p class="card-text mb-0">Agência: {{ slide.agency }}</p>
+                          <app-tooltip
+                            icon="info"
+                            position="bottom right"
+                            *ngIf="slide.originPix === 'EntrePay'"
+                          >
+                            <p>Conta transitória para</p>
+                            <p>pagamentos PIX.</p>
+                          </app-tooltip>
+                        </div>
+
+                        <p class="card-text mb-0">Conta: {{ slide.account }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="col-md-12 text-center">
+                  <div
+                    class="d-flex justify-content-start align-items-start"
+                    *ngIf="slide.originPix === 'EntrePay'"
+                  >
+                    <span> Recebido de {{ selectedEstablishment }} </span>
+                  </div>
+                  <div
+                    class="d-flex justify-content-start align-items-start"
+                    *ngIf="slide.originPix === 'EntrePay'"
+                  >
+                    <span> Por: Credihome SCD </span>
+                  </div>
+                  <span *ngIf="slide.originPix === 'FixPay'">
+                    Recebido de {{ slide.originPix}} Ltda
+                  </span>
+                  <span *ngIf="slide.originPix !== 'FixPay' && slide.originPix !== 'EntrePay'">
+                    Recebido de Punto Instituição de Pagamento
+                  </span>
+                </div>
+                <div class="col-12 text-center fw-bolder fs-5">
+                  {{ slide.amount | currency: "BRL" }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#myCarousel"
+      data-bs-slide="prev"
+      *ngIf="slides.length > 1"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#myCarousel"
+      data-bs-slide="next"
+      *ngIf="slides.length > 1"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</ng-container>
+
+<ng-template #no_bank>
+  <div class="card card-b-height">
+    <div class="card-body">
+      <div class="row p-4">
+        <div class="col-12 text-center">
+          <label class="fw-bolder lbl-receivables fs-5"
+            >Não há domicílio bancário contabilizado</label
+          >
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 text-center fw-bolder fs-2">{{ 0 | currency: "BRL" }}</div>
+      </div>
+    </div>
+  </div>
+</ng-template>

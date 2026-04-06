@@ -1,0 +1,25 @@
+<div class="filter">
+  <h5 class="filter-title" *ngIf="!!title">{{ title }}</h5>
+  <div class="btn-group filter-option-list" dropdown>
+    <button dropdownToggle
+            id="button-basic"
+            type="button"
+            class="btn btn-primary dropdown-toggle d-flex align-items-center"
+            aria-controls="dropdown-basic">
+      {{selectedEntry?.value}} <span class="caret ms-1"></span>
+    </button>
+    <ul id="dropdown-basic"
+        *dropdownMenu
+        class="dropdown-menu"
+        role="menu"
+        aria-labelledby="button-basic">
+      <li role="menuitem"
+          [ngClass]="entryClass"
+          *ngFor="let item of entries"
+          (click)="onEntryChange(item)">
+        <a class="dropdown-item">{{item.value}}</a>
+      </li>
+    </ul>
+  </div>
+
+</div>

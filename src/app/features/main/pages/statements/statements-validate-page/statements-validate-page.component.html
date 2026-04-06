@@ -1,0 +1,26 @@
+<section class="heading">
+    <div class="page-title">
+        <h3>{{ "app.statements.validate.title" | translate }}</h3>
+    </div>
+</section>
+
+<div class="content">
+    <div class="row card-group-row mb-lg-8pt">
+        <div class="col card-group-row__col mb-3">
+            <div class="card card-group-row__card">
+                <div class="card-body" style=" display: flex; justify-content: flex-end; align-items: center;">
+
+                    <input type="file" #file
+                           placeholder="Choose file"
+                           (change)="uploadFile(file.files)"
+                           style="visibility:hidden;"
+                           requiredFileType=".txt, .xml"
+                           accept=".txt, .xml">
+
+                    <button class="btn btn-primary mr-1"
+                            (click)="file.click()">Upload File</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

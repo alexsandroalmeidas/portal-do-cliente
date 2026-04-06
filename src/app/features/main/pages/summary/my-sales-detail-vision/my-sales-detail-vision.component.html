@@ -1,0 +1,258 @@
+<section class="summary-card-content">
+  <div class="card-loader">
+    <ngx-ui-loader
+      loaderId="loader_summary_last_sales"
+      logoUrl=""
+      [hasProgressBar]="false"
+      [fgsSize]="50"
+      fgsColor="#4E2096"
+      fgsType="ball-spin-fade-rotating"
+      overlayColor="rgba(122,122,122,0.8)"
+    ></ngx-ui-loader>
+  </div>
+
+  <ng-container
+    *ngIf="!!filterSales && filterSales.length > 0; else sales_not_found"
+  >
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+      <!-- Cnpj Column -->
+      <ng-container matColumnDef="documentNumber">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortable="documentNumber"
+          (sort)="onSort($event)"
+        >
+          CNPJ
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.documentNumber | mask: "CPF_CNPJ" }}
+        </td>
+      </ng-container>
+
+      <!-- SaleDate Column -->
+      <ng-container matColumnDef="saleDate">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortable="saleDate"
+          (sort)="onSort($event)"
+        >
+          Data e Hora da Venda
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.saleDate | date: "dd/MM/yyyy HH:mm" }}
+        </td>
+      </ng-container>
+
+      <!-- SaleAmount Column -->
+      <ng-container matColumnDef="saleAmount">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortable="saleAmount"
+          (sort)="onSort($event)"
+        >
+          Valor da Venda
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.saleAmount | currency: "BRL" : "symbol" : "1.2-2" }}
+        </td>
+      </ng-container>
+
+      <!-- PaymentAmount  Column -->
+      <ng-container matColumnDef="paymentAmount">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortable="paymentAmount"
+          (sort)="onSort($event)"
+        >
+          Valor do Pagamento
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{
+            element.paymentAmount || 0 | currency: "BRL" : "symbol" : "1.2-2"
+          }}
+        </td>
+      </ng-container>
+
+      <!-- CardBrand  Column -->
+      <ng-container matColumnDef="cardBrand">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortable="cardBrand"
+          (sort)="onSort($event)"
+        >
+          Bandeira
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.cardBrand }}
+        </td>
+      </ng-container>
+
+      <!-- PaymentType  Column -->
+      <ng-container matColumnDef="paymentType">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortable="paymentType"
+          (sort)="onSort($event)"
+        >
+          Forma de Pagamento
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.paymentType }}
+        </td>
+      </ng-container>
+
+      <!-- Identificação  Column -->
+      <ng-container matColumnDef="nsu">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortable="nsu"
+          (sort)="onSort($event)"
+        >
+          Identificação
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.nsu }}
+        </td>
+      </ng-container>
+
+      <!-- Status  Column -->
+      <ng-container matColumnDef="status">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortable="status"
+          (sort)="onSort($event)"
+        >
+          Status
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.status }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expand">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          aria-label="row actions"
+          style="padding: 0px !important"
+        >
+          &nbsp;
+        </th>
+        <td mat-cell *matCellDef="let element" style="padding: 0px !important">
+          <button
+            mat-icon-button
+            aria-label="expand row"
+            (click)="
+              expandedElement = expandedElement === element ? null : element;
+              $event.stopPropagation()
+            "
+          >
+            <mat-icon *ngIf="expandedElement !== element"
+              >keyboard_arrow_down</mat-icon
+            >
+            <mat-icon *ngIf="expandedElement === element"
+              >keyboard_arrow_up</mat-icon
+            >
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [attr.colspan]="columnsToDisplayWithExpand.length"
+        >
+          <div
+            class="element-detail-x"
+            [@detailExpand]="
+              element == expandedElement ? 'expanded' : 'collapsed'
+            "
+          >
+            <table style="width: 100%">
+              <th>Nº da Autorização</th>
+              <th class="pd-l-terminal-number">Nº do Equipamento</th>
+              <th class="pd-l-discount-fee">Desconto da Taxa</th>
+              <th class="pd-l-prepayment-fee-amount">
+                Desconto da Antecipação
+              </th>
+              <th class="pd-l-cancellation-date">
+                Data e Hora do Cancelamento
+              </th>
+              <th class="pd-l-cancellation-value">Valor do Cancelamento</th>
+              <th class="pd-l-card-number">Nº do Cartão</th>
+              <tr>
+                <td>{{ element.authorizationCode }}</td>
+                <td class="pd-l-terminal-number">
+                  {{ element.terminalNumber }}
+                </td>
+                <td class="pd-l-discount-fee">
+                  {{
+                    element.discountFee | currency: "BRL" : "symbol" : "1.2-2"
+                  }}
+                </td>
+                <td class="pd-l-prepayment-fee-amount">
+                  {{
+                    element.prepaymentFeeAmount || 0
+                      | currency: "BRL" : "symbol" : "1.2-2"
+                  }}
+                </td>
+                <td class="pd-l-cancellation-date">
+                  {{ element.cancellationDate | date: "dd/MM/yyyy HH:mm" }}
+                </td>
+                <td class="pd-l-cancellation-value">
+                  {{
+                    element.cancellationValue
+                      | currency: "BRL" : "symbol" : "1.2-2"
+                  }}
+                </td>
+                <td class="pd-l-card-number">{{ element.cardNumber }}</td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: columnsToDisplayWithExpand"
+        class="element-row"
+        [class.expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="detail-row"
+      ></tr>
+    </table>
+
+    <pagination
+      class="pagination pagination-secondary d-flex justify-content-end"
+      [totalItems]="filteredItems.length"
+      [boundaryLinks]="true"
+      [maxSize]="maxSize"
+      [itemsPerPage]="itemsPerPage"
+      [(ngModel)]="tablePage"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;"
+      (pageChanged)="onPaginate($event)"
+    >
+    </pagination>
+  </ng-container>
+
+  <ng-template #sales_not_found>
+    <span>Nenhuma venda encontrada</span>
+  </ng-template>
+</section>

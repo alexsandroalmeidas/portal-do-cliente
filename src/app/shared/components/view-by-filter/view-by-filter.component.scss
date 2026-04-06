@@ -1,0 +1,26 @@
+:host {
+  .filter {
+    .filter-option-list {
+      .btn {
+        // padding-top: 0%;
+        // padding-right: 1rem;
+        // padding-bottom: 0%;
+        // padding-left: 1rem;
+
+        &:focus {
+          box-shadow: none;
+        }
+
+        i {
+          &.material-icons {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  .pr-6 {
+    padding-right: 6rem;
+  }
+}

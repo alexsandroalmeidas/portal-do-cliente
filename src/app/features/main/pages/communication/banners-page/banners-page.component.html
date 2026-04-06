@@ -1,0 +1,176 @@
+<div id="targetTop"></div>
+<div class="card mb-3">
+  <div class="card-body pb-0">
+    <form [formGroup]="form" validate autocomplete="off">
+      <input type="hidden" formControlName="bannerId" />
+
+      <!-- Vigência -->
+      <div class="row g-3 align-items-center mb-3">
+        <div class="col-sm-3">
+          <label for="initialDate" class="col-form-label">Vigência</label>
+        </div>
+
+        <div class="col-sm-8 row">
+          <div class="form-group row mb-auto p-2">
+            <div class="col-sm-4">
+              <input type="text" id="initialDate" placeholder="Início" class="form-control"
+                formControlName="initialDate" bsDatepicker (ngModelChange)="onInitialDateChange($event)"
+                [minDate]="minDate" [maxDate]="initialDateMax" [bsConfig]="{
+                  dateInputFormat: 'DD/MM/YYYY',
+                  containerClass: 'theme-dark-blue',
+                  maxDateRange: 365,
+                  showWeekNumbers: false
+                }" />
+
+              <div class="field-error" *ngIf="submitted && formControls['initialDate'].errors">
+                O início de vigência é obrigatório
+              </div>
+            </div>
+
+            <label for="finalDate" class="col-md-1 col-form-label">Até</label>
+
+            <div class="col-sm-4">
+              <input type="text" id="finalDate" placeholder="Fim" class="form-control" formControlName="finalDate"
+                bsDatepicker onkeydown="event.preventDefault()" (ngModelChange)="onFinalDateChange($event)"
+                [minDate]="finalDateMin" [bsConfig]="{
+                      dateInputFormat: 'DD/MM/YYYY',
+                      containerClass: 'theme-dark-blue',
+                      maxDateRange: 365,
+                      showWeekNumbers:false,
+                    }" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seleção de imagens Portal -->
+      <div class="row g-3 align-items-center mb-3">
+        <div class="col-sm-3">
+          <label for="filesPortal" class="col-form-label">Imagem Portal</label>
+          <p class="text-secondary">Resolução: 1600x160</p>
+        </div>
+        <div class="col-sm-9">
+          <div *ngFor="let progressInfo of progressInfosPortal" class="mb-2">
+            <span>{{ progressInfo.fileName }}</span>
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                attr.aria-valuenow="{{ progressInfo.value }}" aria-valuemin="0" aria-valuemax="100"
+                [ngStyle]="{ width: progressInfo.value + '%' }">
+                {{ progressInfo.value }}%
+              </div>
+            </div>
+          </div>
+
+          <div class="container pl-0">
+            <div class="row">
+              <div class="col-4 pr-0">
+                <label for="filesPortal" class="btn btn-outline-secondary">Selecione uma imagem</label>
+                <button class="btn btn-outline-secondary me-1 btn-actions" (click)="onRemovePortalImageClick()"
+                  *ngIf="hasPortalImage">
+                  <mat-icon matSuffix class="icon-color">close</mat-icon> <br />
+                </button>
+
+                <input id="filesPortal" accept=".jpg,.jpeg,.png" requiredFileType="image/*"
+                  (change)="selectFilesPortal($event)" style="visibility: hidden" type="file" />
+
+                <div class="field-error" *ngIf="submitted && !hasPortalImage && !hasAppImage">
+                  Deve ser selecionada uma imagem
+                </div>
+              </div>
+              <div class="col-9">
+                <div *ngIf="hasPortalImage">
+                  <img [src]="previewPortal" class="preview" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seleção de imagens App -->
+      <div class="row g-3 align-items-center mb-3">
+        <div class="col-sm-3">
+          <label for="filesApp" class="col-form-label">Imagem App</label>
+          <p class="text-secondary">Resolução: 798x338</p>
+        </div>
+        <div class="col-sm-9">
+          <div *ngFor="let progressInfo of progressInfosApp" class="mb-2">
+            <span>{{ progressInfo.fileName }}</span>
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                attr.aria-valuenow="{{ progressInfo.value }}" aria-valuemin="0" aria-valuemax="100"
+                [ngStyle]="{ width: progressInfo.value + '%' }">
+                {{ progressInfo.value }}%
+              </div>
+            </div>
+          </div>
+
+          <div class="container pl-0">
+            <div class="row">
+              <div class="col-4 pr-0">
+                <label for="filesApp" class="btn btn-outline-secondary">Selecione uma imagem</label>
+                <button class="btn btn-outline-secondary me-1 btn-actions" (click)="onRemoveAppImageClick()"
+                  *ngIf="hasAppImage">
+                  <mat-icon matSuffix class="icon-color">close</mat-icon> <br />
+                </button>
+
+                <input id="filesApp" accept=".jpg,.jpeg,.png" requiredFileType="image/*"
+                  (change)="selectFilesApp($event)" style="visibility: hidden" type="file" />
+
+                <div class="field-error" *ngIf="submitted && !hasPortalImage && !hasAppImage">
+                  Deve ser selecionada uma imagem
+                </div>
+              </div>
+              <div class="col-9">
+                <div *ngIf="hasAppImage">
+                  <img [src]="previewApp" class="preview" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Url -->
+      <div class="row g-3 align-items-center mb-3">
+        <div class="col-sm-3">
+          <label for="url" class="col-form-label">Link</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="url" formControlName="url" class="form-control" id="url" name="url" />
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center justify-content-end mb-3">
+        <button class="btn btn-outline-secondary me-1" (click)="onViewClick()">
+          Visualizar
+        </button>
+        <button class="btn btn-outline-secondary me-1" (click)="onCleanClick()">
+          Limpar
+        </button>
+        <button class="btn btn-outline-secondary" (click)="onSaveClick()">
+          Salvar
+        </button>
+      </div>
+    </form>
+
+    <app-banner-carousel *ngIf="!!slides.length" [bkColor]="bkColor" [showIndicators]="false" [noWrap]="false"
+      [slides]="slides">
+    </app-banner-carousel>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h6 class="text-secondary">Banners Cadastrados</h6>
+
+    <ng-container *ngIf="!!banners && banners.length > 0; else no_result_found">
+      <app-banners-list [items]="banners" (editBanner)="onEditClick($event)">
+      </app-banners-list>
+    </ng-container>
+
+    <ng-template #no_result_found>
+      <app-no-result-found [withCard]="false"></app-no-result-found>
+    </ng-template>
+  </div>
+</div>

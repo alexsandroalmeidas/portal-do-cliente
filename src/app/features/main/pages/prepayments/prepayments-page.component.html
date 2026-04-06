@@ -1,0 +1,205 @@
+<ng-container *ngIf="!hasSelectedEstablishments; else establishments_found">
+  <app-establishments-not-found></app-establishments-not-found>
+</ng-container>
+
+<ng-template #establishments_found>
+  <section class="heading">
+    <div class="page-title">
+      <h3>{{ 'app.prepayments.title' | translate }}</h3>
+      <span class="page-subtitle">{{ 'app.prepayments.subtitle' | translate }}</span>
+    </div>
+
+    <div class="page-actions">
+      <section class="section-actions">
+        <!-- <span class="px-2 fw-bolder">{{ 'app.message-navbar-title' | translate }} </span> -->
+      </section>
+    </div>
+  </section>
+
+  <ng-container *ngIf="!hasPermission; else permission_found">
+    <div class="row card-group-row mb-lg-8pt">
+      <div class="col card-group-row__col">
+        <div class="card card-group-row__card">
+          <div class="card-body">
+            <h6 class="card-title fw-bolder text-secondary">
+              Estabelecimento não está habilitado para a antecipação.
+            </h6>
+            <span>Caso haja interesse, entre em contato com a Punto.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #permission_found>
+    <ng-container *ngIf="!hasMfa; else hasMfa_found">
+      <div class="row card-group-row mb-lg-8pt">
+        <div class="col card-group-row__col">
+          <div class="card card-group-row__card">
+            <div class="card-body">
+              <h6 class="card-title fw-bolder text-secondary">
+                Para ter acesso a essa funcionalidade você precisa realizar a Autenticação de
+                Segurança.
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #hasMfa_found>
+      <div class="content">
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-establishments">
+              <div class="card-body">
+                <span class="title-label-number">1. </span>
+                <span class="title-label pb-1"> Selecione um estabelecimento</span>
+
+                <div class="row" style="padding-top: 1rem">
+                  <div class="col-7">
+                    <div>
+                      <app-select-establishments
+                        class="w-50"
+                        [establishments]="establishmentsToSelect"
+                        [multiple]="false"
+                        [markFirst]="true"
+                        [selectedEstablishmentDocument]="prepaymentEstablishmentsSelected"
+                        (selectedEstablishments)="onSelectedEstablishmentsClick($event)"
+                      >
+                      </app-select-establishments>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div
+                      class="w-100 d-flex align-items-center"
+                      style="position: relative; bottom: 10px"
+                    >
+                      <div
+                        class="prepayment-icon prepayment-icon-available d-flex align-items-center"
+                      >
+                        <span class="material-symbols-outlined text-primary fs-icon-available"
+                          >calendar_clock</span
+                        >
+                      </div>
+
+                      <div
+                        class="prepayment-content d-flex justify-content-between align-items-center w-100"
+                      >
+                        <div
+                          class="content-info d-flex flex-column justify-content-end gap-2 text-gray-900"
+                        >
+                          <div class="container">
+                            <div class="row">
+                              <div class="col-7 pr-2">
+                                <span class="info-label text-primary"
+                                  ><b>Disponível para antecipar</b></span
+                                >
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 pr-2">
+                                <span class="info-label mr-2"><small>R$</small></span>
+                                <span class="info-currency-qtd-1 fs-30 text-primary">
+                                  {{ totalAvailableAmountPrepayment || 0 | number : '1.2-2' }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-2 pl-0">
+                    <div
+                      class="card-prepayment w-100 d-flex align-items-center justify-content-center gap-2"
+                      *ngIf="!isD1"
+                    >
+                      <div class="prepayment-icon-verified d-flex align-items-center">
+                        <span class="material-symbols-outlined fs-icon-verified">verified</span>
+                        <span class="info-label fw-bolder pl-01" (click)="openAuthorizationDialog()"
+                          >Autorização para consulta</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-1">
+          <tabset [justified]="true">
+            <tab heading="Formas de Antecipação">
+              <div class="card card-prepayments">
+                <div class="card-body">
+                  <span class="title-label-number">2. </span>
+                  <span class="title-label pb-1"> Selecione a forma de antecipação</span>
+
+                  <div class="row" style="padding: 1rem">
+                    <!-- Antecipação Automática -->
+                    <div class="col-4 pr-09 pl-0" *ngIf="hasScheduledPermission">
+                      <app-card-prepayments-scheduled
+                        [prepaymentEstablishmentsSelected]="prepaymentEstablishmentsSelected"
+                        [scheduledFinalized]="scheduledFinalized"
+                        [finalized]="finalized"
+                        [scheduledRate]="scheduledRate"
+                        [period]="period"
+                        (activateClick)="onActivateClick()"
+                        (cancelClick)="onCancelClick()"
+                        (editClick)="onEditClick()"
+                      >
+                      </app-card-prepayments-scheduled>
+                    </div>
+
+                    <!-- Antecipação Pontual -->
+                    <div class="col-4 pl-0" *ngIf="hasPunctualPermission">
+                      <app-card-prepayments-punctual
+                        [prepaymentEstablishmentsSelected]="prepaymentEstablishmentsSelected"
+                        [finalized]="finalized"
+                        [punctualRate]="punctualRate"
+                        [prepaymentsAvailable]="prepaymentsAvailable"
+                        (requestClick)="onRequestClick()"
+                      >
+                      </app-card-prepayments-punctual>
+                    </div>
+
+                    <div class="col-4 pr-09">
+                      <div class="card card-prepayment-img">
+                        <div class="card-body d-flex flex-column align-items-center gap-2 p-0">
+                          <img
+                            class="logo w-100 img-available-hg"
+                            *ngIf="!finalized"
+                            src="./../../assets/img/Banner_Punto_Antecipacao.png"
+                          />
+                          <img
+                            class="logo w-100 img-available-hg"
+                            *ngIf="finalized"
+                            src="./../../assets/img/Banner_Punto_Antecipacao.png"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tab>
+            <tab heading="Histórico de Antecipações">
+              <div class="card card-prepayments">
+                <div class="card-body">
+                  <div class="row">
+                    <app-historic-prepayment-page
+                      [prepaymentEstablishmentsSelected]="prepaymentEstablishmentsSelected"
+                    >
+                    </app-historic-prepayment-page>
+                  </div>
+                </div>
+              </div>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </ng-template>
+  </ng-template>
+</ng-template>

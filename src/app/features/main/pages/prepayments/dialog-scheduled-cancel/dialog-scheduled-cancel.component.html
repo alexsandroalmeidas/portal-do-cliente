@@ -1,0 +1,23 @@
+<h1 mat-dialog-title class="dialog-title">
+  <span class="material-symbols-outlined text-gray icon-color ">error</span>
+
+  <div class="p-1">
+    Atenção! Você tem certeza que
+    deseja cancelar a ativação da
+    autenticação de 2 fatores?
+  </div>
+</h1>
+
+<p class="p-1 attention">
+  O cancelamento da ativação da autenticação
+  de 2 fatores (MFA) impede que você conclua suas transações.
+</p>
+
+<mat-dialog-actions align="center">
+  <button type="button" class="btn btn-outline-primary" (click)="onClose(false)">
+    Voltar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onClose(true)">
+    Sim, desejo cancelar
+  </button>
+</mat-dialog-actions>

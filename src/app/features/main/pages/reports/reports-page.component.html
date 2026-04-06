@@ -1,0 +1,18 @@
+<section class="heading">
+  <div class="page-title">
+    <h3>{{ 'app.reports.title' | translate }}</h3>
+    <span class="page-subtitle">{{ 'app.reports.subtitle' | translate }}</span>
+  </div>
+</section>
+
+<div class="content">
+  <tabset [justified]="true">
+    <tab heading="Pesquisar Movimentação">
+      <app-movements-tab name="Movements"></app-movements-tab>
+    </tab>
+
+    <tab heading="Histórico de pesquisas">
+      <app-historic-tab name="Historic"></app-historic-tab>
+    </tab>
+  </tabset>
+</div>

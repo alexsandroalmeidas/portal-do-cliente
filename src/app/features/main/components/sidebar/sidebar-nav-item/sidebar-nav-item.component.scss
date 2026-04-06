@@ -1,0 +1,9 @@
+.nav-child {
+  &.active-child {
+    font-weight: bold;
+  }
+}
+
+.widget-overlay {
+  background-color: none !important;
+}

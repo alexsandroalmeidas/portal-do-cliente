@@ -1,0 +1,226 @@
+@import "./../../../../../assets/scss/variables";
+$icons-path: './../../../../../assets/icons';
+
+:host {
+  .content {
+
+    .card-establishments {
+      height: 6rem !important;
+      border-color: var(--bs-light);
+    }
+
+    .card {
+      height: auto;
+      border-color: var(--bs-light);
+    }
+  }
+
+  .whats-img {
+    width: 10%;
+  }
+
+  .section-actions {
+    overflow: auto;
+
+    table {
+      width: 40%;
+      float: right;
+    }
+  }
+
+  .card-brand-icon {
+    border-radius: 0.5rem;
+    width: 30%;
+
+    .other-brands {
+      width: 100%;
+      padding: 2rem;
+
+    }
+  }
+
+  .card-brand-icon-repom {
+    width: 100px;
+    height: 8rem;
+    border-radius: 0.5rem;
+    background-image: url("#{$icons-path}/cards/repom.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .card-brand-icon-ticket {
+    width: 100px;
+    height: 8rem;
+    border-radius: 0.5rem;
+    background-image: url("#{$icons-path}/cards/ticket_benefits.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .card-brand-icon-tlog {
+    width: 100px;
+    height: 8rem;
+    border-radius: 0.5rem;
+    background-image: url("#{$icons-path}/cards/tlog.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .card-brand-icon-edenred {
+    width: 100px;
+    height: 8rem;
+    border-radius: 0.5rem;
+    background-image: url("#{$icons-path}/cards/edenred.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .card-brand-icon-pix {
+    width: 100%;
+    height: 8rem;
+    border-radius: 0.5rem;
+    background-image: url("#{$icons-path}/pix/logo-pix-256.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  ::ng-deep .mat-mdc-table .mdc-data-table__header-row {
+    height: 36px;
+  }
+
+  .table-rates {
+    border: 1 solid !important;
+    border-radius: 0.375rem !important;
+    border-color: var(--bs-gray-100) !important;
+    margin-bottom: 0px;
+
+    th {
+      background-color: var(--bs-gray-200) !important;
+    }
+
+    .border-st {
+      border-radius: 10px 0px 0px 0px;
+    }
+
+    .border-ed {
+      border-radius: 0px 10px 0px 0px;
+    }
+
+    .border-rt {
+      border-right: 1px solid var(--bs-gray-400);
+    }
+
+    .th-modality {
+      width: 20%;
+    }
+
+    .th-pix {
+      width: 20%;
+    }
+
+    .th-prepayment-rate {
+      width: 20%;
+    }
+
+    .side-edge {
+      position: relative;
+      padding-left: 16px;
+    }
+
+    .side-edge::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      height: 80%;
+      width: 1px;
+      background-color: #ddd;
+    }
+  }
+
+  tr.detail-row {
+    height: 0;
+  }
+
+  tr.element-row:not(.expanded-row):hover {
+    background: #efefef;
+  }
+
+  tr.element-row:not(.expanded-row):active {
+    background: #efefef;
+  }
+
+  td.cdk-column-expand,
+  td.cdk-column-expand {
+    padding: 1rem !important;
+  }
+
+  .cdk-column-cardBrand,
+  .mat-column-cardBrand {
+    width: 17%;
+  }
+
+  // .cdk-column-prepaidDebit,
+  // .mat-column-prepaidDebit {
+  //   width: 15%;
+  // }
+
+  // .cdk-column-cashCredit,
+  // .mat-column-cashCredit {
+  //   width: 35%;
+  // }
+
+  // .cdk-column-prepaidCredit,
+  // .mat-column-prepaidCredit {
+  //   width: 35%;
+  // }
+
+  .element-detail-x {
+    padding-left: 1rem;
+
+    table {
+      th {
+        background-color: whitesmoke !important;
+      }
+    }
+  }
+
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+
+  .card-rates-detail {
+    background: var(--bs-gray-200);
+    padding: 1rem;
+  }
+
+  .rule-border {
+    border-bottom: 1px solid #000;
+  }
+
+  /* Three image containers (use 25% for four, and 50% for two, etc) */
+  .column {
+    float: left;
+    width: 25%;
+  }
+
+  /* Clear floats after image containers */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .pb-0 {
+    padding-bottom: 0px !important;
+  }
+
+  .ml-1 {
+    margin-left: 1rem !important;
+  }
+}

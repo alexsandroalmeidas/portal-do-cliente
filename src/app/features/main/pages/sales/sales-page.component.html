@@ -1,0 +1,69 @@
+<ng-container *ngIf="!hasSelectedEstablishments; else establishments_found">
+  <app-establishments-not-found></app-establishments-not-found>
+</ng-container>
+
+<ng-template #establishments_found>
+  <section class="heading">
+    <div class="page-title">
+      <h3>{{ 'app.sales.title' | translate }}</h3>
+      <span class="page-subtitle">{{ 'app.sales.subtitle' | translate }}</span>
+    </div>
+
+    <div class="page-actions">
+      <section class="section-actions">
+        <!-- <span class="px-2 fw-bolder">{{ 'app.message-navbar-title' | translate }} </span> -->
+      </section>
+    </div>
+  </section>
+
+  <div class="content">
+    <div class="row card-group-row mb-lg-8pt">
+      <div class="col card-group-row__col mb-2">
+        <div class="card card-group-row__card">
+          <div class="card-body" style="align-items: center">
+            <div class="row justify-content-between">
+              <div class="col-8 dv-lbl-filter">
+                <span class="fw-bolder lbl-filter" *ngIf="viewBy === 'calendar'">
+                  Selecione o período no calendário:</span
+                >
+
+                <div *ngIf="viewBy === 'detail'">
+                  <span class="fw-bolder lbl-filter">Filtre por:</span>
+
+                  <app-period-filter
+                    (changeValue)="onPeriodChange($event)"
+                    [initialValue]="periodInitialValue"
+                    [limitDays]="90"
+                    [customInitialDate]="customInitialDate"
+                    [customFinalDate]="customFinalDate"
+                    title=""
+                    time="past"
+                    dateFormat="YYYY-MM-DDTHH:mm:ss"
+                  >
+                  </app-period-filter>
+                </div>
+              </div>
+              <div class="col-4 text-end">
+                <app-view-by-filter
+                  [initialValue]="filterInitialValue"
+                  (changeValue)="onViewChange($event)"
+                >
+                </app-view-by-filter>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="viewBy === 'detail'; else viewByCalendar">
+      <app-detail-vision [filterSales]="sales" (export)="onExport()"></app-detail-vision>
+    </ng-container>
+
+    <ng-template #viewByCalendar>
+      <ng-container *ngIf="viewBy === 'calendar'">
+        <app-calendar-vision-sales></app-calendar-vision-sales>
+      </ng-container>
+    </ng-template>
+  </div>
+</ng-template>

@@ -1,0 +1,17 @@
+:host {
+  .filter {
+    .filter-option-list {
+      .btn {
+        &:focus {
+          box-shadow: none;
+        }
+
+        i {
+          &.material-icons {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}

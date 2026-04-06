@@ -1,0 +1,63 @@
+<div class="calendar-container">
+  <!-- Cabeçalho -->
+  <div class="calendar-header">
+    <div class="nav-group">
+      <button (click)="prevMonth()">‹</button>
+      <span class="month-label">{{ monthName }}</span>
+      <button (click)="nextMonth()">›</button>
+    </div>
+
+    <div class="nav-group">
+      <button (click)="prevYear()">‹</button>
+      <span class="year-label">{{ currentYear }}</span>
+      <button (click)="nextYear()">›</button>
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="calendar-grid">
+    <!-- Cabeçalho dos dias (1 linha, sempre) -->
+    <div class="calendar-head">
+      <div class="dow">Domingo</div>
+      <div class="dow">Segunda-Feira</div>
+      <div class="dow">Terça-Feira</div>
+      <div class="dow">Quarta-Feira</div>
+      <div class="dow">Quinta-Feira</div>
+      <div class="dow">Sexta-Feira</div>
+      <div class="dow">Sábado</div>
+    </div>
+
+    <!-- Semanas -->
+    <ng-container *ngFor="let week of currentMonth.weeks; let last = last">
+      <div class="calendar-week" [class.last]="last">
+        <div
+          *ngFor="let date of week"
+          class="calendar-day"
+          [ngClass]="{
+            weekend: isWeekend(date),
+            outside: isOutside(date),
+            today: isToday(date),
+            selected: isSelected(date)
+          }"
+          (click)="onDayClick(date)"
+        >
+          <div class="date-cell">
+            <div class="date-label">{{ date?.getDate() }}</div>
+            <div class="events">
+              <div
+                *ngFor="let event of getEventsForDate(date)"
+                class="event"
+                [ngClass]="event.status"
+              >
+                <div class="event-label">{{ event.label }}</div>
+                <div class="event-value" *ngIf="event.amount">
+                  R$ {{ event.amount | number : '1.2-2' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

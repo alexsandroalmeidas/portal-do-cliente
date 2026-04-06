@@ -1,0 +1,42 @@
+<li class="nav-item" routerLinkActive="active">
+  <ng-container *ngIf="!hasChildren(); else collapsibleItem">
+    <a [routerLink]="path"
+       class="nav-link"
+       aria-current="page"
+       *ngIf="hasPermission">
+      <span class="material-icons">{{icon}}</span>
+      <i class="fs-4 bi-house"></i>
+
+      {{ (label || '') | translate }}
+    </a>
+  </ng-container>
+
+  <ng-template #collapsibleItem>
+
+    <button class="btn btn-toggle nav-link"
+            (click)="toggleExpanded()"
+            [attr.aria-expanded]="expanded"
+            [attr.aria-controls]="'collapse-' + path"
+            *ngIf="hasPermission">
+      <span class="material-icons">{{icon}}</span>
+      {{ (label || '') | translate }}
+    </button>
+
+    <div [attr.id]="'collapse-' + path" [collapse]="!expanded" [isAnimated]="true">
+      <ul class="btn-toggle-nav">
+        <li *ngFor="let child of children"
+            class="nav-child"
+            routerLinkActive="active-child"
+            [routerLinkActiveOptions]="{exact: false}">
+
+          <a [routerLink]="child.path" class="nav-link" aria-current="page" *ngIf="child.hasPermission">
+            {{child.label | translate}}
+          </a>
+
+        </li>
+      </ul>
+    </div>
+
+  </ng-template>
+
+</li>

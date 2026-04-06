@@ -1,0 +1,444 @@
+<ng-container *ngIf="!hasSelectedEstablishments; else establishments_found">
+  <app-establishments-not-found></app-establishments-not-found>
+</ng-container>
+
+<ng-template #establishments_found>
+  <section class="heading">
+    <div class="page-title">
+      <h3>{{ 'app.rates-fees.title' | translate }}</h3>
+      <span class="page-subtitle">{{ 'app.rates-fees.subtitle' | translate }}</span>
+    </div>
+
+    <div class="page-actions">
+      <section class="section-actions">
+        <!-- <span class="px-2 fw-bolder">{{ 'app.message-navbar-title' | translate }} </span> -->
+      </section>
+    </div>
+  </section>
+
+  <div class="content">
+    <div class="row">
+      <div class="col-9">
+        <div class="card mt-3 card-establishments">
+          <div class="card-body d-flex flex-column align-items-start gap-2">
+            <span class="fw-bolder">Selecione um estabelecimento:</span>
+            <div
+              class="card-commercial-terms w-100 d-flex align-items-center justify-content-start gap-2"
+            >
+              <app-select-establishments
+                class="w-50"
+                [establishments]="establishmentsToSelect"
+                [multiple]="false"
+                [markFirst]="true"
+                [selectedEstablishmentDocument]="establishmentsSelected"
+                (selectedEstablishments)="onSelectedEstablishmentsClick($event)"
+              >
+              </app-select-establishments>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="card mt-3 card-establishments">
+          <div class="card-body d-flex flex-column align-items-start gap-2">
+            <span class="m-0 fw-bold text-primary fs-5">Reserva Financeira </span>
+            <span class="m-0 fw-bold text-primary fs-5">{{ reserve }} %</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-rates mt-3 text-center">
+          <div class="card-body d-flex flex-column align-items-start gap-2">
+            <table
+              mat-table
+              [dataSource]="rates"
+              multiTemplateDataRows
+              class="table table-rates h-100"
+            >
+              <ng-container matColumnDef="cardBrand">
+                <th mat-header-cell *matHeaderCellDef class="border-st text-center">Bandeiras</th>
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  <img
+                    src="../../../../../../../assets/icons/cards/{{
+                      getIconName(element.cardBrand)
+                    }}.png"
+                    class="card-img-top card-brand-icon"
+                    alt="..."
+                  />
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="prepaidDebit">
+                <th mat-header-cell *matHeaderCellDef class="text-center">
+                  Débito/Débito Pré-pago
+                </th>
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  <p style="margin-bottom: 5px">
+                    {{ getRate(element.cardBrand, element.prepaidDebit) }}
+                  </p>
+                  <p style="margin-bottom: 5px">
+                    {{ getPeriodDay(element.cardBrand, element.prepaidDebitPeriod) }}
+                  </p>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="cashCredit">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Crédito à vista</th>
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  <div class="container" style="padding-left: 0px; padding-right: 0px">
+                    <div
+                      class="row row-cols-2 justify-content-md-center"
+                      style="margin-left: 0px; margin-right: 0px"
+                      *ngIf="element.cashCreditPeriod === 1"
+                    >
+                      <div class="col-2 p-0" style="padding-right: 0px">
+                        {{
+                          getRate(
+                            element.cardBrand,
+                            element.cashCredit,
+                            element.cashCreditPeriod,
+                            prepaymentRate,
+                            true,
+                            true
+                          )
+                        }}
+                      </div>
+                      <div class="col-6 p-0" style="padding-right: 0px">
+                        {{
+                          getSumRate(
+                            element.cardBrand,
+                            element.cashCredit,
+                            element.cashCreditPeriod,
+                            prepaymentRate,
+                            true,
+                            true
+                          )
+                        }}
+                      </div>
+
+                      <div class="w-100"></div>
+
+                      <div class="col-2 p-0" style="padding-right: 0px">
+                        {{ getPeriodDay(element.cardBrand, element.cashCreditPeriod, true) }}
+                      </div>
+                      <div class="col-6 p-0" style="padding-right: 0px">
+                        {{
+                          getDescriptionDay(
+                            element.cardBrand,
+                            element.cashCreditPeriod,
+                            prepaymentRate,
+                            true
+                          )
+                        }}
+                      </div>
+                    </div>
+
+                    <div
+                      class="row justify-content-md-center"
+                      style="margin-left: 0px; margin-right: 0px"
+                      *ngIf="element.cashCreditPeriod > 1"
+                    >
+                      <div class="col-6">
+                        {{
+                          getRate(
+                            element.cardBrand,
+                            element.cashCredit,
+                            element.cashCreditPeriod,
+                            prepaymentRate,
+                            true,
+                            true
+                          )
+                        }}
+                      </div>
+
+                      <div class="w-100"></div>
+
+                      <div class="col-6">
+                        {{ getPeriodDay(element.cardBrand, element.cashCreditPeriod, true) }}
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="prepaidCredit">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Crédito Pré-Pago</th>
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  <div class="container" style="padding-left: 0px; padding-right: 0px">
+                    <div
+                      class="row row-cols-2 justify-content-md-center"
+                      style="margin-left: 0px; margin-right: 0px"
+                      *ngIf="element.prepaidCreditPeriod === 1"
+                    >
+                      <div class="col-2" style="padding-right: 0px">
+                        {{
+                          getRate(element.cardBrand, element.prepaidCredit, 1, prepaymentRate, true)
+                        }}
+                      </div>
+                      <div class="col-6" style="padding-right: 0px">
+                        {{
+                          getSumRate(
+                            element.cardBrand,
+                            element.prepaidCredit,
+                            1,
+                            prepaymentRate,
+                            true
+                          )
+                        }}
+                      </div>
+
+                      <div class="w-100"></div>
+
+                      <div class="col-2" style="padding-right: 0px">
+                        {{ getPeriodDay(element.cardBrand, 1) }}
+                      </div>
+                      <div class="col-6" style="padding-right: 0px">
+                        {{ getDescriptionDay(element.cardBrand, 1, prepaymentRate) }}
+                      </div>
+                    </div>
+
+                    <div
+                      class="row justify-content-md-center"
+                      style="margin-left: 0px; margin-right: 0px"
+                      *ngIf="element.prepaidCreditPeriod > 1"
+                    >
+                      <div class="col-6">
+                        {{
+                          getRate(
+                            element.cardBrand,
+                            element.prepaidCredit,
+                            element.prepaidCreditPeriod,
+                            prepaymentRate,
+                            true
+                          )
+                        }}
+                      </div>
+
+                      <div class="w-100"></div>
+
+                      <div class="col-6">
+                        {{ getPeriodDay(element.cardBrand, element.prepaidCreditPeriod) }}
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="installmentCredit">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Crédito Parcelado</th>
+                <td mat-cell *matCellDef="let element" class="text-center">Parcelado 2 a 12</td>
+              </ng-container>
+
+              <ng-container matColumnDef="expand">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  aria-label="row actions"
+                  style="padding: 0px !important"
+                  class="border-ed"
+                >
+                  &nbsp;
+                </th>
+                <td mat-cell *matCellDef="let element" style="padding: 0px !important">
+                  <button
+                    mat-icon-button
+                    aria-label="expand row"
+                    (click)="
+                      expandedElement = expandedElement === element ? null : element;
+                      $event.stopPropagation()
+                    "
+                  >
+                    <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                    <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="expandedDetail">
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [attr.colspan]="columnsToDisplayWithExpand.length"
+                >
+                  <div
+                    class="element-detail-x"
+                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
+                  >
+                    <div class="card card-rates-detail">
+                      <h5>
+                        Parcelado (Prazo: {{ element.installment02Period }}
+                        {{ element.installment02Period === 1 ? 'dia' : 'dias' }})
+                      </h5>
+                      <div class="container m-0">
+                        <div class="row w-100">
+                          <div class="col-sm-1">
+                            <p style="margin-bottom: 10px; margin-top: 10px">Parcelas</p>
+                            <p style="margin-bottom: 0px">Taxas</p>
+                          </div>
+                          <div class="col-sm-11" style="padding: 0.3rem">
+                            <table class="w-100">
+                              <tr class="rule-border" style="height: 30px">
+                                <td class="text-center" *ngFor="let rateNumber of rateNumbers">
+                                  {{ rateNumber }}
+                                </td>
+                              </tr>
+                              <tr style="height: 30px">
+                                <td
+                                  class="text-center"
+                                  *ngFor="let rate of getRatesCardBrand(element.cardBrand)"
+                                >
+                                  {{ rate.rateValue || 0 | number: '1.2-2' }} %
+                                </td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <small
+                        >* Caso tenha antecipação automática, o prazo de pagamento pode mudar.
+                      </small>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+              <tr
+                mat-row
+                *matRowDef="let element; columns: columnsToDisplayWithExpand"
+                class="element-row"
+                [class.expanded-row]="expandedElement === element"
+                (click)="expandedElement = expandedElement === element ? null : element"
+              ></tr>
+              <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+            </table>
+
+            <div
+              class="d-flex justify-content-center align-items-center"
+              style="padding: 1rem; padding-top: 0 !important; padding-bottom: 0px !important"
+            >
+              <span class="me-2"
+                >Última atualização: {{ lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="!!economicGroupRates">
+      <div class="col-12">
+        <div class="card card-rates mt-3 text-center">
+          <div class="card-body d-flex flex-column align-items-start gap-2">
+            <table class="table table-rates w-100">
+              <tr style="height: 36px">
+                <th class="border-st text-center th-modality">Modalidade</th>
+                <th class="th-pix">Pix</th>
+                <th class="text-center th-modality" *ngIf="economicGroupRates.hasPrepayment">
+                  Modalidade
+                </th>
+                <th class="th-prepayment-rate border-ed" *ngIf="economicGroupRates.hasPrepayment">
+                  Taxa
+                </th>
+
+                <th class="text-center th-modality" *ngIf="!economicGroupRates.hasPrepayment"></th>
+                <th
+                  class="th-prepayment-rate border-ed"
+                  *ngIf="!economicGroupRates.hasPrepayment"
+                ></th>
+              </tr>
+              <tr style="line-height: 0px">
+                <td>
+                  <div class="card-img-top card-brand-icon-pix" role="img" alt="Pix"></div>
+                </td>
+                <td>
+                  <p style="margin-bottom: 5px" *ngIf="!economicGroupRates.pixDisabled">
+                    {{ economicGroupRates.pixRate }} %
+                  </p>
+                  <p
+                    style="margin-bottom: 5px"
+                    *ngIf="!economicGroupRates.pixDisabled && !economicGroupRates.isEntrePay"
+                  >
+                    1 dia
+                  </p>
+                  <p
+                    style="margin-bottom: 5px"
+                    *ngIf="
+                      !economicGroupRates.pixDisabled &&
+                      economicGroupRates.isEntrePay &&
+                      !!economicGroupRates.liquidationtime
+                    "
+                  >
+                    Frequência pagamento: {{ economicGroupRates.liquidationtime }}
+                  </p>
+                  <p style="margin-bottom: 5px" *ngIf="economicGroupRates.pixDisabled">
+                    Produto Desabilitado
+                  </p>
+                  <p style="margin-bottom: 5px" *ngIf="!!economicGroupRates.pixMinRate">
+                    <!-- (R${{ economicGroupRates.pixMinRate }}) mínima -->
+                  </p>
+                </td>
+                <td class="side-edge" *ngIf="economicGroupRates.hasPrepayment">
+                  <span style="display: block">Antecipação</span>
+                  <span style="display: block">PUNTO</span>
+                </td>
+                <td *ngIf="economicGroupRates.hasPrepayment">
+                  <p style="margin-bottom: 5px">{{ economicGroupRates.prepaymentRate }} %</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-rates mt-3 text-center">
+          <div class="card-body d-flex flex-column align-items-start gap-2">
+            <h3>Outras bandeiras aceitas</h3>
+
+            <p class="text-muted">
+              Para consultar o pagamento e taxa dos vouchers, o acesso deve ser realizado pelo canal
+              das próprias bandeiras
+            </p>
+
+            <div class="row ml-1">
+              <div class="col-3">
+                <div
+                  class="card-img-top card-brand-icon other-brands card-brand-icon-repom"
+                  role="img"
+                  alt="Repom"
+                ></div>
+              </div>
+              <div class="col-3">
+                <div
+                  class="card-img-top card-brand-icon other-brands card-brand-icon-ticket"
+                  role="img"
+                  alt="Ticket"
+                ></div>
+              </div>
+              <div class="col-3">
+                <div
+                  class="card-img-top card-brand-icon other-brands card-brand-icon-tlog"
+                  role="img"
+                  alt="TLog"
+                ></div>
+              </div>
+              <div class="col-3">
+                <div
+                  class="card-img-top card-brand-icon other-brands card-brand-icon-edenred"
+                  role="img"
+                  alt="Edenred"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

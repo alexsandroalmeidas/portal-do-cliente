@@ -1,0 +1,69 @@
+<div class="filter">
+  <h5 class="filter-title">{{title}}</h5>
+  <div class="filter-option-list" style="width:100%">
+
+    <div>
+      <button class="btn btn-light-blue me-1"
+        *ngIf="currentValue === 'week' && !justCustom && isPrimary; else light_week_button" (click)="selectWeek()">
+        {{labels[time].week}}
+      </button>
+      <ng-template #light_week_button>
+        <button *ngIf="!justCustom" class="btn bg-gray-600 text-white me-1" (click)="selectWeek()">
+          {{labels[time].week}}
+        </button>
+      </ng-template>
+
+      <button class="btn btn-light-blue me-1"
+        *ngIf="currentValue === 'month' && !justCustom && isPrimary; else light_month_button" (click)="selectMonth()">
+        {{labels[time].month}}
+      </button>
+      <ng-template #light_month_button>
+        <button *ngIf="!justCustom" class="btn bg-gray-600 text-white me-1" (click)="selectMonth()">
+          {{labels[time].month}}
+        </button>
+      </ng-template>
+
+      <button class="btn btn-light-blue me-1"
+        *ngIf="currentValue === 'threeMonths' && !justCustom && isPrimary; else light_three_months_button"
+        (click)="selectThreeMonths()">
+        {{labels[time].threeMonths}}
+      </button>
+      <ng-template #light_three_months_button>
+        <button *ngIf="!justCustom" class="btn bg-gray-600 text-white me-1" (click)="selectThreeMonths()">
+          {{labels[time].threeMonths}}
+        </button>
+      </ng-template>
+
+      <button class="btn btn-light-blue me-1"
+        *ngIf="currentValue === 'year' && !justCustom && isPrimary; else light_year_button" (click)="selectYear()">
+        {{labels[time].year}}
+      </button>
+      <ng-template #light_year_button>
+        <button *ngIf="!justCustom" class="btn bg-gray-600 text-white me-1" (click)="selectYear()">
+          {{labels[time].year}}
+        </button>
+      </ng-template>
+
+      <div style=" display: inline-flex; padding-left: 0.8rem; padding-right: 0.8rem;">
+        ou
+      </div>
+
+      <div style="width: 22%; display: inline-flex;">
+
+        <form [formGroup]="form" autocomplete="off" novalidate>
+          <input type="text" id="dateRange" name="dateRange" placeholder="Informe um período"
+            class="form-control text-center" #dp="bsDaterangepicker" bsDaterangepicker formControlName="dateRange"
+            [bsConfig]="{
+                   dateInputFormat: dateFormat || 'DD/MM/YYYY',
+                   containerClass: 'theme-blue',
+                   maxDateRange: limitDays,
+                   showWeekNumbers:false,
+                   rangeInputFormat : dateFormat || 'DD/MM/YYYY', 
+                 }" placement="top" class="{{currentValue === 'custom' ? '' : 'bg-gray-600 text-white me-1'}}"
+            (ngModelChange)="onDateChange($event)">
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="div-carousel" *ngIf="slides.length">
+  <carousel
+    [singleSlideOffset]="true"
+    [interval]="3000"
+    [noWrap]="noWrap"
+    [showIndicators]="showIndicators"
+    [noPause]="false"
+    [isAnimated]="true"
+    class="{{ isMobile ? 'isMobile' : '' }}"
+  >
+    <slide *ngFor="let slide of slides">
+      <ng-container *ngIf="!!slide.url; else slide_without_link">
+        <a
+          href="{{ slide.url }}"
+          target="_blank"
+          rel="noreferrer"
+          style="display: block"
+        >
+          <ng-container
+            [ngTemplateOutlet]="carouselImages"
+            [ngTemplateOutletContext]="{ slide: slide }"
+          >
+          </ng-container>
+        </a>
+      </ng-container>
+
+      <ng-template #slide_without_link>
+        <ng-container
+          [ngTemplateOutlet]="carouselImages"
+          [ngTemplateOutletContext]="{ slide: slide }"
+        >
+        </ng-container>
+      </ng-template>
+
+      <ng-template #carouselImages let-slide="slide">
+        <div
+          class="card text-center text-white carousel-div"
+          [style.background]="
+            !!slide.backgroundColor ? slide.backgroundColor : ''
+          "
+        >
+          <div class="carousel-div">
+            <div
+              *ngIf="!slide.image"
+              class="text-center py-5 text-white"
+              style="display: block; width: 100%"
+            ></div>
+
+            <div
+              *ngIf="!!slide.image"
+              class="text-center text-white"
+              style="display: block; width: 100%"
+            >
+              <img
+                [src]="slide.image"
+                alt="image slide"
+                class="carousel-image"
+              />
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </slide>
+  </carousel>
+</div>

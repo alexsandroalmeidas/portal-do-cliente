@@ -1,0 +1,17 @@
+<div class="modal-header heading">
+  <h5 class="modal-title pull-left title">Notificação</h5>
+</div>
+<div class="modal-body">
+
+  <p class="font-weight-bold">{{notification.title}}</p>
+
+  <div class="ql-container ql-snow" style="border-width: 0;">
+    <div style="width: 100%" class="ql-editor" [innerHTML]="byPassHTML()"></div>
+  </div>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="onCloseClick()">OK</button>
+  <button type="button" class="btn btn-secondary" *ngIf="notification.read" (click)="onMarkUnreadClick()">Marcar como não lida</button>
+  <button type="button" class="btn btn-secondary" *ngIf="!notification.read" (click)="onMarkReadClick()">Marcar como lida</button>
+</div>

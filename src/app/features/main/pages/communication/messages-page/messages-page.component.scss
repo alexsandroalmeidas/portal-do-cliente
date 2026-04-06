@@ -1,0 +1,13 @@
+:host {
+  .card {
+    border: none;
+  }
+
+  .quill-editor {
+    width: 80%;
+  }
+
+  ::ng-deep .ql-editor {
+    min-height: 110px !important;
+  }
+}

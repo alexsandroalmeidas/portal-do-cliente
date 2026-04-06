@@ -1,0 +1,98 @@
+@import "./../../../../../../assets/scss/variables";
+
+
+.pl-1 {
+  padding-left: 1px !important;
+}
+
+.calendar-card {
+  .calendar-month {
+    text-transform: capitalize;
+    text-align: center;
+    margin: 0px;
+    color: var(--bs-primary);
+    font-size: 1.7rem;
+    font-weight: bolder;
+    border: unset;
+  }
+
+  .material-icons {
+    font-size: 17px;
+    color: var(--bs-gray-500);
+    border: none;
+    --bs-btn-border-radius: none;
+  }
+
+  .wd-year {
+    width: 6rem;
+  }
+
+  .lbl-receivables {
+    color: var(--bs-gray-600);
+  }
+
+  .hr-tot {
+    opacity: unset;
+  }
+
+  .btn-export {
+    padding-top: 0.1rem;
+    padding-right: 2rem;
+    padding-bottom: 0.1rem;
+    padding-left: 2rem;
+    margin-right: 0px !important;
+  }
+
+  .first-col {
+    width: 7.9rem;
+  }
+
+  .table> :not(:first-child) {
+    border-top: unset;
+    border-style: hidden;
+  }
+
+  .lbl-day-calendar {
+    margin: 5px;
+    font-size: 1.1em;
+    text-align: center;
+  }
+
+  .cal-month-view .cal-cell-top {
+    min-height: 52px;
+  }
+
+  .cal-day-selected {
+    background-color: var(--bs-primary-100) !important;
+  }
+
+  .cal-day-selected:hover {
+    background-color: var(--bs-primary-200) !important;
+  }
+
+  .cal-month-view .cal-day-cell.cal-today:not(.cal-day-selected) {
+    background-color: var(--bs-primary-100) !important;
+  }
+
+  .pt-debits {
+    padding-top: 2rem !important;
+  }
+
+  .cal-month-view .cal-cell-top {
+    min-height: 59px !important;
+  }
+
+  .bdr-none {
+    border: none !important;
+    border-style: hidden !important;
+  }
+
+  .pl-2 {
+    padding-left: 2rem;
+  }
+
+  .pr-0 {
+    padding-right: 0px;
+  }
+
+}

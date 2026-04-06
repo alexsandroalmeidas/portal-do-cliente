@@ -1,0 +1,169 @@
+<div class="card summary-card card-my-receivables">
+  <div class="card-body">
+    <div class="card-loader">
+      <ngx-ui-loader
+        loaderId="loader_summary_card_receivables"
+        logoUrl=""
+        [hasProgressBar]="false"
+        [fgsSize]="50"
+        fgsColor="#4E2096"
+        fgsType="ball-spin-fade-rotating"
+        overlayColor="rgba(122,122,122,0.8)"
+      ></ngx-ui-loader>
+    </div>
+
+    <div class="row summary-card-header">
+      <div class="col d-flex align-items-start">
+        <span class="material-icons summary-card-icon">credit_card</span>
+        <div class="summary-card-title">
+          <h5 class="card-title d-flex align-items-center">
+            <span class="fw-bolder">Meus recebimentos</span>
+            <span class="material-icons">help_outline</span>
+          </h5>
+        </div>
+      </div>
+    </div>
+
+    <section class="summary-card-content">
+      <div class="total">
+        <div class="total-title">
+          <span>Total dos recebimentos previsto</span>
+          <span
+            class="material-icons span-icon"
+            [routerLink]="['/receivables']"
+            [queryParams]="{ initialDate: today, finalDate: more1Year }"
+          >
+            chevron_right
+          </span>
+        </div>
+        <span class="total-amount">{{ totalAmount | currency: "BRL" }}</span>
+      </div>
+
+      <div class="row">
+        <div class="progressbar">
+          <section class="d-flex justify-content-start">
+            <mat-progress-bar
+              class="progress"
+              [mode]="'determinate'"
+              [value]="pixPercent"
+              [bufferValue]="100"
+            >
+            </mat-progress-bar>
+          </section>
+
+          <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column align-items-end">
+              <span class="text-muted">{{ pixPercent }} % Pix</span>
+            </div>
+            <div class="d-flex flex-column align-items-start">
+              <span class="text-muted">{{ creditPercent }} % Cartão</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div
+          class="d-flex justify-content-between"
+          style="padding: 1rem; padding-top: 0px !important"
+        >
+          <div style="padding: 1rem; padding-bottom: 0px !important">
+            <span class="fw-bolder lbl-receivables fs-5" style="padding: 1rem"
+              >Pix</span
+            >
+            <span class="fw-bolder fs-14">{{
+              pixAmount | currency: "BRL"
+            }}</span>
+          </div>
+          <div style="padding: 1rem; padding-bottom: 0px !important">
+            <span class="fw-bolder lbl-receivables fs-5" style="padding: 1rem"
+              >Cartão</span
+            >
+            <span class="fw-bolder fs-14">{{
+              creditAmount | currency: "BRL"
+            }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <span
+          >A reserva de valores corresponde a {{ reserve }}% da sua agenda
+          Punto.</span
+        >
+      </div>
+      <div class="row">
+        <div class="list">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"></li>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-bolder lbl-receivables"
+                  >Recebimento de hoje</span
+                >
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="fw-bolder">{{
+                    todayReceivablesAmount | currency: "BRL"
+                  }}</span>
+                  <span
+                    class="material-icons span-icon"
+                    [routerLink]="['/receivables']"
+                    [queryParams]="{
+                      initialDate: today,
+                      finalDate: today,
+                      filterName: 'today',
+                    }"
+                  >
+                    chevron_right
+                  </span>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-bolder lbl-receivables"
+                  >Recebimentos futuros previsto</span
+                >
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="fw-bolder">{{
+                    futureReceivablesAmount | currency: "BRL"
+                  }}</span>
+                  <span
+                    class="material-icons span-icon"
+                    [routerLink]="['/receivables']"
+                    [queryParams]="{
+                      initialDate: more1Day,
+                      finalDate: more1Year,
+                      filterName: 'custom',
+                    }"
+                  >
+                    chevron_right
+                  </span>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item"></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="d-flex justify-content-center align-items-center">
+          <span>Os recebimentos futuros poderão sofrer alterações</span>
+        </div>
+        <div
+          class="d-flex justify-content-center align-items-center"
+          style="padding: 1rem; padding-top: 0 !important"
+        >
+          <span class="me-2"
+            >Última atualização:
+            {{ lastUpdateDate | date: "dd/MM/yyyy HH:mm" }}</span
+          >
+
+          <app-tooltip icon="info" position="bottom right">
+            <p><strong>Cartões:</strong> Atualizado diariamente</p>
+            <p><strong>Pix:</strong> Atualizado a cada 5 minutos</p>
+          </app-tooltip>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

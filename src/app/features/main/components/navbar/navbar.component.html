@@ -1,0 +1,155 @@
+<nav class="navbar navbar-expand-lg">
+  <header class="navbar sticky-top text-white flex-md-nowrap p-0 shadow">
+    <section class="navbar-brand">
+      <a [routerLink]="['/']">
+        <img src="assets/img/logo_transparent.svg" class="logo" alt="Logo" />
+      </a>
+    </section>
+
+    <span class="divisor"></span>
+
+    <section class="navbar-text user-info">
+      <span>Olá, <strong></strong></span>
+      <span class="fs-6 d-sm-block d-md-none">
+        {{ today | date: "dd/MM/yyyy" }}</span
+      >
+      <span class="fs-6 d-none d-md-block">
+        {{ today | date: "fullDate" }}</span
+      >
+    </section>
+
+    <span class="spacer"></span>
+
+    <section
+      class="notifications d-flex flex-column align-items-center justify-content-center me-3 py-2 h-100"
+    >
+      <button
+        mat-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Notifications menu"
+        [matBadge]="
+          unreadedNotificationsCount > 5 ? '5+' : unreadedNotificationsCount
+        "
+        matBadgeSize="small"
+        matBadgeColor="accent"
+        [matBadgeHidden]="unreadedNotificationsCount === 0"
+        class="h-auto"
+      >
+        <mat-icon class="material-symbols-outlined btn-color"
+          >notifications</mat-icon
+        >
+        Notificações
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button
+          mat-menu-item
+          [disabled]="true"
+          class="fw-semibold border-bottom"
+        >
+          Notificações
+        </button>
+        <ng-container
+          *ngIf="notificationsOrdered?.length; else notifications_none"
+        >
+          <button
+            mat-menu-item
+            *ngFor="let notification of notificationsOrdered"
+            (click)="onNotificationClick(notification)"
+          >
+            <span
+              class="d-flex align-items-center justify-content-between gap-2 {{
+                notification.read ? '' : 'fw-bolder'
+              }}"
+            >
+              {{ notification.title }}
+              <button
+                mat-icon-button
+                class="d-flex align-items-center justify-content-center"
+                (click)="$event.stopPropagation(); onDeleteClick(notification)"
+              >
+                <mat-icon class="material-symbols-outlined">delete</mat-icon>
+              </button>
+            </span>
+          </button>
+        </ng-container>
+        <ng-template #notifications_none>
+          <button mat-menu-item [disabled]="true">
+            Não existem notificações para exibir
+          </button>
+        </ng-template>
+
+        <button
+          mat-button
+          class="fw-semibold border-top"
+          style="width: 100%"
+          (click)="onNotificationsClick()"
+        >
+          Ver todas
+        </button>
+      </mat-menu>
+    </section>
+
+    <span class="divisor"></span>
+
+    <section class="navbar-text logged-info d-sm-block d-md-none">
+      <div class="galery">
+        <span class="material-icons">swap_horiz</span>
+        <span><strong>Galeria</strong></span>
+      </div>
+    </section>
+
+    <section class="navbar-text logged-info d-none d-md-block">
+      <button type="button" class="btn btn-sm" (click)="onSelectCustomer()">
+        <span class="material-icons">swap_horiz</span>
+        <div class="galery">
+          <span
+            ><strong>Galeria do {{ firstName || "Usuário" }}</strong></span
+          >
+          <span>{{ documentSelected }}</span>
+        </div>
+      </button>
+    </section>
+
+    <span class="divisor"></span>
+
+    <section class="navbar-text auth-info">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="beforeMenu"
+        style="padding: 6% !important"
+      >
+        <span class="material-icons" style="font-size: 40px">person</span>
+      </button>
+      <mat-menu #beforeMenu="matMenu" xPosition="before">
+        <button
+          mat-menu-item
+          type="button"
+          class="btn btn-sm --primary"
+          (click)="goToMyData()"
+        >
+          <mat-icon>assignment</mat-icon>
+          <span>Meus Dados</span>
+        </button>
+        <button
+          mat-menu-item
+          type="button"
+          class="btn btn-sm"
+          (click)="openChangePasswordDialog()"
+          *ngIf="!isAd"
+        >
+          <mat-icon>lock_open</mat-icon>
+          <span>Alterar Senha</span>
+        </button>
+        <button
+          mat-menu-item
+          type="button"
+          class="btn btn-sm"
+          (click)="onSignOut()"
+        >
+          <mat-icon>logout</mat-icon>
+          <span>Sair</span>
+        </button>
+      </mat-menu>
+    </section>
+  </header>
+</nav>

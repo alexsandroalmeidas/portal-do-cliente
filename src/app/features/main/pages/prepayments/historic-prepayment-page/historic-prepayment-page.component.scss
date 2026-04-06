@@ -1,0 +1,104 @@
+:host {
+  @import "./../../../../../../assets/scss/variables";
+
+  .card {
+    border: none;
+  }
+
+  .dv-lbl-filter {
+    display: table;
+  }
+
+  .available-amount {
+    padding: 2rem;
+    padding-left: 5rem;
+  }
+
+  .lbl-filter {
+    display: table-cell;
+    vertical-align: middle !important;
+    text-align: left;
+  }
+
+  .pl-5 {
+    padding-left: 5rem !important;
+  }
+
+  .pd-1 {
+    padding: 1rem !important;
+  }
+
+  .pd-2 {
+    padding: 2rem !important;
+  }
+
+  .btn-request {
+    width: 100%;
+    font-size: 1.3rem;
+  }
+
+  .whats-img {
+    width: 10%;
+  }
+
+  .section-actions {
+    overflow: auto;
+
+    table {
+      width: 40%;
+      float: right;
+    }
+  }
+
+  .mt-1 {
+    margin-top: 1rem !important;
+  }
+
+  .border-left {
+    border-left: 1px solid currentColor;
+  }
+
+  .col-pr-1 {
+    padding-right: 1.1px;
+  }
+
+  .col-pr-0 {
+    padding-right: 0px;
+  }
+
+  tr.element-row:not(.expanded-row):hover {
+    background: #efefef;
+  }
+
+  tr.element-row:not(.expanded-row):active {
+    background: #efefef;
+  }
+
+  th.mat-sort-header-sorted {
+    color: red;
+  }
+
+  th {
+    color: #80898A !important;
+  }
+
+  .btn-success {
+    color: #3BB7A0;
+    background-color: #EBF8F6;
+    border-color: #3BB7A0;
+  }
+
+  .btn-failure {
+    color: #FF5978;
+    background-color: var(--bs-white)2F5;
+    border-color: #FF5978;
+  }
+
+  .btn-in-process {
+    color: #FFAC33;
+    background-color: var(--bs-white)9EF;
+    border-color: #FFAC33;
+  }
+
+
+}

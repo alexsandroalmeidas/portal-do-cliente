@@ -1,0 +1,147 @@
+@import "./../../../../../../assets/scss/variables";
+
+:host {
+
+  .pl-01 {
+    padding-left: 0.5rem !important;
+  }
+
+  .pr-0 {
+    padding-right: 0px !important;
+  }
+
+  .pb-amount {
+    padding-bottom: 2.1rem;
+  }
+
+  .lbl-receivables {
+    color: var(--bs-gray-600);
+  }
+
+  .fs-14 {
+    font-size: x-large !important;
+  }
+
+  .card-m-height {
+    min-height: 15.7rem;
+  }
+
+  .receivable-by-header {
+    margin-bottom: 0px;
+    padding-top: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 0px;
+    padding-left: 1rem;
+  }
+
+  tr.detail-row {
+    height: 0;
+  }
+
+  tr.element-row:not(.expanded-row):hover {
+    background: #efefef;
+  }
+
+  tr.element-row:not(.expanded-row):active {
+    background: #efefef;
+  }
+
+  td.cdk-column-expand,
+  td.cdk-column-expand {
+    padding: 1rem !important;
+  }
+
+  .element-detail-x {
+    padding-left: 1rem;
+
+    table {
+      th {
+        background-color: whitesmoke !important;
+      }
+
+      .width-payment-date {
+        width: 11.5%;
+      }
+
+      .width-sale-time {
+        width: 13.5%;
+      }
+
+      .width-terminal-number {
+        width: 15%;
+      }
+
+      .width-installment {
+        width: 11.5%;
+      }
+
+      .width-banking-account {
+        width: 11.5%;
+      }
+
+      .width-authorization-code {
+        width: 11.5%;
+      }
+
+      .width-release-value {
+        width: 0.7%;
+      }
+
+      .width-release-date {
+        width: 0.8%;
+      }
+
+      .width-release-description {
+        width: 1.4%;
+      }
+
+      .width-adjustment-accounting-section {
+        width: 1.4%;
+      }
+
+      .width-release-type-description {
+        width: 4.1%;
+      }
+
+
+    }
+  }
+
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+
+  ::ng-deep .mdc-linear-progress {
+    height: 1rem !important;
+  }
+
+  ::ng-deep .mdc-linear-progress__buffer {
+    background-color: red !important;
+  }
+
+  ::ng-deep .mdc-linear-progress__bar-inner {
+    border-color: var(--bs-primary) !important;
+    border-top-width: 1rem !important;
+  }
+
+  .total {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+
+    .total-title {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+
+      .material-icons {
+        font-size: 1rem;
+      }
+    }
+
+    .total-amount {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  }
+}

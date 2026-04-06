@@ -1,0 +1,412 @@
+<div class="row card-group-row mb-lg-8pt pb-3">
+  <div class="col-6 pr-0">
+    <div class="card card-m-height">
+      <h6 class="fw-bolder receivable-by-header">Recebimentos por conta</h6>
+      <div class="card-body" style="padding-bottom: 0px; padding-top: 1px">
+        <app-banking-accounts-carousel
+          [bankingAccounts]="bankingAccounts"
+          [selectedEstablishment]="selectedEstablishment"
+        ></app-banking-accounts-carousel>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6 pl-01">
+    <div class="card card-m-height">
+      <div class="card-body" style="padding-bottom: 0px">
+        <div class="row">
+          <div class="d-flex justify-content-between">
+            <span class="fw-bolder lbl-receivables fs-5">Total dos Recebimentos</span>
+            <span class="fw-bolder fs-2 pb-amount">{{ totalAmount | currency : 'BRL' }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="progressbar">
+            <section class="d-flex justify-content-start">
+              <mat-progress-bar
+                class="progress"
+                [mode]="'determinate'"
+                [value]="pixPercent"
+                [bufferValue]="100"
+              >
+              </mat-progress-bar>
+            </section>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column align-items-end">
+                <span class="text-muted">{{ pixPercent }} % Pix</span>
+              </div>
+              <div class="d-flex flex-column align-items-start">
+                <span class="text-muted">{{ creditCardPercent }} % Cartão</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div
+            class="d-flex justify-content-between"
+            style="padding: 1rem; padding-top: 0px !important; padding-bottom: 0px !important"
+          >
+            <div style="padding: 1rem">
+              <span class="fw-bolder lbl-receivables fs-5" style="padding: 1rem">Pix</span>
+              <span class="fw-bolder fs-14">{{ pixAmount | currency : 'BRL' }}</span>
+            </div>
+            <div style="padding: 1rem">
+              <span class="fw-bolder lbl-receivables fs-5" style="padding: 1rem">Cartão</span>
+              <span class="fw-bolder fs-14">{{ creditCardAmount | currency : 'BRL' }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div
+            class="d-flex justify-content-center"
+            style="padding: 1rem; padding-top: 0px !important; padding-bottom: 0px !important"
+          >
+            Os recebimentos futuros poderão sofrer alterações
+          </div>
+        </div>
+        <div class="row">
+          <div
+            class="d-flex justify-content-center align-items-center"
+            style="padding: 1rem; padding-top: 0 !important; padding-bottom: 0px !important"
+          >
+            <span class="me-2"
+              >Última atualização: {{ lastUpdateDate | date : 'dd/MM/yyyy HH:mm' }}</span
+            >
+
+            <app-tooltip icon="info" position="bottom right">
+              <p><strong>Cartões:</strong> Atualizado diariamente</p>
+              <p><strong>Pix:</strong> Atualizado a cada 5 minutos</p>
+            </app-tooltip>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="row card-group-row mb-lg-8pt"
+  *ngIf="!!filterReceivables && filterReceivables.length > 0"
+>
+  <div class="col card-group-row__col mb-1">
+    <div class="card card-group-row__card">
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-3 text-start">
+            Bandeiras
+            <ng-select
+              class="select text-secondary"
+              aria-placeholder="Selecione..."
+              placeholder="Selecione..."
+              [items]="cardBrandsOptions"
+              id="cardBrands"
+              bindLabel="label"
+              bindValue="value"
+              notFoundText="Nenhuma bandeira encontrada"
+              [markFirst]="true"
+              dropdownPosition="auto"
+              [multiple]="true"
+              [closeOnSelect]="false"
+              [clearSearchOnAdd]="false"
+              [searchable]="true"
+              [clearable]="true"
+              [virtualScroll]="true"
+              style="overflow: visible"
+              (change)="onCardBrandsChange($event)"
+            >
+            </ng-select>
+          </div>
+          <div class="col-3 text-start">
+            Formas de Pagamento
+            <ng-select
+              class="select text-secondary"
+              aria-placeholder="Selecione..."
+              placeholder="Selecione..."
+              [items]="paymentTypesOptions"
+              id="cardBrands"
+              bindLabel="label"
+              bindValue="value"
+              notFoundText="Nenhuma forma de pagamento encontrada"
+              [markFirst]="true"
+              dropdownPosition="auto"
+              [multiple]="true"
+              [closeOnSelect]="false"
+              [clearSearchOnAdd]="false"
+              [searchable]="true"
+              [clearable]="true"
+              [virtualScroll]="true"
+              style="overflow: visible"
+              (change)="onPaymentTypesChange($event)"
+            >
+            </ng-select>
+          </div>
+          <div class="col-3 text-start">
+            Tipos de Lançamento
+            <ng-select
+              class="select text-secondary"
+              aria-placeholder="Selecione..."
+              placeholder="Selecione..."
+              [items]="releaseTypesOptions"
+              id="cardBrands"
+              bindLabel="label"
+              bindValue="value"
+              notFoundText="Nenhum tipo de lançamento encontrado"
+              [markFirst]="true"
+              dropdownPosition="auto"
+              [multiple]="true"
+              [closeOnSelect]="false"
+              [clearSearchOnAdd]="false"
+              [searchable]="true"
+              [clearable]="true"
+              [virtualScroll]="true"
+              style="overflow: visible"
+              (change)="onReleaseTypeChange($event)"
+            >
+            </ng-select>
+          </div>
+          <div class="col-3 text-start">
+            Status
+            <ng-select
+              class="select text-secondary"
+              aria-placeholder="Selecione..."
+              placeholder="Selecione..."
+              [items]="statusOptions"
+              id="cardBrands"
+              bindLabel="label"
+              bindValue="value"
+              notFoundText="Nenhum status encontrado"
+              [markFirst]="true"
+              dropdownPosition="auto"
+              [multiple]="true"
+              [closeOnSelect]="false"
+              [clearSearchOnAdd]="false"
+              [searchable]="true"
+              [clearable]="true"
+              [virtualScroll]="true"
+              style="overflow: visible"
+              (change)="onStatusChange($event)"
+            >
+            </ng-select>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-12 text-end">
+            <button class="btn btn-primary me-1 btn-export" (click)="onExport()">Exportar</button>
+          </div>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+          <!-- SaleDate Column -->
+          <ng-container matColumnDef="saleDate">
+            <th mat-header-cell *matHeaderCellDef sortable="saleDate" (sort)="onSort($event)">
+              Data da Venda
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.saleDate | date : 'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+
+          <!-- SaleAmount  Column -->
+          <ng-container matColumnDef="saleAmount">
+            <th mat-header-cell *matHeaderCellDef sortable="saleAmount" (sort)="onSort($event)">
+              Valor da Venda
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.saleAmount || 0 | currency : 'BRL' : 'symbol' : '1.2-2' }}
+            </td>
+          </ng-container>
+
+          <!-- PaymentAmount  Column -->
+          <ng-container matColumnDef="paymentAmount">
+            <th mat-header-cell *matHeaderCellDef sortable="paymentAmount" (sort)="onSort($event)">
+              Valor do Pagamento
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.paymentAmount || 0 | currency : 'BRL' : 'symbol' : '1.2-2' }}
+            </td>
+          </ng-container>
+
+          <!-- DiscountFee  Column -->
+          <ng-container matColumnDef="discountFee">
+            <th mat-header-cell *matHeaderCellDef sortable="discountFee" (sort)="onSort($event)">
+              Desconto da Taxa
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.discountFee || 0 | currency : 'BRL' : 'symbol' : '1.2-2' }}
+            </td>
+          </ng-container>
+
+          <!-- CardBrand  Column -->
+          <ng-container matColumnDef="cardBrand">
+            <th mat-header-cell *matHeaderCellDef sortable="cardBrand" (sort)="onSort($event)">
+              Bandeira
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.cardBrand }}
+            </td>
+          </ng-container>
+
+          <!-- PaymentType  Column -->
+          <ng-container matColumnDef="paymentType">
+            <th mat-header-cell *matHeaderCellDef sortable="paymentType" (sort)="onSort($event)">
+              Forma de Pagamento
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.paymentType }}
+            </td>
+          </ng-container>
+
+          <!-- Identificação  Column -->
+          <ng-container matColumnDef="nsu">
+            <th mat-header-cell *matHeaderCellDef sortable="nsu" (sort)="onSort($event)">
+              Identificação
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.nsu }}
+            </td>
+          </ng-container>
+
+          <!-- Status  Column -->
+          <ng-container matColumnDef="paymentStatus">
+            <th mat-header-cell *matHeaderCellDef sortable="paymentStatus" (sort)="onSort($event)">
+              Status
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.paymentStatus }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expand">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              aria-label="row actions"
+              style="padding: 0px !important"
+            >
+              &nbsp;
+            </th>
+            <td mat-cell *matCellDef="let element" style="padding: 0px !important">
+              <button
+                mat-icon-button
+                aria-label="expand row"
+                (click)="
+                  expandedElement = expandedElement === element ? null : element;
+                  $event.stopPropagation()
+                "
+              >
+                <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expandedDetail">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [attr.colspan]="columnsToDisplayWithExpand.length"
+            >
+              <div
+                class="element-detail-x"
+                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
+              >
+                <table style="width: 100%">
+                  <th *ngIf="!element.isAdjust" class="width-authorization-code">
+                    Nº da Autorização
+                  </th>
+                  <th *ngIf="!element.isAdjust" class="width-payment-date">Data do Pagamento</th>
+                  <th *ngIf="!element.isAdjust" class="width-sale-time">Hora da Venda</th>
+                  <th *ngIf="!element.isAdjust" class="width-terminal-number">Nº do Equipamento</th>
+                  <th *ngIf="!element.isAdjust" class="width-installment">Nº da Parcela</th>
+                  <th *ngIf="!element.isAdjust" class="width-installment">Valor da Parcela</th>
+                  <th *ngIf="!element.isAdjust" class="width-installment">Desconto Antecipação</th>
+                  <th *ngIf="!element.isAdjust" class="width-banking-account">
+                    Domicílio Bancário
+                  </th>
+                  <th *ngIf="element.isAdjust" class="width-release-value">Valor da Efetivação</th>
+                  <th *ngIf="element.isAdjust" class="width-release-date">Data da Efetivação</th>
+                  <th *ngIf="element.isAdjust" class="width-release-description">Descrição</th>
+                  <th *ngIf="element.isAdjust" class="width-adjustment-accounting-section">
+                    Rúbrica
+                  </th>
+                  <th class="{{ element.isAdjust ? 'width-release-type-description' : '' }}">
+                    Tipo de Lançamento
+                  </th>
+                  <tr>
+                    <td *ngIf="!element.isAdjust" class="width-authorization-code">
+                      {{ element.authorizationCode }}
+                    </td>
+                    <td *ngIf="!element.isAdjust" class="width-payment-date">
+                      {{ element.paymentDate | date : 'dd/MM/yyyy' }}
+                    </td>
+                    <td *ngIf="!element.isAdjust" class="width-sale-time">
+                      {{ element.saleDate | date : 'HH:mm' }}
+                    </td>
+                    <td *ngIf="!element.isAdjust" class="width-terminal-number">
+                      {{ element.terminalNumber }}
+                    </td>
+                    <td *ngIf="!element.isAdjust" class="width-installment">
+                      {{ element.installmentNumber || 0 }}
+                    </td>
+                    <td *ngIf="!element.isAdjust" class="width-installment">
+                      {{
+                        element.grossInstallmentValue || 0 | currency : 'BRL' : 'symbol' : '1.2-2'
+                      }}
+                    </td>
+                    <td *ngIf="!element.isAdjust" class="width-installment">
+                      {{ element.prepaymentFeeValue || 0 }}%
+                    </td>
+                    <td *ngIf="!element.isAdjust" class="width-banking-account">
+                      {{ element.bank }} / {{ element.agency }} / {{ element.account }}
+                    </td>
+                    <td *ngIf="element.isAdjust" class="width-release-value">
+                      {{ element.releaseValue || 0 | currency : 'BRL' : 'symbol' : '1.2-2' }}
+                    </td>
+                    <td *ngIf="element.isAdjust" class="width-release-date">
+                      {{ element.releaseDate | date : 'dd/MM/yyyy' }}
+                    </td>
+                    <td *ngIf="element.isAdjust" class="width-release-description">
+                      {{ element.releaseDescription }}
+                    </td>
+                    <td *ngIf="element.isAdjust" class="width-adjustment-accounting-section">
+                      {{ element.adjustmentAccountingSection }}
+                    </td>
+                    <td class="{{ element.isAdjust ? 'width-release-type-description' : '' }}">
+                      {{ element.releaseTypeDescription }}
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: columnsToDisplayWithExpand"
+            class="element-row"
+            [class.expanded-row]="expandedElement === element"
+            (click)="expandedElement = expandedElement === element ? null : element"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+        </table>
+
+        <pagination
+          class="pagination pagination-secondary d-flex justify-content-end"
+          [totalItems]="filteredItems.length"
+          [boundaryLinks]="true"
+          [maxSize]="maxSize"
+          [itemsPerPage]="itemsPerPage"
+          [(ngModel)]="tablePage"
+          previousText="&lsaquo;"
+          nextText="&rsaquo;"
+          firstText="&laquo;"
+          lastText="&raquo;"
+          (pageChanged)="onPaginate($event)"
+        >
+        </pagination>
+      </div>
+    </div>
+  </div>
+</div>

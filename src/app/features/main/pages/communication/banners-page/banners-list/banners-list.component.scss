@@ -1,0 +1,28 @@
+strong {
+  font-weight: bold;
+}
+
+.cdk-column-action,
+.mat-column-action {
+  flex: 0 0 160px !important;
+  justify-content: center !important;
+}
+
+.cdk-column-title,
+.mat-column-title {
+  justify-content: center !important;
+  text-align: center;
+}
+
+.material-icons {
+  font-size: 1rem !important;
+}
+
+.btn-actions {
+  width: 2.5rem;
+  height: 2rem;
+}
+
+.pright-2 {
+  padding-right: 2.5rem;
+}

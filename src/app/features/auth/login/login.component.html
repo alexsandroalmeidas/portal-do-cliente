@@ -1,0 +1,47 @@
+<div class="login-page">
+  <!-- HEADER -->
+  <div class="login-header-container">
+    <div class="login-header">
+      <img src="assets/img/logo_transparent.svg" class="logo" alt="Logo" />
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="login-content">
+    <div class="login-card">
+      <h1 class="title">Olá, Petlover ❤️</h1>
+
+      <p class="subtitle">Para acessar, entre com sua conta</p>
+
+      <form [formGroup]="form" (ngSubmit)="login()">
+        <!-- EMAIL -->
+        <div class="input">
+          <input type="email" formControlName="email" placeholder=" " />
+          <label>Email</label>
+        </div>
+
+        <!-- SENHA -->
+        <div class="input password-field">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder=" "
+          />
+          <label>Senha</label>
+
+          <button
+            type="button"
+            class="toggle-password heart"
+            [class.active]="showPassword"
+            (click)="togglePassword()"
+          >
+            ❤️
+          </button>
+        </div>
+
+        <!-- BOTÃO -->
+        <button class="primary-btn" type="submit">Continuar</button>
+      </form>
+    </div>
+  </div>
+</div>

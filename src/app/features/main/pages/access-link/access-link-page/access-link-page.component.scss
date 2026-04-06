@@ -1,0 +1,30 @@
+@import "./../../../../../../assets/scss/variables";
+
+.content {
+  .card {
+    border: none;
+  }
+
+  .cdk-table {
+    .cdk-column-name {
+
+      &.cdk-header-cell,
+      &.cdk-cell {
+        min-width: 150px;
+      }
+    }
+
+    .cdk-column-actions {
+
+      &.cdk-header-cell,
+      &.cdk-cell {
+        text-align: right;
+        min-width: 100px;
+
+        .material-icons {
+          color: var(--bs-primary);
+        }
+      }
+    }
+  }
+}

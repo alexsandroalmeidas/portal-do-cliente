@@ -1,0 +1,110 @@
+<h1 mat-dialog-title>
+  <div class="p-1-title">
+    Confira os dados
+  </div>
+</h1>
+
+<div class="content-info-list">
+  <div class="list">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-bolder text-uppercase">Valor Total</span>
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="info-label mr-2"><small>R$ </small></span>
+            <span class="info-currency-qtd-1">
+              {{totalAmount | number:'1.2-2'}}
+            </span>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-bolder text-uppercase">Taxa Aplicada ao dia</span>
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="info-currency-qtd-1">
+              {{rate | number:'1.3-5' | slice:0:5}} %
+            </span>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item" *ngIf="!!schedules">
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-bolder text-uppercase">Adquirente(s)</span>
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="fw-bolder info-label mr-2">
+
+              <ul class="ul-accreditations">
+                <li class="li-accreditations" *ngFor="let check of selectedAccreditations">
+                  {{getAccreditationName(check)}}
+                </li>
+              </ul>
+
+            </span>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="prepayment-total-amount">
+      <span class="fw-bolder text-uppercase">Valor Total da Antecipação</span> <br />
+      <span class="info-label mr-2"><small>R$</small></span>
+      <span class="info-currency-qtd-1">
+        {{prepaymentTotalAmount || 0 | number:'1.2-2' }}
+      </span>
+    </div>
+
+  </div>
+</div>
+
+<div class="content-info">
+  <mat-list-item class="px-0 pb-1 pt-1">
+    <span class="text-start info-label val-left">Conta em que você vai receber</span>
+  </mat-list-item>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <span class="text-uppercase">Banco:</span>
+      </div>
+      <div class="col">
+        <span class="text-uppercase">Agência:</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <span class="fw-bolder">{{bankingAccount.bank}}</span>
+      </div>
+      <div class="col">
+        <span class="fw-bolder">{{bankingAccount.agency}}</span>
+      </div>
+    </div>
+
+    <div class="row pt-1">
+      <div class="col">
+        <span class="text-uppercase">Conta Corrente:</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <span class="fw-bolder">{{bankingAccount.accountNumber}}</span>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <mat-dialog-actions align="end" class="float-end pt-1">
+    <button type="button"
+            class="btn btn-outline-primary mr-5"
+            (click)="onClose(false)">
+      Cancelar
+    </button>
+    <button type="button"
+            class="btn btn-primary"
+            (click)="onConfirm()">
+      Confirmar
+    </button>
+  </mat-dialog-actions>
+
+</div>

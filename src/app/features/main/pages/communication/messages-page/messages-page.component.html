@@ -1,0 +1,118 @@
+<div class="card mb-3">
+  <div class="card-body">
+
+    <form [formGroup]="form" validate autocomplete="off">
+      <input type="hidden" formControlName="messageId">
+
+      <!-- Check estabelecimentos -->
+      <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" role="switch" id="allEstablishments"
+          formControlName="allEstablishments">
+        <label class="form-check-label" for="allEstablishments">Selecionar todos os estabelecimentos</label>
+      </div>
+
+      <div class="row g-3 align-items-center mb-3" *ngIf="!form.get('allEstablishments')?.value">
+        <div class="col-sm-3">
+          <label for="establishments" class="col-form-label">Estabelecimentos</label>
+        </div>
+        <div class="col-sm-9">
+          <ng-select class="select text-secondary" formControlName="establishments" aria-placeholder="Selecione..."
+            placeholder="Selecione..." [items]="customersOptions" id="establishments" name="establishments"
+            [attr.name]="'establishments'" bindLabel="label" bindValue="value"
+            notFoundText="Nenhum estabelecimento encontrado" [markFirst]="true" dropdownPosition="auto"
+            [multiple]="true" [closeOnSelect]="false" [clearSearchOnAdd]="false" [searchable]="true" [clearable]="true"
+            [virtualScroll]="true" [readonly]="!!form.get('allEstablishments')?.value" style="overflow: visible;">
+          </ng-select>
+
+          <div class="field-error" *ngIf="submitted && formControls['establishments'].errors">
+            O estabelecimento deve ser selecionado
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 align-items-center mb-3">
+        <div class="col-sm-3">
+          <label for="title" class="col-form-label">Título</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="title" maxlength="30" formControlName="title"
+            [ngClass]="{ 'is-invalid': submitted && formControls['title'].errors }" />
+
+          <div class="field-error" *ngIf="submitted && formControls['title'].errors">
+            O título é obrigatório
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 align-items-center mb-3">
+        <div class="col-sm-3">
+          <label for="message" class="col-form-label">Mensagem</label>
+        </div>
+        <div class="col-sm-9">
+          <quill-editor #editorQuill format="html" class="quill-editor" placeholder="Informe uma mensagem"
+            formControlName="editor" [ngClass]="{ 'is-invalid': submitted && formControls['editor'].errors }">
+            <div quill-editor-toolbar>
+              <span class="ql-formats">
+                <button class="ql-bold" [title]="'Negrito'"></button>
+                <button class="ql-italic" [title]="'Itálico'"></button>
+                <button class="ql-underline" [title]="'Sublinhado'"></button>
+                <button class="ql-strike" [title]="'Tachado'"></button>
+              </span>
+              <span class="ql-formats">
+                <select class="ql-color" [title]="'Cor do Texto'"></select>
+                <select class="ql-background" [title]="'Cor de Fundo'"></select>
+              </span>
+              <span class="ql-formats">
+                <button class="ql-clean" [title]="'Limpar Formatação'"></button>
+              </span>
+              <span class="ql-formats">
+                <button class="ql-image" [title]="'Imagem'"></button>
+              </span>
+            </div>
+          </quill-editor>
+
+          <div class="field-error" *ngIf="submitted && formControls['editor'].errors">
+            A mensagem é obrigatória
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row g-3 align-items-center mb-3">
+        <div class="col-sm-3">
+          <label for="title" class="col-form-label">Notificação Push</label>
+        </div>
+        <div class="col-sm-9">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="push-notification"
+              formControlName="pushNotification">
+            <label class="form-check-label" for="push-notification">{{!!form.get('pushNotification')?.value ? 'Sim' :
+              'Não'}}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center justify-content-end">
+        <button class="btn btn-outline-secondary me-1" (click)="onClean()">Limpar</button>
+        <button class="btn btn-outline-secondary" (click)="onSave()">Salvar</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h6 class="text-secondary">Mensagens Cadastradas</h6>
+
+    <ng-container *ngIf="!!messages && messages.length > 0; else no_result_found">
+      <app-messages-list [itens]="messages" (editMessage)="onEdit($event)">
+      </app-messages-list>
+    </ng-container>
+
+    <ng-template #no_result_found>
+      <app-no-result-found [withCard]=false></app-no-result-found>
+    </ng-template>
+
+  </div>
+</div>

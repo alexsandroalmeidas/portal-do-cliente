@@ -1,0 +1,96 @@
+<div class="row card-group-row mb-lg-8pt">
+  <div class="col card-group-row__col">
+    <div class="card card-group-row__card">
+      <div class="card-body">
+        <h6 class="text-secondary">Histórico de pesquisas</h6>
+
+        <div class="table-responsive">
+          <table cdk-table [dataSource]="dataSource" class="table table-hover">
+            <ng-container cdkColumnDef="requested">
+              <th cdk-header-cell *cdkHeaderCellDef>Data Geração</th>
+              <td cdk-cell *cdkCellDef="let row" class="fw-bolder">
+                {{ row.requested | date: 'dd/MM/yyyy HH:mm:ss' }}
+              </td>
+            </ng-container>
+
+            <ng-container cdkColumnDef="movementTypeDescription">
+              <th cdk-header-cell *cdkHeaderCellDef>Movimento</th>
+              <td cdk-cell *cdkCellDef="let row">
+                {{ row.movementTypeDescription }}
+              </td>
+            </ng-container>
+
+            <ng-container cdkColumnDef="initialDate">
+              <th cdk-header-cell *cdkHeaderCellDef>Período</th>
+              <td cdk-cell *cdkCellDef="let row">
+                {{ row.initialDate | date: 'dd/MM/yyyy' }} -
+                {{ row.finalDate | date: 'dd/MM/yyyy' }}
+              </td>
+            </ng-container>
+
+            <ng-container cdkColumnDef="documents">
+              <th cdk-header-cell *cdkHeaderCellDef>Estabelecimentos</th>
+              <td
+                cdk-cell
+                *cdkCellDef="let row"
+                class="text-truncate coluna-cnpjs"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="{{ row.documents }}"
+              >
+                {{ row.documents.length > 15 ? row.documents.slice(0, 15) + '...' : row.documents }}
+              </td>
+            </ng-container>
+
+            <ng-container cdkColumnDef="equipments">
+              <th cdk-header-cell *cdkHeaderCellDef>Equipamentos</th>
+              <td
+                cdk-cell
+                *cdkCellDef="let row"
+                class="text-truncate coluna-equipments"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="{{ row.equipments }}"
+              >
+                {{
+                  !!row.equipments && row.equipments.length > 18
+                    ? row.equipments.slice(0, 18) + '...'
+                    : row.equipments
+                }}
+              </td>
+            </ng-container>
+
+            <ng-container cdkColumnDef="progressStatus">
+              <th cdk-header-cell *cdkHeaderCellDef>Status</th>
+              <td cdk-cell *cdkCellDef="let row">
+                {{ row.progressStatus }}
+              </td>
+            </ng-container>
+
+            <ng-container cdkColumnDef="action">
+              <th cdk-header-cell *cdkHeaderCellDef>Opções</th>
+              <td cdk-cell *cdkCellDef="let row">
+                <div class="d-flex-justify-content-between">
+                  <button
+                    class="btn btn-outline-secondary mr-1"
+                    [disabled]="row.status !== 3"
+                    (click)="downloadExcel(row)"
+                  >
+                    Excel
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr cdk-header-row *cdkHeaderRowDef="columnsToDisplay"></tr>
+            <tr
+              cdk-row
+              *cdkRowDef="let element; columns: columnsToDisplay"
+              class="element-row"
+            ></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

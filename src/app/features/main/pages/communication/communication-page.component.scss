@@ -1,0 +1,13 @@
+.content {
+
+  .card,
+  .tab-container {
+    border: none;
+  }
+}
+
+::ng-deep .nav-tabs {
+  height: 2rem !important;
+  width: 100% !important;
+  --bs-nav-tabs-border-width: unset !important;
+}

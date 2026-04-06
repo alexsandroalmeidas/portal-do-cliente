@@ -1,0 +1,13 @@
+::ng-deep app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+:host {
+  height: 100%;
+
+  #page-content-wrapper {
+    height: 100%;
+  }
+}

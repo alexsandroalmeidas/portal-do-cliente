@@ -1,0 +1,212 @@
+.calendar-container {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-right: 4px;
+  padding-left: 4px;
+  background: #fff;
+  max-width: 1200px;
+  margin: auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ===== Cabeçalho do calendário (mês/ano) ===== */
+.calendar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-header .nav-group {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.calendar-header .nav-group button {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  color: #444;
+}
+
+.calendar-header .nav-group button:hover {
+  background: #f0f0f0;
+}
+
+.calendar-header .month-label,
+.calendar-header .year-label {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1d2b4f;
+  text-transform: capitalize;
+}
+
+/* ===== GRID raiz (uma coluna; as linhas são .calendar-head e .calendar-week) ===== */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 12px;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+/* ===== Cabeçalho dos dias (sempre 1 linha) ===== */
+.calendar-head {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  column-gap: 8px;
+  align-items: end;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.dow {
+  font-weight: 700;
+  color: #666;
+  text-align: center;
+
+  white-space: nowrap;
+  word-break: keep-all;
+  hyphens: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== Semanas ===== */
+.calendar-week {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  column-gap: 8px;
+  align-items: stretch;
+  /* 🔑 mantém todas as células da semana com mesma altura */
+  border-bottom: 1px solid #e0e0e0;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 8px;
+  padding-left: 0px;
+  margin: 0;
+}
+
+/* mantém a linha inferior na última semana */
+.calendar-week.last {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* ===== Célula do dia ===== */
+.calendar-day {
+  min-height: 100px;
+  /* altura mínima */
+  height: auto;
+  /* cresce conforme o conteúdo */
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.calendar-day.today {
+  background: #f0f2f7;
+  border: 1px solid #d0d3da;
+}
+
+.calendar-day.selected {
+  background: #e0e3eb;
+  border: 1px solid #b0b5c0;
+}
+
+.calendar-day.weekend .date-label {
+  color: #e53935;
+}
+
+.calendar-day.outside .date-label {
+  color: #bdbdbd;
+}
+
+.calendar-day.outside.weekend .date-label {
+  color: #ef9a9a;
+}
+
+/* ===== Conteúdo da célula ===== */
+.date-cell {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  /* 🔑 empurra eventos pro final */
+}
+
+.date-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.events {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.event {
+  font-size: 0.8rem;
+  padding: 1px 1px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.event.pago {
+  background: #e6f8f0;
+  color: #2e7d32;
+}
+
+.event.aberto {
+  background: #fff4d6;
+  color: #b26a00;
+}
+
+.event.outro {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+/* ===== Responsividade ===== */
+@media (max-width: 900px) {
+  .calendar-header {
+    gap: 1.2rem;
+  }
+
+  .calendar-day {
+    min-height: 80px;
+  }
+}
+
+@media (max-width: 600px) {
+  .calendar-header {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .calendar-header .month-label,
+  .calendar-header .year-label {
+    font-size: 1.5rem;
+  }
+
+  .calendar-day {
+    min-height: 70px;
+  }
+
+  .date-label {
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,52 @@
+@import "./../../../../../assets/scss/variables";
+
+.content {
+
+  .card-establishments {
+    height: 6rem !important;
+    border-color: var(--bs-light);
+  }
+
+  .card {
+    min-height: 8rem;
+    height: auto;
+  }
+
+  .mb-0 {
+    margin-bottom: 0px;
+  }
+
+  .card-list-notifications {
+    height: auto !important;
+    border-color: var(--bs-light);
+  }
+
+  tr.element-row:not(.expanded-row):hover {
+    background: #efefef;
+  }
+
+  tr.element-row:not(.expanded-row):active {
+    background: #efefef;
+  }
+
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+
+  .mdc-list-item--with-three-lines .mdc-list-item__secondary-text {
+    white-space: normal !important;
+  }
+}
+
+.whats-img {
+  width: 10%;
+}
+
+.section-actions {
+  overflow: auto;
+
+  table {
+    width: 40%;
+    float: right;
+  }
+}

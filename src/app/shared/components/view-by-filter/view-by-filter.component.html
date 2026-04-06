@@ -1,0 +1,26 @@
+<div class="filter">
+  <h5>Visualize por</h5>
+  <div class="filter-option-list">
+
+    <button class="btn btn-primary me-1" *ngIf="currentValue === 'detail'; else light_detail_button"
+      (click)="selectDetail()">
+      Detalhe
+    </button>
+    <ng-template #light_detail_button>
+      <button class="btn bg-gray-600 text-white me-1" (click)="selectDetail()">
+        Detalhe
+      </button>
+    </ng-template>
+
+    <button class="btn btn-primary me-1" *ngIf="currentValue === 'calendar'; else light_calendar_button"
+      (click)="selectCalendar()">
+      Calendário
+    </button>
+    <ng-template #light_calendar_button>
+      <button class="btn bg-gray-600 text-white me-1" (click)="selectCalendar()">
+        Calendário
+      </button>
+    </ng-template>
+
+  </div>
+</div>

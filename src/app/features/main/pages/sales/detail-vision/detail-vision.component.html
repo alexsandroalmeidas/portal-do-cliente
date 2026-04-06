@@ -1,0 +1,326 @@
+<div class="row card-group-row mb-lg-8pt">
+  <div class="col card-group-row__col mb-3">
+    <div class="card card-group-row__card">
+      <div class="card-body">
+        <div class="row pt-3">
+          <div class="col-sm-3 p-3">
+            <label class="fw-bolder lbl-sales">Total vendido</label>
+          </div>
+          <div class="col-sm-3 p-3">
+            <label class="fw-bolder fs-5"> {{ totalAmount | currency : 'BRL' }}</label>
+          </div>
+          <div class="col-sm-3 border-left p-3">
+            <label class="fw-bolder lbl-sales">Quantidade de vendas</label>
+          </div>
+          <div class="col-sm-3 p-3">
+            <label class="fw-bolder fs-5"> {{ totalCount | number : '1.0-0' }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row card-group-row mb-lg-8pt pb-3" *ngIf="totalCount > 0">
+  <h6 class="fw-bolder">Totais por forma de pagamento</h6>
+
+  <div class="{{ totalCards > 4 ? 'col-sm' : 'col-sm-3' }}" *ngFor="let item of summarySales">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">
+          <label class="fw-bolder lbl-sales">{{ item.label }}</label>
+        </h6>
+
+        <table class="card-table table">
+          <thead></thead>
+          <tbody>
+            <tr>
+              <td>{{ item.count | number : '1.0-0' }} venda(s)</td>
+              <td class="text-end text-muted fs-percent">{{ item.countPercent }} %</td>
+            </tr>
+            <tr>
+              <td>{{ item.amount | currency : 'BRL' }}</td>
+              <td class="text-end text-muted fs-percent">{{ item.amountPercent }} %</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row card-group-row mb-lg-8pt" *ngIf="!!filterSales && filterSales.length > 0">
+  <div class="col card-group-row__col mb-3">
+    <div class="card card-group-row__card">
+      <div class="card-body">
+        <form [formGroup]="form" novalidate autocomplete="off">
+          <div class="row mb-3">
+            <div class="col-2 text-start">
+              Hora da Venda
+              <input id="saleTime" class="form-control" type="time" formControlName="saleTime" />
+            </div>
+            <div class="col-2 text-start">
+              Bandeiras
+              <ng-select
+                class="select text-secondary"
+                aria-placeholder="Selecione..."
+                placeholder="Selecione..."
+                [items]="cardBrandsOptions"
+                id="cardBrands"
+                bindLabel="label"
+                bindValue="value"
+                notFoundText="Nenhuma bandeira encontrada"
+                [markFirst]="true"
+                dropdownPosition="auto"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [clearSearchOnAdd]="false"
+                [searchable]="true"
+                [clearable]="true"
+                [virtualScroll]="true"
+                style="overflow: visible"
+                (change)="onCardBrandsChange($event)"
+              >
+              </ng-select>
+            </div>
+            <div class="col-3 text-start">
+              Formas de Pagamento
+              <ng-select
+                class="select text-secondary"
+                aria-placeholder="Selecione..."
+                placeholder="Selecione..."
+                [items]="paymentTypesOptions"
+                id="cardBrands"
+                bindLabel="label"
+                bindValue="value"
+                notFoundText="Nenhuma forma de pagamento encontrada"
+                [markFirst]="true"
+                dropdownPosition="auto"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [clearSearchOnAdd]="false"
+                [searchable]="true"
+                [clearable]="true"
+                [virtualScroll]="true"
+                style="overflow: visible"
+                (change)="onPaymentTypesChange($event)"
+              >
+              </ng-select>
+            </div>
+            <div class="col-2 text-start">
+              Status
+              <ng-select
+                class="select text-secondary"
+                aria-placeholder="Selecione..."
+                placeholder="Selecione..."
+                [items]="statusOptions"
+                id="cardBrands"
+                bindLabel="label"
+                bindValue="value"
+                notFoundText="Nenhum status encontrado"
+                [markFirst]="true"
+                dropdownPosition="auto"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [clearSearchOnAdd]="false"
+                [searchable]="true"
+                [clearable]="true"
+                [virtualScroll]="true"
+                style="overflow: visible"
+                (change)="onStatusChange($event)"
+              >
+              </ng-select>
+            </div>
+            <div class="col-3 text-start">
+              Identificação
+              <input id="nsu" class="form-control" type="text" formControlName="nsu" />
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-12 text-end">
+              <button class="btn btn-primary me-1 btn-export" (click)="onExport()">Exportar</button>
+            </div>
+          </div>
+        </form>
+
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+          <!-- DocumentNumber Column -->
+          <ng-container matColumnDef="documentNumber">
+            <th mat-header-cell *matHeaderCellDef sortable="documentNumber" (sort)="onSort($event)">
+              CNPJ
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.documentNumber | mask : 'CPF_CNPJ' }}
+            </td>
+          </ng-container>
+
+          <!-- SaleDate Column -->
+          <ng-container matColumnDef="saleDate">
+            <th mat-header-cell *matHeaderCellDef sortable="saleDate" (sort)="onSort($event)">
+              Data e Hora da Venda
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.saleDate | date : 'dd/MM/yyyy HH:mm' }}
+            </td>
+          </ng-container>
+
+          <!-- SaleAmount Column -->
+          <ng-container matColumnDef="saleAmount">
+            <th mat-header-cell *matHeaderCellDef sortable="saleAmount" (sort)="onSort($event)">
+              Valor da Venda
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.saleAmount | currency : 'BRL' : 'symbol' : '1.2-2' }}
+            </td>
+          </ng-container>
+
+          <!-- PaymentAmount  Column -->
+          <ng-container matColumnDef="paymentAmount">
+            <th mat-header-cell *matHeaderCellDef sortable="paymentAmount" (sort)="onSort($event)">
+              Valor do Pagamento
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.paymentAmount || 0 | currency : 'BRL' : 'symbol' : '1.2-2' }}
+            </td>
+          </ng-container>
+
+          <!-- CardBrand  Column -->
+          <ng-container matColumnDef="cardBrand">
+            <th mat-header-cell *matHeaderCellDef sortable="cardBrand" (sort)="onSort($event)">
+              Bandeira
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.cardBrand }}
+            </td>
+          </ng-container>
+
+          <!-- PaymentType  Column -->
+          <ng-container matColumnDef="paymentType">
+            <th mat-header-cell *matHeaderCellDef sortable="paymentType" (sort)="onSort($event)">
+              Forma de Pagamento
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.paymentType }}
+            </td>
+          </ng-container>
+
+          <!-- Identificação  Column -->
+          <ng-container matColumnDef="nsu">
+            <th mat-header-cell *matHeaderCellDef sortable="nsu" (sort)="onSort($event)">
+              Identificação
+            </th>
+
+            <td
+              mat-cell
+              *matCellDef="let element"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="{{ element.nsu }}"
+            >
+              <!-- {{element.nsu.length > 12 ? element.nsu.slice(0, 12) + '...' : element.nsu}} -->
+              {{ element.nsu }}
+            </td>
+          </ng-container>
+
+          <!-- Status  Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef sortable="status" (sort)="onSort($event)">
+              Status
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.status }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expand">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              aria-label="row actions"
+              style="padding: 0px !important"
+            >
+              &nbsp;
+            </th>
+            <td mat-cell *matCellDef="let element" style="padding: 0px !important">
+              <button
+                mat-icon-button
+                aria-label="expand row"
+                (click)="
+                  expandedElement = expandedElement === element ? null : element;
+                  $event.stopPropagation()
+                "
+              >
+                <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expandedDetail">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [attr.colspan]="columnsToDisplayWithExpand.length"
+            >
+              <div
+                class="element-detail-x"
+                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
+              >
+                <table style="width: 100%">
+                  <th>Nº da Autorização</th>
+                  <th class="pd-l-terminal-number">Nº do Equipamento</th>
+                  <th class="pd-l-discount-fee">Desconto da Taxa</th>
+                  <th class="pd-l-prepayment-fee-amount">Desconto da Antecipação</th>
+                  <th class="pd-l-cancellation-date">Data e Hora do Cancelamento</th>
+                  <th class="pd-l-cancellation-value">Valor do Cancelamento</th>
+                  <th class="pd-l-card-number">Nº do Cartão</th>
+                  <tr>
+                    <td>{{ element.authorizationCode }}</td>
+                    <td class="pd-l-terminal-number">{{ element.terminalNumber }}</td>
+                    <td class="pd-l-discount-fee">
+                      {{ element.discountFee | currency : 'BRL' : 'symbol' : '1.2-2' }}
+                    </td>
+                    <td class="pd-l-prepayment-fee-amount">
+                      {{ element.prepaymentFeeValue || 0 }}%
+                    </td>
+                    <td class="pd-l-cancellation-date">
+                      {{ element.cancellationDate | date : 'dd/MM/yyyy HH:mm' }}
+                    </td>
+                    <td class="pd-l-cancellation-value">
+                      {{ element.cancellationValue | currency : 'BRL' : 'symbol' : '1.2-2' }}
+                    </td>
+                    <td class="pd-l-card-number">{{ element.cardNumber }}</td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: columnsToDisplayWithExpand"
+            class="element-row"
+            [class.expanded-row]="expandedElement === element"
+            (click)="expandedElement = expandedElement === element ? null : element"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+        </table>
+
+        <pagination
+          class="pagination pagination-secondary d-flex justify-content-end"
+          [totalItems]="filteredItems.length"
+          [boundaryLinks]="true"
+          [maxSize]="maxSize"
+          [itemsPerPage]="itemsPerPage"
+          [(ngModel)]="tablePage"
+          previousText="&lsaquo;"
+          nextText="&rsaquo;"
+          firstText="&laquo;"
+          lastText="&raquo;"
+          (pageChanged)="onPaginate($event)"
+        >
+        </pagination>
+      </div>
+    </div>
+  </div>
+</div>

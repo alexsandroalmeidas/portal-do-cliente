@@ -1,0 +1,17 @@
+<h3 *ngIf="showTitle">Escolha de onde quer receber</h3>
+
+<mat-list>
+  <mat-list-item class="card-accreditations mt-3 horizontal-mat-list-item"
+    *ngFor="let accreditation of accreditations;">
+    <span class="item-accreditation">
+      <div class="mdc-checkbox">
+        <input type="checkbox" class="form-check-input fs-4" style="vertical-align: middle; margin: 0px;"
+          (click)="$event.stopPropagation()" (change)="onCheckboxChange($event, accreditation)"
+          [checked]="selection.isSelected(accreditation)">
+      </div>
+    </span>
+    <span class="fw-bolder">
+      <img class="w-4 img-accreditation {{accreditation.iconName}}"
+        src="./../../../../../../../../../assets/img/{{accreditation.documentNumber}}.png"></span>
+  </mat-list-item>
+</mat-list>

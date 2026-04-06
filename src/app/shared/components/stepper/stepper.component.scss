@@ -1,0 +1,14 @@
+:host {
+  .badge {
+    height: 16px;
+    width: 16px;
+
+    &:empty {
+      display: block;
+    }
+  }
+
+  hr {
+    width: 32px;
+  }
+}

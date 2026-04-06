@@ -1,0 +1,26 @@
+@import "./../../../../../assets/scss/variables";
+
+.content {
+
+  .card-establishments {
+    height: 6rem !important;
+    border-color: var(--bs-light);
+  }
+
+  .card {
+    height: 17rem;
+  }
+}
+
+.whats-img {
+  width: 10%;
+}
+
+.section-actions {
+  overflow: auto;
+
+  table {
+    width: 40%;
+    float: right;
+  }
+}

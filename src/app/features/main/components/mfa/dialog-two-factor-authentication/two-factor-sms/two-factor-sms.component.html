@@ -1,0 +1,63 @@
+<div class="d-flex flex-column justify-content-center gap-4 px-4 mt-1">
+  <div class="d-flex align-items-start gap-3">
+    <h4 class="flex-fill m-0 text-start text-gray-700" *ngIf="!isVerify; else verify_title">
+      Ativar autenticação de 2 fatores
+    </h4>
+
+    <ng-template #verify_title>
+      <h4 class="flex-fill m-0 text-start text-gray-700">
+        Autenticação de 2 fatores
+      </h4>
+    </ng-template>
+
+    <button class="btn bg-transparent d-flex align-items-center justify-content-center border-0 p-0"
+      (click)="onCancelClick()">
+      <span class="material-symbols-outlined text-gray-600">close</span>
+    </button>
+  </div>
+
+  <div class="d-flex justify-content-start align-items-start" *ngIf="!isVerify; else verify_bg">
+    <app-stepper [totalSteps]="3" [active]="2" color="gray"></app-stepper>
+  </div>
+
+  <ng-template #verify_bg>
+    <div class="d-flex justify-content-center align-items-center w-100 rounded bg-primary p-3">
+      <span class="material-symbols-outlined text-white" [style.font-size]="'50px'">phone_iphone</span>
+    </div>
+  </ng-template>
+
+  <h2 class="m-0 fw-bold text-primary fs-5">Verifique seu celular</h2>
+
+  <p class="m-0" *ngIf="!isScheduled">
+    Insira abaixo o código que foi enviado por SMS para o seu celular {{getPhoneNumber()}} pra concluir a ativação
+    de segurança.
+  </p>
+
+  <p class="m-0" *ngIf="isScheduled">
+    Insira abaixo o código que foi enviado por SMS para o número do seu celular {{getPhoneNumber()}} para concluir a
+    solicitação da antecipação programada.
+  </p>
+
+  <div class="d-flex align-items-center justify-content-center w-100">
+    <code-input [isCodeHidden]="false" [codeLength]="4" (codeCompleted)="onCodeCompleted($event)">
+    </code-input>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-center">
+    <button type="button" class="btn btn-outline-primary w-100" [disabled]="buttonResendDisabled"
+      (click)="onResendClick()">
+      {{display}}
+    </button>
+  </div>
+
+  <hr class="w-100 m-0">
+
+  <div class="d-flex align-items-center justify-content-start gap-2 mb-4">
+    <button class="btn btn-outline-primary px-3 py-2 fs-5" (click)="onCancelClick()">
+      Cancelar
+    </button>
+    <button class="btn btn-soft-green text-white px-3 py-2 fs-5" (click)="onConfirmClick()">
+      {{isVerify ? 'Verificar código' : 'Concluir ativação'}}
+    </button>
+  </div>
+</div>

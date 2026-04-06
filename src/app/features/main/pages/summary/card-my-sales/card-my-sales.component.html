@@ -1,0 +1,245 @@
+<div class="card summary-card card-my-sales">
+  <div class="card-body">
+    <div class="card-loader">
+      <ngx-ui-loader
+        loaderId="loader_summary_card_sales"
+        logoUrl=""
+        [hasProgressBar]="false"
+        [fgsSize]="50"
+        fgsColor="#4E2096"
+        fgsType="ball-spin-fade-rotating"
+        overlayColor="rgba(122,122,122,0.8)"
+      ></ngx-ui-loader>
+    </div>
+
+    <div class="row summary-card-header">
+      <div class="col col-md-5 d-flex align-items-start">
+        <span class="material-icons summary-card-icon">credit_card</span>
+        <div class="summary-card-title">
+          <h5 class="card-title d-flex align-items-center">
+            <span class="fw-bolder">Minhas vendas</span>
+            <span class="material-icons">help_outline</span>
+          </h5>
+          <span class="fs-7 card-subtitle mb-2 text-muted">{{
+            currentFilter | dateRange
+          }}</span>
+        </div>
+      </div>
+      <div class="col col-md-7 d-flex justify-content-end">
+        <div class="spacer"></div>
+        <app-inline-filter
+          (filter)="onFilterChange($event)"
+          [options]="filterOptions"
+          optionClass="btn-sm summary-card-action ms-1 mb-1"
+          initialValue="today"
+        >
+        </app-inline-filter>
+      </div>
+    </div>
+
+    <section class="summary-card-content">
+      <div class="total">
+        <div class="total-title">
+          <span>Total das vendas</span>
+          <span
+            class="material-icons span-icon"
+            [routerLink]="['/sales']"
+            [queryParams]="{
+              initialDate: currentFilter.from,
+              finalDate: currentFilter.to,
+              filterName: currentFilterName,
+            }"
+          >
+            chevron_right
+          </span>
+        </div>
+        <span class="total-amount">{{
+          hasError ? "-" : (totalAmount | currency: "BRL")
+        }}</span>
+        <span class="total-quantity"
+          >{{ hasError ? "-" : (approvedCount | number: "1.0-0") }} vendas
+          aprovadas</span
+        >
+      </div>
+
+      <div class="table-responsive">
+        <table style="width: 100%" class="table">
+          <th>Forma de pagamento</th>
+          <th>Quant. total de vendas</th>
+          <th class="text-end">Valor total das vendas</th>
+
+          <tr class="tr-border">
+            <td><span class="w-25 fw-bolder lbl-sales">Débito</span></td>
+            <td>
+              <div
+                class="d-flex align-items-center justify-content-center w-63"
+              >
+                <span class="fw-bolder">{{
+                  hasError ? "-" : (debitCount | number: "1.0-0")
+                }}</span>
+                <span class="text-muted ms-1 fw-semibolder"
+                  >{{
+                    hasError ? "-" : (debitCountPercent | number: "1.0-0")
+                  }}
+                  %</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center justify-content-end">
+                <span class="fw-bolder">{{
+                  hasError ? "-" : (debitAmount | currency: "BRL")
+                }}</span>
+                <span class="text-muted ms-2 fw-semibolder"
+                  >{{ hasError ? "-" : debitAmountPercent }} %</span
+                >
+                <span
+                  class="material-icons span-icon"
+                  [routerLink]="['/sales']"
+                  [queryParams]="{
+                    initialDate: currentFilter.from,
+                    finalDate: currentFilter.to,
+                    filterName: currentFilterName,
+                  }"
+                >
+                  chevron_right
+                </span>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="tr-border">
+            <td><span class="w-25 fw-bolder lbl-sales">Crédito</span></td>
+            <td>
+              <div
+                class="d-flex align-items-center justify-content-center w-63"
+              >
+                <span class="fw-bolder">{{
+                  hasError ? "-" : (creditCount | number: "1.0-0")
+                }}</span>
+                <span class="text-muted ms-1 fw-semibolder"
+                  >{{ hasError ? "-" : creditCountPercent }} %</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center justify-content-end">
+                <span class="fw-bolder">{{
+                  hasError ? "-" : (creditAmount | currency: "BRL")
+                }}</span>
+                <span class="text-muted ms-2 fw-semibolder"
+                  >{{ hasError ? "-" : creditAmountPercent }} %</span
+                >
+                <span
+                  class="material-icons span-icon"
+                  [routerLink]="['/sales']"
+                  [queryParams]="{
+                    initialDate: currentFilter.from,
+                    finalDate: currentFilter.to,
+                    filterName: currentFilterName,
+                  }"
+                >
+                  chevron_right
+                </span>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="tr-border">
+            <td><span class="w-25 fw-bolder lbl-sales">Voucher</span></td>
+            <td>
+              <div
+                class="d-flex align-items-center justify-content-center w-63"
+              >
+                <span class="fw-bolder">{{
+                  hasError ? "-" : (voucherCount | number: "1.0-0")
+                }}</span>
+                <span class="text-muted ms-1 fw-semibolder"
+                  >{{ hasError ? "-" : voucherCountPercent }} %</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center justify-content-end">
+                <span class="fw-bolder">{{
+                  hasError ? "-" : (voucherAmount | currency: "BRL")
+                }}</span>
+                <span class="text-muted ms-2 fw-semibolder"
+                  >{{ hasError ? "-" : voucherAmountPercent }} %</span
+                >
+                <span
+                  class="material-icons span-icon"
+                  [routerLink]="['/sales']"
+                  [queryParams]="{
+                    initialDate: currentFilter.from,
+                    finalDate: currentFilter.to,
+                    filterName: currentFilterName,
+                  }"
+                >
+                  chevron_right
+                </span>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="tr-border">
+            <td><span class="w-25 fw-bolder lbl-sales">Pix</span></td>
+            <td>
+              <div
+                class="d-flex align-items-center justify-content-center w-63"
+              >
+                <span class="fw-bolder">{{
+                  hasError ? "-" : (pixCount | number: "1.0-0")
+                }}</span>
+                <span class="text-muted ms-1 fw-semibolder"
+                  >{{ hasError ? "-" : pixCountPercent }} %</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center justify-content-end">
+                <span class="fw-bolder">{{
+                  hasError ? "-" : (pixAmount | currency: "BRL")
+                }}</span>
+                <span class="text-muted ms-2 fw-semibolder"
+                  >{{ hasError ? "-" : pixAmountPercent }} %</span
+                >
+                <span
+                  class="material-icons span-icon"
+                  [routerLink]="['/sales']"
+                  [queryParams]="{
+                    initialDate: currentFilter.from,
+                    finalDate: currentFilter.to,
+                    filterName: currentFilterName,
+                  }"
+                >
+                  chevron_right
+                </span>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="row">
+        <div class="d-flex justify-content-center align-items-center">
+          <span>As vendas serão atualizadas em instantes</span>
+        </div>
+        <div
+          class="d-flex justify-content-center align-items-center"
+          style="padding: 1rem; padding-top: 0 !important"
+        >
+          <span class="me-2"
+            >Última atualização:
+            {{ lastUpdateDate | date: "dd/MM/yyyy HH:mm" }}</span
+          >
+
+          <app-tooltip icon="info" position="bottom right">
+            <p><strong>Cartões:</strong> Atualizado a cada 5 minutos</p>
+            <p><strong>Pix:</strong> Atualizado a cada 5 minutos</p>
+          </app-tooltip>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

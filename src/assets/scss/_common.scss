@@ -1,0 +1,280 @@
+@import "./variables";
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  overscroll-behavior: contain;
+  overflow: auto;
+}
+
+.content-scroll {
+  overflow-y: scroll;
+  height: 89%;
+  margin-top: 0.5rem;
+}
+
+.container-fluid {
+  background: var(--bs-gray-200);
+  padding: 0;
+  margin: 0;
+  height: 100% !important;
+  display: inline-table;
+}
+
+main {
+  &.page-content {
+    padding: 1rem;
+    padding-top: calc($navbar-height + 0.5rem);
+    margin-left: $sidenav-width;
+
+    .heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      .page-title {
+        display: flex;
+        flex-direction: column;
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          color: $primary;
+          font-weight: bold;
+          margin: 0;
+        }
+      }
+
+      .page-actions {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+.btn-outline-secondary {
+  color: white;
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.btn-outline-secondary:hover {
+  // pointer-events: none;
+  color: #fbf9f7;
+  background-color: var(--primary);
+  border-color: #d9d3cc;
+  cursor: initial;
+}
+
+button,
+a {
+  &.btn {
+    border-radius: 10rem;
+
+    &:focus,
+    &:active {
+      box-shadow: none;
+      // border-color: transparent !important;
+    }
+
+    .btn-primary:active:focus,
+    .btn-light:active:focus,
+    .btn-secondary:active:focus {
+      box-shadow: none !important;
+    }
+  }
+}
+
+.text-gray-label {
+  color: #6f797a;
+}
+
+.btn-green {
+  color: white;
+  background-color: #00a183 !important;
+  border: #00a183 !important;
+}
+
+.btn-light-blue {
+  color: white;
+  background-color: #0d8aff !important;
+  border-color: #0d8aff !important;
+}
+
+.btn-light-blue:hover {
+  color: white;
+  background-color: #0d8aff !important;
+  border-color: #0d8aff !important;
+}
+
+.btn-light-gray {
+  color: white;
+  background-color: $gray-300 !important;
+  border-color: $gray-300 !important;
+}
+
+.btn-light-gray:hover {
+  color: white;
+  background-color: #0d8aff !important;
+  border-color: #0d8aff !important;
+}
+
+.btn-light {
+  color: white;
+  background-color: $gray-300 !important;
+  border-color: $gray-300 !important;
+}
+
+.btn-light:hover {
+  color: white !important;
+  background-color: $primary !important;
+  border-color: $primary !important;
+}
+
+.btn-date-filter-light {
+  color: white !important;
+  background-color: $gray-300 !important;
+  border-color: $gray-300 !important;
+}
+
+.btn-filter-light:hover,
+.btn-filter-light:focus,
+.btn-filter-light:active {
+  color: white !important;
+  background-color: #0d8aff !important;
+  border-color: #0d8aff !important;
+}
+
+.btn-icon {
+  display: block;
+  padding: 0.5em;
+  line-height: 1;
+  color: #212529;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0.25rem;
+  position: relative;
+}
+
+.field-error {
+  color: red;
+  font-size: 85%;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: none !important;
+}
+
+.hidden-xs-down {
+  display: none !important;
+}
+
+.material-icons,
+.material-symbols-outlined {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+::ng-deep .cdk-global-overlay-wrapper {
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+::ng-deep .cdk-overlay-container {
+  padding: 0px !important;
+  background-color: rgba(40, 40, 40, 0.8);
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__content {
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
+  line-height: var(--bs-body-line-height);
+  color: var(--bs-body-color);
+  text-align: var(--bs-body-text-align);
+  letter-spacing: (state(mdc-dialog-supporting-text-tracking), 0, px);
+  padding: 10px;
+}
+
+::ng-deep .mat-mdc-dialog-actions {
+  padding-right: 1.3rem;
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__title {
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: var(--bs-body-font-family);
+  line-height: var(--bs-body-line-height);
+  color: var(--bs-body-color);
+  text-align: var(--bs-body-text-align);
+  letter-spacing: (state(mdc-dialog-supporting-text-tracking), 0, px);
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 1.375rem !important;
+}
+
+.card {
+  border-radius: 0.375rem !important;
+}
+
+// .modal-header {
+//   display: flex;
+//   flex-shrink: 0;
+//   align-items: center;
+//   justify-content: space-between;
+//   padding: var(--bs-modal-header-padding);
+//   border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
+//   border-top-left-radius: var(--bs-modal-inner-border-radius);
+//   border-top-right-radius: var(--bs-modal-inner-border-radius)
+// }
+
+// .modal-header .btn-close {
+//   padding: calc(var(--bs-modal-header-padding-y) * .5) calc(var(--bs-modal-header-padding-x) * .5);
+//   margin: calc(-.5 * var(--bs-modal-header-padding-y)) calc(-.5 * var(--bs-modal-header-padding-x)) calc(-.5 * var(--bs-modal-header-padding-y)) auto
+// }
+
+.modal-title {
+  border-bottom: 1px solid #fbf9f7;
+  margin-bottom: 2rem;
+  color: #635d57;
+  //   margin-bottom: 0 !important;
+  //   line-height: var(--bs-modal-title-line-height) !important;
+}
+
+// .modal-body {
+//   position: relative !important;
+//   flex: 1 1 auto !important;
+//   padding: var(--bs-modal-padding) !important;
+// }
+
+// .modal-footer {
+//   display: flex !important;
+//   flex-shrink: 0 !important;
+//   flex-wrap: wrap !important;
+//   align-items: center !important;
+//   justify-content: flex-end !important;
+//   padding: calc(var(--bs-modal-padding) - var(--bs-modal-footer-gap) * .5) !important;
+//   background-color: var(--bs-modal-footer-bg) !important;
+//   border-top: var(--bs-modal-footer-border-width) solid var(--bs-modal-footer-border-color) !important;
+//   border-bottom-right-radius: var(--bs-modal-inner-border-radius) !important;
+//   border-bottom-left-radius: var(--bs-modal-inner-border-radius) !important;
+// }
+
+// .modal-footer>* {
+//   margin: calc(var(--bs-modal-footer-gap) * .5) !important;
+// }

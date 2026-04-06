@@ -1,0 +1,6 @@
+<div class="border-right sidebar text-white bg-primary" id="sidebar-wrapper" *ngIf="!!navItems && navItems.length > 0">
+  <ul class="nav nav-pills flex-column mb-auto">
+    <app-sidebar-nav-item *ngFor="let item of navItems" [item]="item">
+    </app-sidebar-nav-item>
+  </ul>
+</div>

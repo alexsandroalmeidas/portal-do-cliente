@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="col-8">
+
+        <div class="card calendar-card">
+            <div class="card-body">
+
+                <div class="row justify-content-md-center">
+                    <div class="col-md-auto d-flex align-items-center">
+
+                        <button type="button" class="btn btn-sm d-flex align-items-center">
+                            <div class="material-icons" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                                (click)="selectSalesCalendar()">
+                                arrow_back_ios
+                            </div>
+
+                        </button>
+
+                        <div class="calendar-month">{{ viewDate | date:"MMMM" }}</div>
+
+                        <button type="button" class="btn btn-sm d-flex align-items-center">
+                            <div class="material-icons" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                                (click)="selectSalesCalendar()">
+                                arrow_forward_ios
+                            </div>
+                        </button>
+
+                        <button type="button" class="btn btn-sm d-flex align-items-center">
+                            <span class="material-icons" (click)="onChangePastYear(viewDate)"> arrow_back_ios </span>
+                        </button>
+
+                        <div class="calendar-month wd-year">{{ viewDate | date:'YYYY' }}</div>
+
+                        <button type="button" class="btn btn-sm d-flex align-items-center">
+                            <span class="material-icons" (click)="onChangeNextYear(viewDate)"> arrow_forward_ios </span>
+                        </button>
+                    </div>
+                </div>
+
+                <mwl-calendar-month-view [viewDate]="viewDate" [refresh]="refresh" [events]="events"
+                    [cellTemplate]="customCellTemplate" (dayClicked)="dayClicked($event.day)"
+                    (beforeViewRender)="beforeMonthViewRender($event)">
+                </mwl-calendar-month-view>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-4 pl-0">
+
+        <div class="card calendar-card">
+            <div class="card-body">
+
+                <div class="row" *ngIf="totalCount > 0">
+                    <div class="col-12 text-end">
+                        <button class="btn btn-primary me-1 btn-export" (click)="onExport()">Exportar</button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead></thead>
+                        <tbody>
+                            <tr class="bdr-none">
+                                <td class="fw-bolder lbl-sales pt-3 pb-3 pl-0">Total vendido</td>
+                                <td class="text-end fw-bolder fs-5">{{totalAmount | currency:'BRL'}}</td>
+                            </tr>
+                            <tr class="bdr-none">
+                                <td class="fw-bolder lbl-sales pt-3 pb-3 pl-0">Quantidade de vendas</td>
+                                <td class="text-end fw-bolder fs-5">{{totalCount | number: '1.0-0'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="hr-tot">
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="first-col">Forma de Pagamento</th>
+                                <th scope="col">Quant. total de vendas</th>
+                                <th scope="col">Valor total das vendas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of summarySales">
+                                <td class="lbl-sales pt-3 pb-3">{{item.label}}</td>
+                                <td class="text-center">{{item.count | number: '1.0-0'}}</td>
+                                <td class="text-center">{{item.amount | currency:'BRL'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<ng-template #customCellTemplate let-day="day" let-locale="locale" let-openDay="openDay"
+    let-tooltipPlacement="tooltipPlacement" let-highlightDay="highlightDay" let-unhighlightDay="unhighlightDay"
+    let-eventClicked="eventClicked" let-tooltipTemplate="tooltipTemplate" let-tooltipAppendToBody="tooltipAppendToBody"
+    let-tooltipDelay="tooltipDelay" let-trackByEventId="trackByEventId" let-validateDrag="validateDrag">
+    <div class="cal-cell-top">
+        <span class="cal-day-number">{{ day.date | calendarDate: 'monthViewDayNumber':locale }}</span>
+    </div>
+    <small style="margin: 5px">
+        {{getAmmountSaleDay(day.events[0]) | currency:'BRL'}}
+    </small>
+    <small style=" margin: 5px">
+        {{getCountSaleDay(day.events[0])}}
+    </small>
+</ng-template>

@@ -1,0 +1,144 @@
+@import "./../../../../../assets/scss/variables";
+
+.card {
+  border: none;
+}
+
+.mt-01 {
+  margin-top: 0.1rem;
+}
+
+.hr-position {
+  width: 90%;
+  margin-left: 5% !important;
+}
+
+.infos {
+  display: block;
+}
+
+.circle-establishment {
+  height: 100px;
+  width: 100px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  color: var(--bs-white);
+  justify-content: center;
+}
+
+.icon-store {
+  font-size: 2.5rem;
+  height: unset !important;
+  width: unset !important;
+}
+
+.my-data-headers-align .mat-expansion-panel {
+  box-shadow: none;
+}
+
+.my-data-headers-align .mat-expansion-panel-header {
+  padding-top: 0px;
+  padding-right: 5px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.my-data-headers-align .mat-expansion-panel-header-description {
+  justify-content: flex-start;
+  font-size: larger;
+}
+
+.my-data-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+.bank-icon {
+  width: 30%;
+  border-radius: 0.5rem;
+}
+
+.bank-img {
+  display: block;
+}
+
+.bank-name {
+  display: block;
+}
+
+.msg-header-img {
+  flex-grow: 0;
+}
+
+.msg-header-img img {
+  width: 50px;
+}
+
+.list-my-data {
+  .list-group {
+    .list-group-item {
+      padding: 0;
+      border: unset;
+      background-color: unset !important;
+
+      .form-check-input:disabled {
+        opacity: unset !important;
+      }
+    }
+  }
+}
+
+.card-brand-icon {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 80px;
+}
+
+.card-brand-icon-pix {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 100px;
+}
+
+mat-icon {
+  vertical-align: middle;
+}
+
+.my-data-headers-align .mat-expansion-indicator {
+  padding-bottom: 0.5rem !important;
+}
+
+.h-94 {
+  height: calc(100% - 3px);
+}
+
+.icon-check {
+  color: green;
+  width: 35px;
+}
+
+table {
+  th {
+    border: 1pt solid #dee2e6 !important;
+  }
+
+  tr {
+    border-bottom: 1pt solid #dee2e6 !important;
+    border-top: 1pt solid #dee2e6 !important;
+
+    td {
+      border: 1pt solid #dee2e6 !important;
+    }
+  }
+
+  .pl-05 {
+    padding-left: 1rem !important;
+  }
+
+  .pt-01 {
+    padding-top: 1rem !important;
+  }
+}

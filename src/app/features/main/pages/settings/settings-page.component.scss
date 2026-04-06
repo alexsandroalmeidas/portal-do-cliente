@@ -1,0 +1,38 @@
+.page-content {
+  .settings-card {
+    .settings-card-content {
+      display: flex;
+      margin-top: 1rem;
+
+      ::ng-deep mat-radio-group {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        mat-radio-button {
+          &.theme-selector {
+            width: 8rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .mat-radio-label {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+            &.light {
+              background: #fafafa;
+            }
+
+            &.dark {
+              background: #303030;
+            }
+          }
+        }
+      }
+    }
+  }
+}

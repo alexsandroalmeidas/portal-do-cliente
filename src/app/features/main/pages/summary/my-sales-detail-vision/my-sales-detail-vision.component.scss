@@ -1,0 +1,99 @@
+@import "./../../../../../../assets/scss/variables";
+
+.summary-card-content {
+
+  ::ng-deep .ngx-position-absolute.ngx-overlay {
+    z-index: 92 !important;
+  }
+
+  .card-loader {
+    display: flex;
+    justify-content: center;
+    font-size: 35px;
+  }
+
+  .lbl-sales {
+    color: var(--bs-gray-300);
+  }
+
+  .vertical-line {
+    border-left: thick solid #ff0000;
+  }
+
+  .border-left {
+    border-left: 1px solid currentColor;
+  }
+
+  .fs-percent {
+    font-size: 0.6rem;
+  }
+
+  .content-acordion {
+    width: 100%;
+  }
+
+  tr.detail-row {
+    height: 0;
+  }
+
+  tr.element-row:not(.expanded-row):hover {
+    background: #efefef;
+  }
+
+  tr.element-row:not(.expanded-row):active {
+    background: #efefef;
+  }
+
+  td.cdk-column-expand,
+  td.cdk-column-expand {
+    padding: 1rem !important;
+  }
+
+  td.cdk-column-documentNumber,
+  td.mat-column-documentNumber {
+    width: 16% !important;
+  }
+
+  td.cdk-column-saleDate,
+  td.mat-column-saleDate {
+    width: 14% !important;
+  }
+
+  .element-detail-x {
+    padding-left: 1rem;
+
+    table {
+      th {
+        background-color: whitesmoke !important;
+      }
+
+      .pd-l-discount-fee {
+        padding-left: 3.6%;
+      }
+
+      .pd-l-cancellation-date {
+        padding-left: 2.2%;
+      }
+
+      .pd-l-cancellation-value {
+        padding-left: 2.2%;
+      }
+
+      .pd-l-terminal-number {
+        padding-left: 1.5%;
+      }
+
+      .pd-l-prepayment-fee-amount {
+        padding-left: 4.7%;
+      }
+
+      .pd-l-card-number {
+        // padding-left: 2.2%;
+      }
+    }
+  }
+
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+}

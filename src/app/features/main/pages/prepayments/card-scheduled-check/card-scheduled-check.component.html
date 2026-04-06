@@ -1,0 +1,106 @@
+<h1 mat-dialog-title>
+  <div class="p-1-title">
+    Confira os dados
+  </div>
+</h1>
+
+<div class="content-info-list">
+  <div class="list">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-bolder text-uppercase">Período</span>
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="info-label mr-2"><b>{{getScheduledMode}}</b></span>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item" *ngIf="!!selection">
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-bolder text-uppercase">Seleção</span>
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="fw-bolder info-label mr-2" *ngIf="visibilityOn; else hidden_selection">
+              {{selection}}
+            </span>
+
+            <ng-template #hidden_selection>
+              <span class="lh-1">{{selection | hiddenValue:'&lowast;':5 }}</span>
+            </ng-template>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-bolder text-uppercase">Taxa Aplicada ao dia</span>
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="fw-bolder info-label mr-2" *ngIf="visibilityOn; else hidden_rate">
+              {{rate | number:'1.3-5' | slice:0:5}} %
+            </span>
+
+            <ng-template #hidden_rate>
+              <span class="lh-1">{{rate || 0 | hiddenValue:'&lowast;':5 }}</span>
+            </ng-template>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item" *ngIf="!!selectedAccreditations">
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-bolder text-uppercase">Adquirente(s)</span>
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="fw-bolder info-label mr-2" *ngIf="visibilityOn; else hidden_checked_accreditations">
+
+              <ul class="ul-accreditations">
+                <li class="li-accreditations" *ngFor="let check of selectedAccreditations">
+                  {{getAccreditationName(check)}}
+                </li>
+              </ul>
+
+            </span>
+
+            <ng-template #hidden_checked_accreditations>
+              <span class="lh-1">{{0 | hiddenValue:'&lowast;':5 }}</span>
+            </ng-template>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="content-info">
+  <mat-list-item class="pb-1 pt-1 pl-0">
+    <span class="text-start info-label val-left">Conta em que você vai receber</span>
+  </mat-list-item>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <span class="text-uppercase">Banco:</span>
+      </div>
+      <div class="col">
+        <span class="text-uppercase">Agência:</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <span class="fw-bolder">{{bankingAccount.bank}}</span>
+      </div>
+      <div class="col">
+        <span class="fw-bolder">{{bankingAccount.agency}}</span>
+      </div>
+    </div>
+
+    <div class="row pt-1">
+      <div class="col">
+        <span class="text-uppercase">Conta Corrente:</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <span class="fw-bolder">{{bankingAccount.accountNumber}}</span>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+</div>

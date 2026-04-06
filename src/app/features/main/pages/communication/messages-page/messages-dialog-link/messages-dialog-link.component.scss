@@ -1,0 +1,43 @@
+thead,
+tbody {
+  display: block;
+}
+tbody {
+  max-height: 16rem;
+  overflow: auto;
+  cursor: pointer !important;
+
+  tr {
+    text-align: center !important;
+    width: 100% !important;
+  }
+}
+thead {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.modal-body {
+  padding-bottom: 0px !important;
+}
+
+.col-1 {
+  width: 35% !important;
+}
+
+.col-2 {
+  width: 6% !important;
+}
+
+.col-3 {
+  width: 27% !important;
+}
+
+.col-4 {
+  width: 27% !important;
+}
+
+.t-align-start {
+  text-align: start !important;
+}

@@ -1,0 +1,124 @@
+<div class="table-responsive">
+  <input
+    id="filter"
+    placeholder="Pesquisar"
+    class="form-control"
+    type="text"
+    [formControl]="filter"
+  />
+
+  <table cdk-table [dataSource]="dataSource" class="table table-hover">
+    <ng-container cdkColumnDef="createdDate">
+      <th
+        cdk-header-cell
+        *cdkHeaderCellDef
+        sortable="createdDate"
+        (sort)="onSort($event)"
+      >
+        Data Criação
+      </th>
+      <td cdk-cell *cdkCellDef="let row" class="fw-bolder">
+        {{ row.createdDate | date : "dd/MM/yyyy" }}
+      </td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="initialDate">
+      <th
+        cdk-header-cell
+        *cdkHeaderCellDef
+        sortable="initialDate"
+        (sort)="onSort($event)"
+      >
+        Vigência Inicial
+      </th>
+      <td cdk-cell *cdkCellDef="let row" class="fw-bolder">
+        {{ row.initialDate | date : "dd/MM/yyyy" }}
+      </td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="finalDate">
+      <th
+        cdk-header-cell
+        *cdkHeaderCellDef
+        sortable="finalDate"
+        (sort)="onSort($event)"
+      >
+        Vigência Final
+      </th>
+      <td cdk-cell *cdkCellDef="let row" class="fw-bolder">
+        {{ row.finalDate | date : "dd/MM/yyyy" }}
+      </td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="action">
+      <th cdk-header-cell *cdkHeaderCellDef>Opções</th>
+      <td cdk-cell *cdkCellDef="let row">
+        <div class="d-flex justify-content-start">
+          <button
+            class="btn btn-outline-secondary btn-actions me-1"
+            title="Editar"
+            (click)="onEdit(row)"
+            [disabled]="verifyFinalDate(row.finalDate)"
+          >
+            <i class="material-icons">edit</i>
+          </button>
+          <button
+            class="btn btn-outline-secondary btn-actions"
+            title="Excluir"
+            (click)="onDeleteModal(templateDelete, row)"
+          >
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr cdk-header-row *cdkHeaderRowDef="columnsToDisplay"></tr>
+    <tr
+      cdk-row
+      *cdkRowDef="let element; columns: columnsToDisplay"
+      class="element-row"
+    ></tr>
+  </table>
+
+  <pagination
+    class="pagination pagination-secondary d-flex justify-content-end"
+    [totalItems]="filteredItems.length"
+    [boundaryLinks]="true"
+    [maxSize]="5"
+    [itemsPerPage]="itemsPerPage"
+    [(ngModel)]="tablePage"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;"
+    (pageChanged)="onPaginate($event)"
+  >
+  </pagination>
+</div>
+
+<ng-template #templateDelete>
+  <div class="modal-header heading hd-bd">
+    <h4 class="modal-title pull-left title">Exclusão de registro</h4>
+  </div>
+  <div class="modal-body">
+    Confirma a exclusão do banner
+    <div
+      style="display: inline-block"
+      [innerHTML]="byPassTitle(bannerToDeleteTitle)"
+    ></div>
+    ?
+  </div>
+  <div class="modal-footer">
+    <button cdk-button class="btn btn-outline-secondary" (click)="onDelete()">
+      Sim
+    </button>
+    <button
+      cdk-button
+      class="btn btn-outline-secondary"
+      (click)="bsModalRef.hide()"
+    >
+      Não
+    </button>
+  </div>
+</ng-template>

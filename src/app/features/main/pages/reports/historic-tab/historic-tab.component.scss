@@ -1,0 +1,45 @@
+.card {
+  border: none;
+}
+
+.coluna-cnpjs {
+  max-width: 250px;
+
+  ul {
+    list-style-type: none;
+  }
+}
+
+.coluna-equipments {
+  max-width: 250px;
+
+  ul {
+    list-style-type: none;
+  }
+}
+
+.card-resumo {
+  margin-right: 10px;
+  margin-left: 10px;
+  min-width: 200px;
+  min-height: 121px;
+
+  .card-body {
+    .card-title {
+      display: flex;
+      justify-content: center;
+    }
+
+    .card-text,
+    .card-loader {
+      display: flex;
+      justify-content: center;
+      font-size: 35px;
+    }
+  }
+}
+
+.establishment-error-message {
+  color: red;
+  font-weight: bold;
+}

@@ -1,0 +1,143 @@
+/* Forçar arredondamento do Angular Material Dialog */
+::ng-deep .cdk-overlay-pane,
+::ng-deep .mat-mdc-dialog-container,
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface,
+::ng-deep mat-dialog-container {
+  border-radius: 1.375rem !important;
+}
+
+:host {
+  /* Centralizar modal */
+  ::ng-deep .cdk-global-overlay-wrapper {
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  /* Forçar bordas arredondadas no container */
+  ::ng-deep .cdk-overlay-pane {
+    border-radius: 1.375rem !important;
+    overflow: hidden !important;
+  }
+
+  /* Container Angular Material */
+  ::ng-deep .mat-mdc-dialog-container {
+    border-radius: 1.375rem !important;
+    overflow: hidden !important;
+    background: transparent !important; // evita que fundo quadrado apareça
+  }
+
+  /* Surface (camada interna visível) */
+  ::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 1.375rem !important;
+    overflow: hidden !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    background: #fff !important;
+  }
+
+  ::ng-deep mat-dialog-container {
+    border-radius: 1.375rem !important;
+    overflow: hidden !important;
+  }
+
+  /* Garantir que backdrop respeite */
+  ::ng-deep .mdc-dialog__scrim {
+    border-radius: 1.375rem !important;
+  }
+
+  /* Conteúdo */
+  ::ng-deep .mat-mdc-dialog-container .mdc-dialog__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem 0.75rem 1rem;
+    overflow: hidden;
+    padding-top: 0 !important;
+  }
+
+  /* Cabeçalho */
+  .modal-header {
+    padding: 0;
+    border: none;
+
+    h5 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+      color: #222;
+    }
+  }
+
+  /* Campo busca */
+  .filter {
+    margin: 0 0 0.5rem 0;
+
+    input {
+      border-radius: 6px;
+      font-size: 0.85rem;
+      padding: 2.15rem 0.6rem 0.35rem 0.6rem;
+      height: 32px;
+    }
+  }
+
+  /* Tabela */
+  .table-container {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 0.5rem;
+    padding-bottom: 2rem;
+
+    table {
+      font-size: 0.78rem;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #fafafa;
+      font-weight: 600;
+      height: 26px;
+      padding: 0.15rem 0.35rem;
+      text-align: center;
+      vertical-align: middle;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    td {
+      padding: 0.15rem 0.35rem;
+      text-align: center;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 160px;
+      vertical-align: middle;
+      line-height: 1.2;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+  }
+
+  /* Rodapé fixo */
+  mat-dialog-actions {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding: 0.5rem 1rem;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+
+    button {
+      min-width: 110px;
+      font-weight: 500;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      height: 32px;
+    }
+  }
+}

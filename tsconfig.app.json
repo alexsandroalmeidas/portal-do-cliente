@@ -6,9 +6,17 @@
     "types": []
   },
   "files": [
-    "src/main.ts"
+    "src/main.ts",
+    "src/polyfills/array.ts",
+    "src/polyfills/date.ts",
+    "src/polyfills/number.ts",
+    "src/polyfills/string.ts",
+    "src/polyfills/object.ts",
+    "src/polyfills/buffer.ts",
+    "src/polyfills/medallia.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "/etc/nginx/mime.types"
   ]
 }

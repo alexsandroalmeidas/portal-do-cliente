@@ -1,0 +1,172 @@
+:host {
+  .dialog-title {
+    font-size: 1.3rem !important;
+    font-weight: 500 !important;
+    font-family: var(--bs-body-font-family) !important;
+    line-height: var(--bs-body-line-height) !important;
+    color: var(--bs-body-color) !important;
+    text-align: center !important;
+    top: 0px;
+    display: inline-flex;
+  }
+
+  .mat-dialog-title {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    font-family: var(--bs-body-font-family) !important;
+    line-height: var(--bs-body-line-height) !important;
+    color: var(--bs-body-color) !important;
+    text-align: center !important;
+    letter-spacing: (state(mdc-dialog-supporting-text-tracking), 0, px) !important;
+
+    padding-top: 0px !important;
+    margin-top: 9px !important;
+    /* top: 0px; */
+    display: flex !important;
+  }
+
+  ::ng-deep .mat-mdc-dialog-actions.mat-mdc-dialog-actions-align-end,
+  .mat-mdc-dialog-actions[align=end] {
+    padding-bottom: 2rem !important;
+  }
+
+  ::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 1.375rem !important;
+  }
+
+  ::ng-deep .cdk-global-overlay-wrapper {
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  ::ng-deep .cdk-overlay-container {
+    padding: 0px !important;
+    background-color: rgba(40, 40, 40, 0.8) !important;
+  }
+
+  .row {
+    width: 98% !important;
+  }
+
+  .sub-title {
+    margin-top: 0px;
+    margin-bottom: 1rem;
+    padding-left: 1.7rem;
+  }
+
+  .fs-14 {
+    font-size: 14px !important;
+  }
+
+  .fs-20 {
+    font-size: 20px !important;
+  }
+
+  .pl-18 {
+    padding-left: 1.8rem;
+  }
+
+  .card-establishment {
+    background: #F3F3F6;
+    width: 90%;
+    border-radius: 1.375rem !important;
+    margin-left: 1rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    border: 1px solid lightgray;
+
+    .content {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      text-align: center;
+    }
+  }
+
+  .text-gray {
+    color: #5C5D72;
+  }
+
+  .p-1-title {
+    font-size: 1.3rem;
+    text-align: start;
+  }
+
+  ul {
+    list-style-type: none;
+    margin-top: 4px;
+  }
+
+  .fs-bullet {
+    font-size: 15px !important;
+    padding-top: 0.4rem;
+  }
+
+  .pl-05 {
+    padding-left: 0.5rem !important;
+  }
+
+  .pt-1 {
+    padding-top: 1rem !important;
+  }
+
+  .list-prepayments {
+    width: 10%;
+    padding: 1rem;
+    --bs-list-group-bg: unset !important;
+
+    .list-group {
+      .list-group-item {
+        padding: 0.5rem 0;
+        border: unset;
+        padding-bottom: 0.5rem !important;
+        padding-top: 0.5rem !important;
+
+        .form-check-input:disabled {
+          opacity: unset !important;
+        }
+      }
+    }
+  }
+
+  // .card {
+  //   border: none;
+  // }
+
+  // .dv-lbl-filter {
+  //   display: table;
+  // }
+
+  // .lbl-filter {
+  //   display: table-cell;
+  //   vertical-align: middle !important;
+  //   text-align: left;
+  // }
+
+  // .pl-5 {
+  //   padding-left: 5rem !important;
+  // }
+
+  // .whats-img {
+  //   width: 10%;
+  // }
+
+  // .section-actions {
+  //   overflow: auto;
+
+  //   table {
+  //     width: 40%;
+  //     float: right;
+  //   }
+  // }
+
+  // .mt-1 {
+  //   margin-top: 1rem !important;
+  // }
+
+  // .heading {
+  //   padding-top: 1rem;
+  // }
+
+
+
+}

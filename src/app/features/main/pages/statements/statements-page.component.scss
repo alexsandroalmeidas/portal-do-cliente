@@ -1,0 +1,30 @@
+.card {
+  border: none;
+}
+
+.dv-lbl-filter {
+  display: table;
+}
+
+.lbl-filter {
+  display: table-cell;
+  vertical-align: middle !important;
+  text-align: left;
+}
+
+.pl-5 {
+  padding-left: 5rem !important;
+}
+
+.whats-img {
+  width: 10%;
+}
+
+.section-actions {
+  overflow: auto;
+
+  table {
+    width: 40%;
+    float: right;
+  }
+}

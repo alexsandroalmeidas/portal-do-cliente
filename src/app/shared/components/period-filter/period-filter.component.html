@@ -1,0 +1,76 @@
+<div class="filter">
+  <h5 class="filter-title">{{ title }}</h5>
+  <div class="filter-option-list">
+    <button
+      class="btn btn-primary me-1"
+      *ngIf="currentValue === 'today' && !justCustom; else light_today_button"
+      (click)="selectToday()"
+    >
+      Hoje
+    </button>
+    <ng-template #light_today_button>
+      <button *ngIf="!justCustom" class="btn bg-gray-600 text-white me-1" (click)="selectToday()">
+        Hoje
+      </button>
+    </ng-template>
+
+    <button
+      class="btn btn-primary me-1"
+      *ngIf="currentValue === 'oneDay' && !justCustom; else light_yesterday_button"
+      (click)="selectOneDay()"
+    >
+      {{ labels[time].oneDay }}
+    </button>
+    <ng-template #light_yesterday_button>
+      <button *ngIf="!justCustom" class="btn bg-gray-600 text-white me-1" (click)="selectOneDay()">
+        {{ labels[time].oneDay }}
+      </button>
+    </ng-template>
+
+    <button
+      class="btn btn-primary me-1"
+      *ngIf="currentValue === 'weekly' && !justCustom; else light_last_week_button"
+      (click)="selectWeekly()"
+    >
+      {{ labels[time].weekly }}
+    </button>
+    <ng-template #light_last_week_button>
+      <button *ngIf="!justCustom" class="btn bg-gray-600 text-white me-1" (click)="selectWeekly()">
+        {{ labels[time].weekly }}
+      </button>
+    </ng-template>
+
+    <button
+      class="btn btn-primary me-1"
+      *ngIf="currentValue === 'monthly' && !justCustom; else light_last_month_button"
+      (click)="selectMonthly()"
+    >
+      {{ labels[time].monthly }}
+    </button>
+    <ng-template #light_last_month_button>
+      <button *ngIf="!justCustom" class="btn bg-gray-600 text-white me-1" (click)="selectMonthly()">
+        {{ labels[time].monthly }}
+      </button>
+    </ng-template>
+
+    <button
+      class="btn btn-primary me-1"
+      *ngIf="currentValue === 'custom'; else light_custom_button"
+      (click)="selectCustom()"
+    >
+      <span class="d-flex align-items-center">
+        {{ currentPeriod.initialDate | date: 'dd/MM/yyyy' }} -
+        {{ currentPeriod.finalDate | date: 'dd/MM/yyyy' }}
+        <i class="material-icons ms-1">calendar_today</i>
+      </span>
+    </button>
+    <ng-template #light_custom_button>
+      <button class="btn bg-gray-600 text-white me-1" (click)="selectCustom()">
+        <span class="d-flex align-items-center">
+          Selecionar período
+          <i class="material-icons ms-1">calendar_today</i>
+        </span>
+      </button>
+    </ng-template>
+  </div>
+</div>

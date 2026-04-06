@@ -1,0 +1,121 @@
+:host {
+  @import "./../../../../../assets/scss/variables";
+
+
+
+  .whats-img {
+    width: 10%;
+  }
+
+  .section-actions {
+    overflow: auto;
+
+    table {
+      width: 40%;
+      float: right;
+    }
+  }
+
+  .content {
+
+    .title-label {
+      font-size: 1rem;
+      color: #162056;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .title-label-number {
+      font-size: 1rem;
+      color: red;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .card-establishments {
+      height: 7rem !important;
+      border-color: var(--bs-light);
+    }
+
+    .card-prepayment-img {
+      width: 100%;
+      height: 10rem !important;
+      border: unset !important;
+
+      .p-0 {
+        padding: 0px !important;
+      }
+
+      .img-available-hg {
+        height: 17rem !important;
+      }
+    }
+
+    .card-prepayments {
+      height: auto !important;
+    }
+
+    .fs-icon-available {
+      font-size: 45px;
+    }
+
+    .fs-icon-verified {
+      font-size: x-large;
+    }
+
+    .prepayment-icon-verified {
+      color: dodgerblue;
+    }
+
+    .fs-14 {
+      font-size: medium !important;
+    }
+
+    .fs-30 {
+      font-size: 30px !important;
+    }
+
+    .pl-0 {
+      padding-left: 0px !important;
+    }
+
+    .pl-01 {
+      padding-left: 0.1rem !important;
+    }
+
+    .pl-05 {
+      padding-left: 0.5rem !important;
+    }
+
+    .pr-09 {
+      padding-right: 9px !important;
+    }
+
+    .pt-1 {
+      padding-top: 1rem !important;
+    }
+
+    ::ng-deep .ng-select .ng-select-container {
+      background-color: #F8F8F8 !important;
+      border: 1px solid #444559 !important;
+    }
+
+    ::ng-deep .ng-select.ng-select-single .ng-select-container .ng-value-container {
+      background-color: #F8F8F8 !important;
+      color: #444559 !important;
+    }
+
+    ::ng-deep ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {
+      background-color: #F8F8F8 !important;
+      color: #444559 !important;
+    }
+
+    ::ng-deep .ng-select .ng-arrow-wrapper .ng-arrow {
+      border-color: var(--bs-primary) transparent transparent !important;
+    }
+
+    ::ng-deep .ng-select .ng-clear-wrapper {
+      color: var(--bs-primary) !important;
+    }
+  }
+}

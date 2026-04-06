@@ -1,0 +1,406 @@
+:host {
+  --primary-color: var(--bs-primary);
+  --secondary-color: var(--bs-secondary);
+  --light-gray: lightgray;
+  --bg-light: var(--bs-light);
+  --bg-dark: #111111;
+  --text-gray: #5c5d72;
+  --text-red: red;
+  --btn-bg: #f3f3f6;
+  --btn-hover-bg: #0d8aff;
+  --btn-border: 1px solid lightgray;
+
+  .card {
+    height: 30rem;
+    border-color: var(--bg-light);
+  }
+
+  .title-label,
+  .title-label-error,
+  .title-label-number {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .title-label {
+    color: #4e2096;
+  }
+
+  .title-label-error,
+  .title-label-number {
+    color: var(--text-red);
+  }
+
+  .pt-01 {
+    padding-top: 0.5rem;
+  }
+
+  .pt-03 {
+    padding-top: 0.3rem;
+  }
+
+  .pt-1-button {
+    padding-top: 1rem;
+    padding-bottom: 2.2rem;
+  }
+
+  .pt-0 {
+    padding-top: 0;
+  }
+
+  .card-daily,
+  .card-check,
+  .card-weekly,
+  .card-monthly {
+    height: 40%;
+    border: var(--btn-border);
+  }
+
+  .card-daily {
+    min-height: 40%;
+  }
+
+  .container {
+    position: relative;
+  }
+
+  .btn-selected {
+    width: 100%;
+    padding: 0.8rem;
+  }
+
+  .content-info {
+    width: 63%;
+  }
+
+  .content-info-list {
+    width: 50%;
+  }
+
+  .btn-confirm {
+    background-color: #00a183;
+    border: none;
+  }
+
+  .div-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+  }
+
+  .pt-16 {
+    padding-top: 1.8rem;
+  }
+
+  .pt-07 {
+    padding-top: 0.7rem;
+  }
+
+  .card-schedules {
+    background: #f8f8f8;
+    border-radius: 1.375rem;
+    border: 1px solid #c5c4dd;
+  }
+
+  .card-schedules .content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    text-align: center;
+  }
+
+  .form-check-input:checked {
+    background-color: #0d8aff;
+    border-color: #0d8aff;
+  }
+
+  .list-prepayments {
+    width: 10%;
+    padding: 1rem;
+    --bs-list-group-bg: unset;
+
+    .list-group {
+      .list-group-item {
+        padding: 0.5rem 0;
+        border: unset;
+        padding-bottom: 0.5rem;
+        padding-top: 0.5rem;
+
+        .form-check-input:disabled {
+          opacity: unset;
+        }
+      }
+    }
+  }
+
+  .fs-bullet {
+    font-size: 15px;
+  }
+
+  .fs-14 {
+    font-size: 14px;
+  }
+
+  .fs-20 {
+    font-size: 20px;
+  }
+
+  .pb-01 {
+    padding-bottom: 1.25rem;
+  }
+
+  .card-days {
+    background: #f3f3f6;
+    width: 18%;
+    border-radius: 1.375rem;
+    margin-left: 1rem;
+    padding-top: 0.8rem;
+    border: var(--btn-border);
+  }
+
+  .card-days .content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    text-align: center;
+  }
+
+  .item-week-day {
+    width: 4%;
+    display: inline-flex;
+  }
+
+  .horizontal-mat-list-item {
+    float: left;
+    display: list-item;
+  }
+
+  .icon-forward {
+    display: inline-flex;
+    vertical-align: middle;
+    color: white;
+    font-size: 19px;
+  }
+
+  .icon-alert-popover {
+    font-size: 4rem;
+    color: #dbe4e6;
+  }
+
+  .mt-05 {
+    margin-top: 0.5rem;
+  }
+
+  .mr-05 {
+    margin-right: 0.5rem;
+  }
+
+  .pl-05 {
+    padding-left: 0.5rem;
+  }
+
+  .text-gray {
+    color: var(--text-gray);
+  }
+
+  .text-red {
+    color: var(--text-red);
+  }
+
+  .buttons-actions {
+    margin-right: 0.7rem;
+    margin-top: 0.8rem;
+    position: relative;
+    bottom: 1rem;
+    left: 2rem;
+  }
+
+  .fs-icon-verified {
+    font-size: x-large;
+  }
+
+  .prepayment-icon-verified {
+    color: dodgerblue;
+  }
+
+  .days-error,
+  .calendar-error {
+    border-color: var(--text-red);
+    background-color: white;
+    color: black;
+  }
+
+  .pop-days,
+  .pop-week,
+  .pop-monthly,
+  .pop-day {
+    width: 28%;
+  }
+
+  .pop-days ::ng-deep .popover,
+  .pop-week ::ng-deep .popover,
+  .pop-monthly ::ng-deep .popover,
+  .pop-day ::ng-deep .popover {
+    color: #000;
+    max-width: 484px;
+    width: 388px;
+    float: left;
+    left: 0;
+    position: absolute;
+    top: 7px;
+  }
+
+  .popover-body {
+    padding: 0px;
+  }
+
+  .hr-position {
+    width: 95%;
+    margin-left: 2%;
+  }
+
+  .calendar {
+    text-align: center;
+    padding-top: 2rem;
+  }
+
+  .div-accreditations,
+  .calendar-list {
+    text-align: center;
+    border-radius: 0.375rem;
+    padding-left: 1rem;
+  }
+
+  .calendar-list ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .calendar-list li {
+    float: left;
+    padding: 0.5rem;
+  }
+
+  .calendar-list li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+  }
+
+  .calendar-list li a:hover {
+    background-color: var(--bg-dark);
+  }
+
+  .btn-calendar-day {
+    border-radius: 28px;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    padding: 15px 16px;
+    font-size: 11px;
+    line-height: 1.33;
+    text-align: center;
+    background-color: var(--btn-bg);
+    border: var(--btn-border);
+    transition: background-color 0.3s;
+  }
+
+  .btn-calendar-day:hover {
+    background-color: var(--btn-hover-bg);
+  }
+
+  .btn-check:checked + .btn,
+  :not(.btn-check) + .btn:active,
+  .btn:first-child:active,
+  .btn.active,
+  .btn.show {
+    color: var(--bs-btn-active-color);
+    background-color: var(--bs-btn-active-bg) !important;
+    border-color: var(--bs-btn-active-border-color) !important;
+  }
+
+  .btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    background-color: var(--bs-gray-200);
+  }
+
+  .btn-circle:focus {
+    color: white;
+    background-color: var(--primary-color);
+  }
+
+  .btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 15px 16px;
+    font-size: 11px;
+    line-height: 1.33;
+  }
+
+  .breadcrumb ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 90%;
+    margin-left: 0.8rem;
+  }
+
+  .breadcrumb li {
+    display: table-cell;
+    width: 1.5rem;
+    margin-right: 10px;
+  }
+
+  .breadcrumb li mat-icon {
+    vertical-align: middle;
+  }
+
+  .li-actived {
+    color: var(--primary-color);
+  }
+
+  .li-not-actived {
+    color: #b2b2b2;
+  }
+
+  .circle {
+    height: 5px;
+    width: 5px;
+    border-radius: 10rem;
+    padding: 10px;
+  }
+
+  .circle-actived {
+    background-color: var(--secondary-color);
+  }
+
+  .circle-not-actived {
+    background-color: #cccccc;
+  }
+
+  .line {
+    width: 2rem;
+    border-radius: 10rem;
+    padding-top: 0.1px;
+    margin-left: 0.1rem;
+    margin-right: 0.2rem;
+  }
+
+  .line-actived {
+    background-color: var(--secondary-color);
+  }
+
+  .line-not-actived {
+    background-color: #cccccc;
+  }
+}

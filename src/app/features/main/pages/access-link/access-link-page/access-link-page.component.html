@@ -1,0 +1,88 @@
+<section class="heading">
+  <div class="page-title">
+    <h3>{{'app.access-link.title'|translate}}</h3>
+    <span class="page-subtitle">{{ "app.access-link.subtitle" | translate }}</span>
+  </div>
+</section>
+
+<div class="content">
+
+  <div class="row row-cols-1 pt-3">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex justify-content-between align-items-center">
+            <h5>Perfis</h5>
+            <input id="filter" placeholder="Pesquisar" class="form-control w-50" type="text" [formControl]="filter" />
+          </div>
+
+          <div class="card-content">
+            <div class="table-responsive">
+
+              <table cdk-table
+                     [dataSource]="dataSource"
+                     class="table table-hover">
+
+                <ng-container cdkColumnDef="name">
+                  <th cdk-header-cell
+                      *cdkHeaderCellDef
+                      sortable="name"
+                      (sort)="onSort($event)"> Nome </th>
+                  <td cdk-cell *cdkCellDef="let row">
+                    {{row.name}}
+                  </td>
+                </ng-container>
+
+                <ng-container cdkColumnDef="description">
+                  <th cdk-header-cell
+                      *cdkHeaderCellDef
+                      sortable="description"
+                      (sort)="onSort($event)"> Descrição </th>
+                  <td cdk-cell *cdkCellDef="let row">
+                    {{row.description}}
+                  </td>
+                </ng-container>
+
+                <ng-container cdkColumnDef="actions">
+                  <th cdk-header-cell *cdkHeaderCellDef> Opções </th>
+                  <td cdk-cell *cdkCellDef="let row">
+                    <div class="d-flex justify-content-end">
+                      <button class="btn btn-sm d-flex align-items-center me-1"
+                              title='Editar'
+                              [routerLink]="[row.id, 'permissions']">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button class="btn btn-sm d-flex align-items-center"
+                              title='Excluir'>
+                        <i class="material-icons">delete</i>
+                      </button>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr cdk-header-row *cdkHeaderRowDef="columnsToDisplay"></tr>
+                <tr cdk-row *cdkRowDef="let element; columns: columnsToDisplay;" class="element-row"> </tr>
+              </table>
+
+              <pagination class="pagination pagination-secondary d-flex justify-content-end"
+                          [totalItems]="filteredItens.length"
+                          [boundaryLinks]="true"
+                          [maxSize]="5"
+                          [itemsPerPage]="itemsPerPage"
+                          [(ngModel)]="tablePage"
+                          previousText="&lsaquo;"
+                          nextText="&rsaquo;"
+                          firstText="&laquo;"
+                          lastText="&raquo;"
+                          (pageChanged)="onPaginate($event)">
+              </pagination>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

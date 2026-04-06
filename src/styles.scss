@@ -1,1 +1,227 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+$primary-palette: (
+  50: #e3e4eb,
+  100: #b9bccc,
+  200: #8b90ab,
+  300: #5c6389,
+  400: #39416f,
+  500: #4e2096,
+  600: #131c4f,
+  700: #101845,
+  800: #0c133c,
+  900: #060b2b,
+  A100: #6676ff,
+  A200: #3348ff,
+  A400: #001aff,
+  A700: #0017e6,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$accent-palette: (
+  50: #fae6e4,
+  100: #f2bfbc,
+  200: #ea958f,
+  300: #e26b62,
+  400: #db4b40,
+  500: #d52b1e,
+  600: #d0261a,
+  700: #ca2016,
+  800: #c41a12,
+  900: #ba100a,
+  A100: #ffe6e5,
+  A200: #ffb4b3,
+  A400: #ff8280,
+  A700: #ff6a66,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$app-primary: mat.define-palette($primary-palette);
+$app-accent: mat.define-palette($accent-palette);
+$app-warn: mat.define-palette(mat.$red-palette);
+
+$app-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $app-primary,
+      accent: $app-accent,
+      warn: $app-warn,
+    ),
+  )
+);
+
+@include mat.all-component-themes($app-theme);
+
+@import "./assets/scss/bootstrap";
+
+// Then add additional custom code here
+
+@import "./assets/scss/common";
+@import "./assets/scss/utilities";
+@import "./assets/scss/variables";
+@import "./assets/scss/navbar";
+@import "./assets/scss/sidebar";
+@import "./assets/scss/table";
+@import "./assets/scss/select";
+@import "./assets/scss/calendar";
+
+// /* Importing Datepicker SCSS file. */
+// @import "~ngx-bootstrap/datepicker/bs-datepicker";
+
+:root {
+  --primary: #4e2096;
+  --primary-lightest: #f5e5fd;
+  --neutral-lightest: #fbf9f7;
+  --neutral-medium: #d9d3cc;
+
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 16px;
+
+  --spacing-5: 16px;
+  --spacing-7: 24px;
+  --spacing-9: 40px;
+
+  --text-neutral: #7a736b;
+}
+
+.bottom-sheet-panel {
+  width: 90vw;
+
+  .mat-bottom-sheet-container {
+    min-width: 90vw;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+  }
+}
+
+.bottom-sheet-prepayment-panel {
+  .mat-bottom-sheet-container {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    padding-right: 0;
+    padding-left: 0;
+    max-height: 100vh;
+    height: 100%;
+  }
+}
+
+mat-progress-bar .mat-progress-bar-buffer {
+  background: $primary;
+}
+
+.mat-mdc-slide-toggle {
+  .mdc-form-field {
+    gap: 0.5rem;
+  }
+
+  .mdc-switch {
+    .mdc-switch__track {
+      border-radius: 10px !important;
+      height: 20px !important;
+    }
+
+    .mdc-switch__handle {
+      .mdc-switch__icons {
+        svg {
+          display: none;
+        }
+      }
+
+      &::after {
+        opacity: 0.8;
+      }
+    }
+
+    .mdc-switch__ripple {
+      display: none;
+    }
+
+    &:enabled:hover:not(:focus):not(:active) {
+      .mdc-switch__handle {
+        &::after {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
+
+.zigzag {
+  position: relative;
+  width: 500px;
+  height: 300px;
+  background: red;
+
+  h1 {
+    text-align: center;
+    margin-top: 100px;
+    color: #fff;
+  }
+
+  &.zigzag-top {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background:
+        linear-gradient(135deg, #fff 12px, transparent 0%),
+        linear-gradient(-135deg, #fff 12px, transparent 0%);
+      background-size: 20px;
+    }
+  }
+
+  &.zigzag-bottom {
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background:
+        linear-gradient(45deg, #fff 12px, transparent 0%),
+        linear-gradient(-45deg, #fff 12px, transparent 0%);
+      background-size: 20px;
+    }
+  }
+}
+
+.push-notification-dialog {
+  margin: 1rem !important;
+}
