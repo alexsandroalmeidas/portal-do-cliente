@@ -6,7 +6,7 @@ import {
   Component,
   OnDestroy,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -22,7 +22,7 @@ import { AuthStoreSelectors } from './../../root-store';
 import { UserInfo } from './../../root-store/auth-store/auth.models';
 import {
   CommunicationStoreActions,
-  CommunicationStoreSelectors
+  CommunicationStoreSelectors,
 } from './../../root-store/communication-store';
 import { AppState } from './../../root-store/state';
 import { PushNotificationEnableData } from './../../shared/components/push-notification-enable-dialog/push-notification-enable-data';
@@ -39,9 +39,11 @@ import { ToolbarService } from './services/toolbar.service';
   imports: [SharedModule, MatMenuModule, MatExpansionModule],
   templateUrl: './mobile.component.html',
   styleUrls: ['./mobile.component.scss'],
-  host: { class: '' }
+  host: { class: '' },
 })
-export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestroy {
+export class MobileComponent
+  implements AfterViewInit, AfterContentInit, OnDestroy
+{
   private $unsub = new Subject();
 
   events: string[] = [];
@@ -55,7 +57,7 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
       label: 'Início',
       hasPermission: true,
       roles: [],
-      order: 1
+      order: 1,
     },
     {
       path: '/sales/mobile',
@@ -63,7 +65,7 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
       label: 'Vendas',
       hasPermission: true,
       roles: [],
-      order: 2
+      order: 2,
     },
     {
       path: '/receivables/mobile',
@@ -71,7 +73,7 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
       label: 'A Receber',
       hasPermission: true,
       roles: [],
-      order: 3
+      order: 3,
     },
     {
       path: '/prepayments/mobile',
@@ -79,7 +81,7 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
       label: 'Antecipar',
       hasPermission: this.hasPermission,
       roles: [],
-      order: 4
+      order: 4,
     },
     {
       path: '/others/mobile',
@@ -87,8 +89,8 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
       label: 'Outros',
       hasPermission: true,
       roles: [],
-      order: 5
-    }
+      order: 5,
+    },
   ];
 
   hasPunctualPermission = false;
@@ -104,7 +106,9 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
 
   get hasPermission() {
     return (
-      this.hasPunctualPermission && this.hasScheduledPermission && this.hasAuthorizationPermission
+      this.hasPunctualPermission &&
+      this.hasScheduledPermission &&
+      this.hasAuthorizationPermission
     );
   }
 
@@ -119,7 +123,7 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
     public toolbarService: ToolbarService,
     private store$: Store<AppState>,
     private swPush: SwPush,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {
     this.toolbarService.setPortal(null as any);
 
@@ -147,16 +151,23 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
             }
           }
           return route;
-        })
+        }),
       )
       .subscribe((route: any) => {
         if (route) {
           const {
             snapshot: {
-              data: { toolbar }
-            }
+              data: { toolbar },
+            },
           } = route;
-          this.toolbarStyle = toolbar;
+
+          const url = this.router.url;
+
+          if (url.includes('/summary/mobile')) {
+            this.toolbarStyle = '';
+          } else {
+            this.toolbarStyle = 'light';
+          }
         }
       });
   }
@@ -174,12 +185,16 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
     this.swPush.subscription.subscribe((subscription) => {
       if (!!subscription) {
         this.store$.dispatch(
-          new CommunicationStoreActions.SubscribePushNotificationsAction({ subscription })
+          new CommunicationStoreActions.SubscribePushNotificationsAction({
+            subscription,
+          }),
         );
         return;
       }
 
-      this.store$.dispatch(new CommunicationStoreActions.UnsubscribePushNotificationsAction());
+      this.store$.dispatch(
+        new CommunicationStoreActions.UnsubscribePushNotificationsAction(),
+      );
 
       this.store$
         .select(AuthStoreSelectors.selectSessionInitialized)
@@ -187,11 +202,18 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
           takeUntil(this.$unsub),
           filter((initialized) => initialized === true),
           withLatestFrom(
-            this.store$.pipe(select(CommunicationStoreSelectors.selectPushNotificationSettings))
-          )
+            this.store$.pipe(
+              select(
+                CommunicationStoreSelectors.selectPushNotificationSettings,
+              ),
+            ),
+          ),
         )
         .subscribe(([_, pushNotificationsSettings]) => {
-          if (pushNotificationsSettings.subscription || !pushNotificationsSettings.enabled) {
+          if (
+            pushNotificationsSettings.subscription ||
+            !pushNotificationsSettings.enabled
+          ) {
             return;
           }
 
@@ -205,8 +227,8 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
             disableClose: true,
             panelClass: 'push-notification-dialog',
             data: {
-              user: this.loggedUser?.email!
-            }
+              user: this.loggedUser?.email!,
+            },
           });
         });
     });
@@ -283,7 +305,9 @@ export class MobileComponent implements AfterViewInit, AfterContentInit, OnDestr
       if (!!this.loggedUser) {
         this.navigationItems
           .filter((x) => x.path === '/prepayments/mobile')
-          ?.map((p) => (p.hasPermission = this.hasPermission && !this.isManager));
+          ?.map(
+            (p) => (p.hasPermission = this.hasPermission && !this.isManager),
+          );
       }
 
       this.navigationItems = this.navigationItems.sortBy((x) => x.order);

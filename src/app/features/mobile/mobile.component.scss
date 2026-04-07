@@ -112,11 +112,11 @@
 
         &.toolbar-top {
           background-color: var(--neutral-lightest);
-          color: var(--bs-light);
+          color: var(--neutral);
 
           &.light {
-            background-color: var(--bs-light);
-            color: var(--bs-dark);
+            background-color: var(--primary);
+            color: var(--neutral-lightest);
           }
         }
       }
