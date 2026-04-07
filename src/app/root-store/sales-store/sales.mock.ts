@@ -203,6 +203,9 @@ export const mockDetails: SalesDetail[] = baseDates.flatMap((d, i: number) =>
   ESTABLISHMENTS.map((e) => {
     const paymentType = ['Crédito', 'Débito', 'Pix'][i % 3];
     const settlement = getSettlement(paymentType);
+    const isDebit = paymentType === 'Débito';
+    const isCredit = paymentType === 'Crédito';
+    const isPix = paymentType === 'Pix';
 
     return {
       documentNumber: e.documentNumber,
@@ -225,20 +228,24 @@ export const mockDetails: SalesDetail[] = baseDates.flatMap((d, i: number) =>
 
       paymentType,
 
-      isDebit: paymentType === 'Débito',
-      isCredit: paymentType === 'Crédito',
-      isPix: paymentType === 'Pix',
+      isDebit,
+      isCredit,
+      isPix,
       isVoucher: false,
       isInstallments: false,
 
-      debitAmount: 0,
-      debitCount: 0,
-      creditAmount: 0,
-      creditCount: 0,
+      // ✅ CONTABILIZAÇÃO CORRETA
+      debitAmount: isDebit ? d.amount : 0,
+      debitCount: isDebit ? 1 : 0,
+
+      creditAmount: isCredit ? d.amount : 0,
+      creditCount: isCredit ? 1 : 0,
+
+      pixAmount: isPix ? d.amount : 0,
+      pixCount: isPix ? 1 : 0,
+
       voucherAmount: 0,
       voucherCount: 0,
-      pixAmount: 0,
-      pixCount: 0,
     } as SalesDetail;
   }),
 );
