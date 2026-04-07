@@ -1,0 +1,45 @@
+<app-toolbar-background></app-toolbar-background>
+
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link back" (click)="onNavigateBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="title">Outros serviços</span>
+    </a>
+
+    <div class="spacer"></div>
+
+    <button mat-icon-button
+            class="toolbar-action toolbar-action-notification"
+            aria-label="Notifications menu"
+            (click)="onNotificationClick()">
+      <span class="material-symbols-outlined">notifications</span>
+      <span class="position-absolute translate-middle badge rounded-pill" *ngIf="unreadedNotificationsCount > 0">
+        {{unreadedNotificationsCount < 9 ? unreadedNotificationsCount : '9+' }}
+          <span class="visually-hidden">unread messages</span>
+      </span>
+    </button>
+
+    <button mat-icon-button
+            class="toolbar-action signout"
+            aria-label="Signout"
+            (click)="onOpenMyDataDialog()">
+      <span class="material-symbols-outlined">person</span>
+    </button>
+
+  </section>
+</ng-template>
+
+<div class="mx-4 pb-4 mh-100">
+
+  <div class="pb-10 content-scroll">
+    <app-others-statements-card></app-others-statements-card>
+
+    <app-others-reports-card></app-others-reports-card>
+
+    <app-others-notifications-card></app-others-notifications-card>
+
+    <app-others-rates-fees-card *ngIf="verifyRatesPermission"></app-others-rates-fees-card>
+
+  </div>
+</div>

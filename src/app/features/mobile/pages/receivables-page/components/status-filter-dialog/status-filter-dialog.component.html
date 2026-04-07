@@ -1,0 +1,31 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelHeaderTools>
+    <h1>Status</h1>
+  </div>
+
+  <div bottomSheetPanelBody>
+
+    <mat-list>
+      <mat-list-item *ngFor="let paymentStatus of paymentsStatus; let i = index"
+                     [id]="paymentStatus.status">
+        <mat-slide-toggle color="primary"
+                          [disableRipple]="true"
+                          [checked]="paymentStatus.selected"
+                          (change)="onSelectPaymentStatus(i)">
+          <span class="fw-semibold">{{paymentStatus.status}}</span>
+        </mat-slide-toggle>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+
+    </mat-list>
+
+  </div>
+
+  <div bottomSheetPanelFooter>
+    <button type="button"
+            class="btn btn-primary w-100"
+            (click)="onSelectPaymentsStatus()">
+      Selecionar
+    </button>
+  </div>
+</app-bottom-sheet-panel>

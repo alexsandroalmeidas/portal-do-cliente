@@ -1,0 +1,278 @@
+<app-toolbar-background></app-toolbar-background>
+
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link back" (click)="onNavigateBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="title">Minhas Taxas</span>
+    </a>
+
+    <div class="spacer"></div>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toolbar-action-notification"
+      aria-label="Notifications menu"
+      (click)="onNotificationClick()"
+    >
+      <span class="material-symbols-outlined">notifications</span>
+      <span
+        class="position-absolute translate-middle badge rounded-pill"
+        *ngIf="unreadedNotificationsCount > 0"
+      >
+        {{ unreadedNotificationsCount < 9 ? unreadedNotificationsCount : "9+" }}
+        <span class="visually-hidden">unread messages</span>
+      </span>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action select-establishments"
+      aria-label="Select establishments"
+      (click)="onSelectEstablishment()"
+    >
+      <span class="material-symbols-outlined">store</span>
+      <span
+        class="position-absolute translate-middle badge rounded-pill"
+        *ngIf="selectedEstablishments.length > 0"
+      >
+        {{
+          selectedEstablishments.length < 100
+            ? selectedEstablishments.length
+            : "99+"
+        }}
+        <span class="visually-hidden"> unread messages</span>
+      </span>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toggle-visibility"
+      aria-label="Toggle visibility"
+      (click)="onToggleVisibility()"
+    >
+      <span
+        class="material-symbols-outlined"
+        *ngIf="visibilityOn; else visibility_off"
+        >visibility_off</span
+      >
+
+      <ng-template #visibility_off>
+        <span class="material-symbols-outlined">visibility</span>
+      </ng-template>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action signout"
+      aria-label="Signout"
+      (click)="onOpenMyDataDialog()"
+    >
+      <span class="material-symbols-outlined">person</span>
+    </button>
+  </section>
+</ng-template>
+
+<div class="mx-4 pb-4 mh-100">
+  <div class="rates-fees-title">
+    <span class="text-white">Escolha a opção de pagamento desejada:</span>
+  </div>
+
+  <button
+    mat-raised-button
+    class="establishment-selector w-100 mt-2 rounded-pill"
+    (click)="onSelectEstablishments()"
+  >
+    <span class="material-symbols-outlined text-secondary">add_business</span>
+    <span class="text-dark">
+      {{
+        !!selectedEstablishmentName
+          ? selectedEstablishmentName
+          : "Selecione estabelecimentos"
+      }}
+    </span>
+    <div class="spacer"></div>
+  </button>
+
+  <div class="content content-scroll">
+    <!-- <div
+      class="card card-brands mt-3"
+      *ngIf="
+        !!economicGroupRates && !!economicGroupRates.rates && economicGroupRates.rates.length > 0
+      "
+    >
+      <div class="row row-cols-1 row-cols-md-3 g-4" style="padding: 1rem; padding-top: 2rem">
+        <span class="m-0 fw-bold text-primary fs-5">Reserva Financeira </span>
+        <span class="m-0 fw-bold text-primary fs-5">{{ reserve }} %</span>
+      </div>
+    </div> -->
+
+    <div
+      class="card card-brands mt-3"
+      *ngIf="
+        !!economicGroupRates &&
+        !!economicGroupRates.rates &&
+        economicGroupRates.rates.length > 0
+      "
+    >
+      <div class="row row-cols-1 row-cols-md-3 g-4" style="padding: 1rem">
+        <div class="col-4 col-cards">
+          <div class="card h-9 shadow" (click)="onOpenDetailCardBrands('visa')">
+            <div class="card-header">
+              <img
+                src="../../../../../../../assets/icons/cards/visa.png"
+                class="card-img-top card-brand-icon"
+                alt="..."
+              />
+            </div>
+            <div class="card-footer">
+              <p class="card-text">Visa</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-cards">
+          <div
+            class="card h-9 shadow"
+            (click)="onOpenDetailCardBrands('master')"
+          >
+            <div class="card-header">
+              <img
+                src="../../../../../../../assets/icons/cards/master.png"
+                class="card-img-top card-brand-icon"
+                alt="..."
+                style="padding-bottom: 1.9rem"
+              />
+            </div>
+            <div class="card-footer">
+              <p class="card-text">Mastercard</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-cards">
+          <div
+            class="card h-9 shadow"
+            (click)="onOpenDetailCardBrands('hiper')"
+          >
+            <div class="card-header">
+              <img
+                src="../../../../../../../assets/icons/cards/hiper.png"
+                class="card-img-top card-brand-icon"
+                alt="..."
+                style="padding-bottom: 2.5rem"
+              />
+            </div>
+            <div class="card-footer">
+              <p class="card-text">Hipercard</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-cards">
+          <div class="card h-9 shadow" (click)="onOpenDetailCardBrands('amex')">
+            <div class="card-header">
+              <img
+                src="../../../../../../../assets/icons/cards/amex.png"
+                class="card-img-top card-brand-icon"
+                alt="..."
+              />
+            </div>
+            <div class="card-footer">
+              <p class="card-text">American Express</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-cards">
+          <div class="card h-9 shadow" (click)="onOpenDetailCardBrands('elo')">
+            <div class="card-header">
+              <img
+                src="../../../../../../../assets/icons/cards/elo.png"
+                class="card-img-top card-brand-icon card-brand-elo"
+                alt="..."
+              />
+            </div>
+            <div class="card-footer">
+              <p class="card-text">Elo</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-cards">
+          <div class="card h-9 shadow" (click)="onOpenDetailCardBrands('pix')">
+            <div class="card-header">
+              <img
+                src="../../../../../../../assets/icons/pix/logo-pix-256.png"
+                class="card-img-top card-brand-icon"
+                alt="..."
+              />
+            </div>
+            <div class="card-footer">
+              <p class="card-text">Pix</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="d-flex justify-content-center align-items-center"
+        style="
+          padding: 1rem;
+          padding-top: 0 !important;
+          padding-bottom: 0px !important;
+        "
+      >
+        <span class="me-2"
+          >Última atualização: {{ lastUpdateDate | date: "dd/MM/yyyy HH:mm" }}
+        </span>
+      </div>
+    </div>
+
+    <!-- <div class="pb-10">
+      <div class="card mt-3">
+        <p class="text-muted p-1 pb-0">
+          Para consultar o pagamento e taxa dos vouchers, o acesso deve ser
+          realizado pelo canal das próprias bandeiras
+        </p>
+
+        <div class="row ml-1">
+          <div class="col-3">
+            <img
+              src="../../../../../../../assets/icons/cards/repom.png"
+              class="card-img-top card-brand-icon other-brands other-brands-repom"
+              alt="..."
+            />
+          </div>
+          <div class="col-3">
+            <img
+              src="../../../../../../../assets/icons/cards/ticket_benefits.png"
+              class="card-img-top card-brand-icon other-brands"
+              alt="..."
+            />
+          </div>
+          <div class="col-3">
+            <img
+              src="../../../../../../../assets/icons/cards/tlog.png"
+              class="card-img-top card-brand-icon other-brands"
+              alt="..."
+            />
+          </div>
+          <div class="col-3">
+            <img
+              src="../../../../../../../assets/icons/cards/edenred.png"
+              class="card-img-top card-brand-icon other-brands"
+              alt="..."
+            />
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <ng-template #cardBrandsDetailRef>
+      <app-card-brands-detail-side
+        *ngIf="!!economicGroupRates"
+        [visibilityOn]="visibilityOn"
+        [economicGroupRates]="economicGroupRates"
+        [cardBrandSelected]="cardBrandSelected"
+        (close)="onCloseDetailCardBrands()"
+      >
+      </app-card-brands-detail-side>
+    </ng-template>
+  </div>
+</div>

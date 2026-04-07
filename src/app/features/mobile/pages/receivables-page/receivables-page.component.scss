@@ -1,0 +1,226 @@
+:host {
+  --toolbar-height: 200px;
+
+  .mt-4 {
+    margin-top: 2rem !important;
+  }
+
+  .filters {
+    position: relative;
+  }
+
+  .card {
+    border-color: var(--bs-light);
+    background: var(--bs-gray-200);
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+
+    .card-body {
+      .card-actions {
+        .card-action {
+          border-radius: 7px;
+        }
+      }
+    }
+  }
+
+  .content-info-list {
+    width: 100% !important;
+    background: var(--bs-gray-200) !important;
+    padding: 0px !important;
+
+    .list {
+      width: 100%;
+      background: var(--bs-gray-200);
+
+      .list-group {
+        .list-group-item {
+          padding: 0.5rem 0;
+          background: var(--bs-gray-200);
+          border: none !important;
+        }
+      }
+    }
+  }
+
+  .break-text {
+    width: 90%;
+    /* Ou um tamanho específico, ex: 300px */
+    word-wrap: break-word;
+    /* Para navegadores mais antigos */
+    overflow-wrap: break-word;
+    /* Para navegadores modernos */
+    white-space: normal;
+  }
+
+  .details {
+    height: calc(
+      100vh - (var(--menu-height) + var(--toolbar-height) + var(--navbar-height) + 5rem)
+    );
+    overflow: auto;
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+
+    .view-mode {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 35px;
+      width: 100%;
+      z-index: 9;
+
+      ::ng-deep .mat-button-toggle-group {
+        height: 35px;
+
+        .mat-button-toggle {
+          width: 100%;
+          min-width: 5rem;
+
+          .mat-button-toggle-button {
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 5rem;
+          }
+
+          &.mat-button-toggle-checked {
+            background: var(--bs-primary);
+            color: var(--bs-light);
+          }
+        }
+      }
+    }
+  }
+
+  .details-header {
+    margin-top: 1rem;
+    height: 5rem;
+    overflow: auto;
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+
+    .view-mode {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 35px;
+      width: 100%;
+      z-index: 9;
+
+      ::ng-deep .mat-button-toggle-group {
+        height: 35px;
+
+        .mat-button-toggle {
+          width: 100%;
+          min-width: 5rem;
+
+          .mat-button-toggle-button {
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 5rem;
+          }
+
+          &.mat-button-toggle-checked {
+            background: var(--bs-primary);
+            color: var(--bs-light);
+          }
+        }
+      }
+    }
+
+    .view-ordering {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+      width: 100%;
+      z-index: 9;
+      padding-top: 0.5rem;
+
+      ::ng-deep .mat-mdc-icon-button.mat-mdc-button-base {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        width: 43%;
+        height: 26px;
+      }
+
+      .btn-ordering {
+        background: var(--bs-primary);
+        color: var(--bs-light);
+      }
+
+      ::ng-deep .mat-button-toggle-group {
+        height: 30px;
+
+        .mat-button-toggle {
+          width: 100%;
+          min-width: 5rem;
+
+          .mat-button-toggle-button {
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 5rem;
+          }
+
+          &.mat-button-toggle-checked {
+            background: var(--bs-primary);
+            color: var(--bs-light);
+          }
+        }
+      }
+    }
+  }
+
+  /* 🔹 Caixa branca da última atualização */
+  .last-update-box {
+    background-color: var(--bs-gray-200);
+    border-radius: 1.5rem;
+    width: auto; /* se ajusta ao conteúdo */
+    padding: 0.2rem 0.8rem; /* padding compacto */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.3rem;
+    font-size: 0.8rem; /* fonte menor */
+  }
+
+  /* 🔹 Texto + ícone alinhados lado a lado */
+  .last-update-container {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem; /* espaço entre texto e ícone */
+    white-space: nowrap; /* evita quebrar linha */
+  }
+}

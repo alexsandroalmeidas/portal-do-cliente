@@ -1,0 +1,76 @@
+:host {
+  .page-actions {
+    position: relative;
+    padding-top: 1rem !important;
+    text-align: center;
+  }
+
+  .header {
+    text-align: center;
+  }
+
+  .pt-1 {
+    padding-top: 1rem !important;
+  }
+
+  .pb-1 {
+    padding-bottom: 1rem !important;
+  }
+
+  .pb-01 {
+    padding-bottom: 0.5rem;
+  }
+
+  .pr-1 {
+    padding-right: 1rem;
+  }
+
+  .mr-1 {
+    margin-right: 1rem !important;
+  }
+
+  .mt-05 {
+    margin-top: 0.5rem !important;
+  }
+
+  .fs-09 {
+    font-size: 0.9rem;
+  }
+
+  .fs-13 {
+    font-size: 13px;
+  }
+
+  .valign {
+    vertical-align: bottom;
+  }
+
+  .pd-0 {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+  }
+
+  .card {
+    height: 7rem;
+    border-color: var(--bs-light);
+    background: var(--bs-gray-200);
+
+    .content {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      text-align: center;
+    }
+  }
+
+  .card-days {
+    height: 3.5rem;
+    border-color: var(--bs-light);
+    background: var(--bs-gray-200);
+
+    .content {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      text-align: center;
+    }
+  }
+}

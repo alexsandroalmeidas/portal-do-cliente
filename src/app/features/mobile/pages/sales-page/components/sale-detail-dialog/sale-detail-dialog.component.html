@@ -1,0 +1,142 @@
+<app-sidenav-panel #rightSidenav>
+  <div sidenavPanelHeader>
+    <div class="zigzag zigzag-bottom"></div>
+
+    <div class="title card-icon">
+      <a mat-button class="nav-link" (click)="onClose()">
+        <span class="material-symbols-outlined">arrow_back</span>
+        <span class="title lh-1">Detalhes</span>
+      </a>
+    </div>
+
+    <div class="summary d-flex justify-content-start w-100 p-3">
+      <div class="d-flex align-items-center gap-2">
+
+        <div class="d-flex align-items-center">
+          <span class="material-symbols-outlined text-secondary sale-icon">credit_score</span>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <div class="d-flex flex-column justify-content-end gap-2 text-gray-900">
+            <span class="info-label">VALOR DA VENDA</span>
+            <div class="lh-1 d-flex align-items-end gap-2 fs-3">
+              <span class="info-label"><small>R$</small></span>
+              <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_sale_amount">
+                {{sale.saleAmount | number:'1.2-2'}}
+              </span>
+
+              <ng-template #hidden_sale_amount>
+                <span class="lh-1">{{sale.saleAmount || 0 | hiddenValue:'&lowast;':5 }}</span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div sidenavPanelBody>
+
+    <mat-list class="mx-3 py-0">
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Data da venda: </span>
+        <span *ngIf="visibilityOn; else hidden_sale_date">
+          {{sale.saleDate | date:'dd/MM/yyyy'}} - {{sale.saleDate | date:'HH'}}h{{sale.saleDate | date:'mm'}}
+        </span>
+        <ng-template #hidden_sale_date>
+          <span class="lh-1">
+            {{sale.saleDate | hiddenValue:'&lowast;':5}} - {{sale.saleDate | hiddenValue:'&lowast;':5}}h{{sale.saleDate
+            | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Num. Autorização: </span>
+        <span *ngIf="visibilityOn; else hidden_authorization_code">
+          {{sale.authorizationCode}}
+        </span>
+        <ng-template #hidden_authorization_code>
+          <span class="lh-1">
+            {{sale.authorizationCode | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold">CNPJ: </span>
+        <span *ngIf="visibilityOn; else hidden_cnpj">
+          {{sale.documentNumber | mask:'CPF_CNPJ'}}
+        </span>
+        <ng-template #hidden_cnpj>
+          <span class="lh-1">
+            {{sale.documentNumber | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Pagamento: </span>
+        <span *ngIf="visibilityOn; else hidden_payment_type">
+          {{sale.paymentType}}
+        </span>
+        <ng-template #hidden_payment_type>
+          <span class="lh-1">
+            {{sale.paymentType | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold"> Bandeira:</span>
+        <span *ngIf="visibilityOn; else hidden_card_brand">
+          {{sale.cardBrand}}
+        </span>
+        <ng-template #hidden_card_brand>
+          <span class="lh-1">
+            {{sale.cardBrand | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Identificação:</span>
+        <span *ngIf="visibilityOn; else hidden_nsu">
+          {{sale.nsu}}
+        </span>
+        <ng-template #hidden_nsu>
+          <span class="lh-1">
+            {{sale.nsu | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Status: </span>
+        <span *ngIf="visibilityOn; else hidden_status">
+          {{sale.status}}
+        </span>
+        <ng-template #hidden_status>
+          <span class="lh-1">
+            {{sale.status | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+    </mat-list>
+
+  </div>
+</app-sidenav-panel>

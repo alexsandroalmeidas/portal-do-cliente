@@ -1,0 +1,42 @@
+:host {
+  min-width: 300px;
+
+  .not-finalized-container {
+    .header {
+      .icon {
+        width: 40px;
+        height: 40px;
+        font-size: 40px;
+        line-height: 1;
+      }
+    }
+  }
+
+  .finalized-container {
+    padding-top: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-bottom: 1.5rem !important;
+
+    .header {
+      .icon {
+        width: 80px;
+        height: 80px;
+        font-size: 80px;
+        line-height: 1;
+      }
+    }
+
+    .body {
+      .actions {
+        .mat-mdc-outlined-button {
+          .mat-icon {
+            height: 20px;
+            width: 20px;
+            font-size: 20px;
+          }
+        }
+      }
+    }
+  }
+}

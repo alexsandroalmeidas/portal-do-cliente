@@ -1,0 +1,49 @@
+<div class="d-flex flex-column justify-content-center gap-4 px-4 mt-1">
+  <div class="d-flex align-items-start gap-3">
+    <h3 class="flex-fill m-0 text-start text-gray-700">
+      {{!isActivation ? 'Autenticação de 2 fatores' : 'Ativar autenticação de 2 fatores'}}
+    </h3>
+    <span class="material-symbols-outlined text-gray-600" (click)="onCancelClick()">close</span>
+  </div>
+
+  <div class="d-flex justify-content-center align-items-center">
+    <app-stepper [totalSteps]="3" [active]="1" color="gray"></app-stepper>
+  </div>
+
+  <h2 class="m-0 fw-bold text-primary fs-5">Cadastre um número de celular</h2>
+
+  <p class="m-0">
+    Informe o seu número de celular para receber o código de validação por SMS para cada transação financeira que
+    realizar.
+  </p>
+  <p class="m-0">
+    Assim, garantimos que é você mesmo que está solicitando.
+  </p>
+
+  <div class="d-flex align-items-center justify-content-center" [formGroup]="form">
+
+    <div>
+      <label for="phoneNumber" class="form-label text-gray-600 fw-semibold">Telefone celular</label>
+      <div class="input-group" [style.height]="'40px'">
+        <div class="input-group-text rounded-start-5 border-end-0 bg-gray-200 border-gray-400 pe-0">
+          <span class="material-symbols-outlined text-gray-600">phone_iphone</span>
+        </div>
+        <input type="tel" class="form-control rounded-end-5 border-start-0 shadow-none bg-gray-200 border-gray-400 px-2"
+          id="phoneNumber" placeholder="(00) 0 0000-0000" formControlName="phoneNumber" mask="(00) 0 0000-0000">
+      </div>
+    </div>
+  </div>
+
+  <hr class="w-100">
+
+  <div class="d-flex align-items-center justify-content-start gap-2 mb-4">
+    <button class="btn btn-outline-primary px-3 py-2 fs-5" (click)="onCancelClick()">
+      Cancelar
+    </button>
+    <button class="btn btn-primary px-3 py-2 fs-5 d-flex align-items-center gap-2" [disabled]="form.invalid"
+      (click)="onContinueClick()">
+      <mat-icon>arrow_forward</mat-icon>
+      Continuar
+    </button>
+  </div>
+</div>

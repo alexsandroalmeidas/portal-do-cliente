@@ -1,0 +1,58 @@
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link back" (click)="onNavigateBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="title">Autorização para consulta</span>
+    </a>
+
+    <div class="spacer"></div>
+
+    <button
+      mat-icon-button
+      class="toolbar-action signout"
+      aria-label="Signout"
+      (click)="onOpenMyDataDialog()"
+    >
+      <span class="material-symbols-outlined">person</span>
+    </button>
+  </section>
+</ng-template>
+
+<div class="content fs-08 pt-8 content-scroll">
+  <mat-divider></mat-divider>
+
+  <p>
+    <mat-slide-toggle
+      [disableRipple]="true"
+      color="primary"
+      name="authorizeSearch"
+      class="p-1 fs-09"
+      [checked]="hasAuthorization"
+      (change)="onChangeAuthorize($event)"
+    >
+      Autorizo a consulta de agendas de outras instituições financeiras
+    </mat-slide-toggle>
+  </p>
+
+  <mat-divider></mat-divider>
+
+  <div class="p-1" *ngIf="!hasAuthorization">
+    <p>
+      A autorização para consulta de valores de outras instituições financeiras
+      te da mais oportunidade de aproveitar condições especiais, ampliando suas
+      possibilidades além da Petlove.
+    </p>
+
+    <ul class="pl-1">
+      <li>
+        <b>Aproveite taxas competitivas para antecipar.</b>
+      </li>
+      <li>
+        <b>Tenha uma visão abrangente das suas finanças.</b>
+      </li>
+      <li>
+        <b>Maximize seu potencial de crescimento financeiro.</b>
+      </li>
+    </ul>
+  </div>
+</div>

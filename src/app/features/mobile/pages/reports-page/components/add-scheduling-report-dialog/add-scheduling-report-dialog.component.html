@@ -1,0 +1,89 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelHeaderTools>
+    <h1>Novo relatório</h1>
+    <mat-divider></mat-divider>
+  </div>
+
+  <div bottomSheetPanelBody [formGroup]="form">
+    <mat-form-field appearance="fill">
+      <mat-label>Período</mat-label>
+      <mat-date-range-input formGroupName="range" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Data início" />
+        <input matEndDate formControlName="end" placeholder="Data fim" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-error *ngIf="form.get('range.start')?.hasError('matStartDateInvalid')"
+        >Data início inválida</mat-error
+      >
+      <mat-error *ngIf="form.get('range.end')?.hasError('matEndDateInvalid')"
+        >Invalid Data fim</mat-error
+      >
+      <mat-error
+        *ngIf="
+          form.get('range.start')?.hasError('required') ||
+          form.get('range.end')?.hasError('required')
+        "
+        >Origatório</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100" *ngIf="showEquipments">
+      <mat-chip-grid #chipGrid aria-label="Informe equpamentos">
+        <mat-chip-row
+          *ngFor="let equip of equipmentsChips"
+          (removed)="remove(equip)"
+          [editable]="true"
+          (edited)="edit(equip, $event)"
+          [aria-description]="'press enter to edit ' + equip.name"
+        >
+          {{ equip.name }}
+          <button matChipRemove [attr.aria-label]="'remove ' + equip.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        <input
+          placeholder="..."
+          [matChipInputFor]="chipGrid"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)"
+        />
+      </mat-chip-grid>
+    </mat-form-field>
+
+    <div class="movement-type">
+      <mat-label>Tipo de movimento</mat-label>
+      <mat-radio-group aria-label="Selecione uma opção" formControlName="movementType">
+        <mat-radio-button [value]="item.value" *ngFor="let item of movementTypesOptions">{{
+          item.label
+        }}</mat-radio-button>
+      </mat-radio-group>
+      <mat-error *ngIf="form.get('movementType')?.hasError('required')">Origatório</mat-error>
+
+      <mat-error *ngIf="form.get('range')?.hasError('maxRangeExceeded')">
+        O período máximo permitido para este tipo de movimento é
+        {{ form.get('range')?.getError('maxRangeExceeded')?.maxDays }} dias
+      </mat-error>
+    </div>
+
+    <mat-divider></mat-divider>
+  </div>
+
+  <div bottomSheetPanelFooter>
+    <button mat-stroked-button class="rounded-pill" color="primary" (click)="onCancel()">
+      <span class="text-primary">Cancelar</span>
+    </button>
+
+    <button
+      mat-raised-button
+      class="rounded-pill"
+      color="primary"
+      [disabled]="form.invalid"
+      (click)="onSend()"
+    >
+      <span class="material-symbols-outlined text-white">arrow_forward</span>
+      <span class="text-white">Enviar</span>
+    </button>
+  </div>
+</app-bottom-sheet-panel>

@@ -1,0 +1,58 @@
+:host {
+  .bottom-sheet-panel-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    font-size: 10px;
+
+    ::ng-deep .mat-mdc-list {
+      .mat-mdc-list-item {
+        .mdc-list-item__content {
+          .mdc-list-item__primary-text {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  .bottom-sheet-panel-footer {
+    gap: 1rem;
+
+    ::ng-deep .mdc-button {
+      .mdc-button__label {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        color: var(--bs-light);
+      }
+    }
+  }
+
+  .pt-1 {
+    padding-top: 1rem !important;
+  }
+
+  .page-actions {
+    position: absolute;
+    right: 1.5rem;
+  }
+
+  .attention {
+    font-size: medium;
+  }
+
+  .icon-color {
+    color: rgb(194, 10, 10);
+    font-size: 50px !important;
+    height: 50px !important;
+    width: 50px !important;
+  }
+}

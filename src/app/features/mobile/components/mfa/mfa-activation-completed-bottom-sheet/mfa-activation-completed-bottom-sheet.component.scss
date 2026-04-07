@@ -1,0 +1,206 @@
+::ng-deep .bottom-sheet-panel {
+  width: 100vw !important;
+}
+
+::ng-deep .bottom-sheet-panel .mat-bottom-sheet-container {
+  min-width: 100vw !important;
+  padding-left: 0px !important;
+}
+
+:host {
+
+  .pl-01 {
+    padding-left: 0px !important;
+  }
+
+  .pr-01 {
+    padding-right: 0px !important;
+  }
+
+  .mat-dialog-title {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    font-family: var(--bs-body-font-family) !important;
+    line-height: var(--bs-body-line-height) !important;
+    color: var(--bs-body-color) !important;
+    text-align: center !important;
+    letter-spacing: (state(mdc-dialog-supporting-text-tracking), 0, px) !important;
+
+    padding-top: 0px !important;
+    padding-left: 1rem !important;
+    padding-bottom: 1rem !important;
+    margin-top: 9px !important;
+    /* top: 0px; */
+    display: flex !important;
+  }
+
+  .close.mat-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    line-height: 14px;
+    min-width: auto;
+  }
+
+  .bottom-sheet-panel-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    font-size: 10px;
+
+    ::ng-deep .mat-mdc-list {
+      .mat-mdc-list-item {
+        .mdc-list-item__content {
+          .mdc-list-item__primary-text {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  .bottom-sheet-panel-footer {
+    gap: 1rem;
+
+    ::ng-deep .mdc-button {
+      .mdc-button__label {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        color: var(--bs-light);
+      }
+    }
+  }
+
+  ::ng-deep .cdk-global-overlay-wrapper {
+    justify-content: center !important;
+  }
+
+  ::ng-deep .cdk-overlay-container {
+    padding: 0px !important;
+    background-color: rgba(40, 40, 40, 0.8);
+  }
+
+  ::ng-deep .mat-mdc-dialog-container .mdc-dialog__title {
+
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: var(--bs-body-font-family);
+    line-height: var(--bs-body-line-height);
+    color: var(--bs-body-color);
+    text-align: center !important;
+    letter-spacing: (state(mdc-dialog-supporting-text-tracking), 0, px);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 90%;
+    margin-left: 5%;
+  }
+
+  li {
+    display: table-cell;
+    width: 1%;
+    margin-right: 10px;
+
+    mat-icon {
+      vertical-align: middle;
+    }
+  }
+
+  .li-actived {
+    color: var(--bs-primary) !important;
+  }
+
+  .li-not-actived {
+    color: #b2b2b2 !important;
+  }
+
+  .hr-position {
+    width: 90%;
+    margin-left: 5% !important;
+  }
+
+  .p-1-title {
+    font-size: 1.1rem;
+  }
+
+  .circle {
+    height: 5px;
+    width: 5px;
+    border-radius: 10rem;
+    padding: 10px;
+  }
+
+  .circle-actived {
+    background-color: var(--bs-secondary) !important;
+  }
+
+  .circle-not-actived {
+    background-color: var(--bs-gray-200) !important;
+  }
+
+  .line {
+    width: 2rem;
+    border-radius: 10rem;
+    padding-top: 0.1px;
+    margin-left: 0.1rem;
+    margin-right: 0.2rem;
+  }
+
+  .line-actived {
+    background-color: var(--bs-secondary) !important;
+  }
+
+  .line-not-actived {
+    background-color: var(--bs-gray-200) !important;
+  }
+
+  .dialog-title {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    font-family: var(--bs-body-font-family) !important;
+    line-height: var(--bs-body-line-height) !important;
+    color: var(--bs-body-color) !important;
+    text-align: center !important;
+  }
+
+  ::ng-deep .mat-mdc-dialog-actions.mat-mdc-dialog-actions-align-end,
+  .mat-mdc-dialog-actions[align=end] {
+    padding-bottom: 2rem !important;
+  }
+
+  ::ng-deep.mat-mdc-dialog-actions.mat-mdc-dialog-actions-align-center,
+  .mat-mdc-dialog-actions[align=center] {
+    padding-bottom: 2rem;
+  }
+
+  button {
+    margin-right: 8px;
+  }
+
+  .icon-color {
+    font-size: 5rem;
+    color: lightgray;
+    width: auto;
+    height: auto;
+  }
+
+  .attention {
+    background-color: var(--bs-gray-200);
+    text-align: justify;
+    padding: 1rem !important;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}

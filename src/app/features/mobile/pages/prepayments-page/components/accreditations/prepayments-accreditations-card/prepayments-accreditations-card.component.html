@@ -1,0 +1,20 @@
+<div (scroll)="onScroll($event)">
+  <h4 class="fw-bold fs-5 mt-0" [class.text-primary]="!hasError" [class.text-secondary]="hasError" id="text-change1"
+    [style.color]="textChange">
+    Selecione a credenciadora
+  </h4>
+
+  <ul class="list-group list-group-flush d-flex flex-column gap-2">
+    <li class="list-group-item d-flex align-items-center border-2 gap-3 p-2 rounded-pill bg-gray-200"
+      [class.border-tiny-blue]="selection.isSelected(accreditation)"
+      [class.border-gray-200]="!selection.isSelected(accreditation)" (click)="onCheckboxChange(accreditation)"
+      *ngFor="let accreditation of accreditations; let i = index">
+
+      <mat-checkbox color="primary" class="d-flex align-items-center" (click)="$event.stopPropagation()"
+        (change)="onCheckboxChange(accreditation)" [checked]="selection.isSelected(accreditation)">
+        <img src="./../../../../../../../../../assets/img/{{accreditation.documentNumber}}.png">
+      </mat-checkbox>
+    </li>
+  </ul>
+
+</div>

@@ -1,0 +1,24 @@
+<h4 class="fw-bold fs-5 mt-0"
+    [class.text-primary]="!hasError"
+    [class.text-secondary]="hasError">
+  Selecione até 2 dias para receber
+</h4>
+
+<ul class="list-group list-group-flush d-flex flex-column gap-2">
+  <li class="list-group-item d-flex align-items-center border-2 gap-3 p-2 rounded-pill bg-gray-200"
+      [class.border-tiny-blue]="selection.isSelected(dayOfWeek) && !dayHasError(dayOfWeek)"
+      [class.border-gray-200]="!selection.isSelected(dayOfWeek)"
+      [class.border-secondary]="dayHasError(dayOfWeek)"
+      (click)="onCheckboxChange(dayOfWeek)"
+      *ngFor="let dayOfWeek of daysOfWeek; let i = index">
+
+    <mat-checkbox color="primary"
+                  class="d-flex align-items-center"
+                  [class.error]="dayHasError(dayOfWeek)"
+                  (click)="$event.stopPropagation()"
+                  (change)="onCheckboxChange(dayOfWeek)"
+                  [checked]="selection.isSelected(dayOfWeek)">
+      {{dayOfWeek.description}}
+    </mat-checkbox>
+  </li>
+</ul>

@@ -1,0 +1,112 @@
+<app-toolbar-background></app-toolbar-background>
+
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link back" (click)="onNavigateBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="title">Relatórios</span>
+    </a>
+
+    <div class="spacer"></div>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toolbar-action-notification"
+      aria-label="Notifications menu"
+      (click)="onNotificationClick()"
+    >
+      <span class="material-symbols-outlined">notifications</span>
+      <span
+        class="position-absolute translate-middle badge rounded-pill"
+        *ngIf="unreadedNotificationsCount > 0"
+      >
+        {{ unreadedNotificationsCount < 9 ? unreadedNotificationsCount : '9+' }}
+        <span class="visually-hidden">unread messages</span>
+      </span>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action signout"
+      aria-label="Signout"
+      (click)="onOpenMyDataDialog()"
+    >
+      <span class="material-symbols-outlined">person</span>
+    </button>
+  </section>
+</ng-template>
+
+<div class="mx-3 pb-4 mh-100">
+  <div class="reports-list content-scroll" *ngIf="!!requests && requests.length > 0">
+    <div
+      class="card mt-08 m-02"
+      *ngFor="let request of requests; let i = index"
+      (click)="onDetailReport(request)"
+    >
+      <div class="card-body d-flex flex-column align-items-center gap-2">
+        <div class="container">
+          <div class="row pb-1">
+            <div class="col-11 fs-5" align="start">
+              <div class="card-content d-flex justify-content-start align-items-center w-100">
+                <div class="reports-icon">
+                  <mat-icon
+                    matListItemIcon
+                    class="material-symbols-outlined text-secondary pr-01"
+                    *ngIf="request.movementType === 1; else receivables_icon"
+                  >
+                    credit_card
+                  </mat-icon>
+
+                  <ng-template #receivables_icon>
+                    <mat-icon
+                      matListItemIcon
+                      class="material-symbols-outlined text-secondary pr-01"
+                    >
+                      attach_money
+                    </mat-icon>
+                  </ng-template>
+                </div>
+
+                <div class="text-uppercase pl-01">
+                  {{ request.movementTypeDescription }}
+                </div>
+              </div>
+            </div>
+            <div class="col-1">
+              <span class="material-symbols-outlined">arrow_right</span>
+            </div>
+          </div>
+
+          <div class="row pt-1 pl-105">
+            <div class="col" align="start">
+              <div matListItemLine class="fw-bold dt-requested">
+                {{ request.requested | date: 'dd/MM/yyyy' }}
+              </div>
+              <div matListItemLine>
+                Período: {{ request.initialDate | date: 'dd/MM/yyyy' }} -
+                {{ request.finalDate | date: 'dd/MM/yyyy' }}
+              </div>
+              <div matListItemLine>Status: {{ request.progressStatus }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-actions">
+    <button mat-raised-button color="accent" (click)="onAddReportRequest()">
+      <span class="material-symbols-outlined">add</span>
+    </button>
+  </div>
+
+  <ng-template #requestDetailRef>
+    <app-report-detail-dialog
+      *ngIf="detailedRequest"
+      [request]="detailedRequest"
+      (download)="onDownloadExcel()"
+      (close)="onCloseDetailReport()"
+    >
+    </app-report-detail-dialog>
+  </ng-template>
+</div>

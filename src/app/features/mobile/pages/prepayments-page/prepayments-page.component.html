@@ -1,0 +1,208 @@
+<app-toolbar-background></app-toolbar-background>
+
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link back" (click)="onNavigateBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="title">Antecipação</span>
+    </a>
+
+    <div class="spacer"></div>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toolbar-action-notification"
+      aria-label="Notifications menu"
+      (click)="onNotificationClick()"
+    >
+      <span class="material-symbols-outlined">notifications</span>
+      <span
+        class="position-absolute translate-middle badge rounded-pill"
+        *ngIf="unreadedNotificationsCount > 0"
+      >
+        {{ unreadedNotificationsCount < 9 ? unreadedNotificationsCount : '9+' }}
+        <span class="visually-hidden">unread messages</span>
+      </span>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action select-establishments"
+      aria-label="Select establishments"
+      (click)="onSelectEstablishment()"
+    >
+      <span class="material-symbols-outlined">store</span>
+      <span
+        class="position-absolute translate-middle badge rounded-pill"
+        *ngIf="selectedEstablishments.length > 0"
+      >
+        {{ selectedEstablishments.length < 100 ? selectedEstablishments.length : '99+' }}
+        <span class="visually-hidden"> unread messages</span>
+      </span>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toggle-visibility"
+      aria-label="Toggle visibility"
+      (click)="onToggleVisibility()"
+    >
+      <span class="material-symbols-outlined" *ngIf="visibilityOn; else visibility_off"
+        >visibility_off</span
+      >
+
+      <ng-template #visibility_off>
+        <span class="material-symbols-outlined">visibility</span>
+      </ng-template>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action signout"
+      aria-label="Signout"
+      (click)="onOpenMyDataDialog()"
+    >
+      <span class="material-symbols-outlined">person</span>
+    </button>
+  </section>
+</ng-template>
+
+<div class="d-flex flex-column gap-3 mx-3 mh-100">
+  <ng-container *ngIf="!hasPermission; else has_permission">
+    <app-toolbar-background></app-toolbar-background>
+    <app-functionality-unavailable-card></app-functionality-unavailable-card>
+  </ng-container>
+
+  <ng-template #has_permission>
+    <ng-container *ngIf="!hasMfa; else hasMfa_found">
+      <div class="row card-group-row mb-lg-8pt">
+        <div class="col card-group-row__col">
+          <div class="card card-group-row__card">
+            <div class="card-body">
+              <h6 class="card-title fw-bolder text-secondary">
+                Para ter acesso a essa funcionalidade você precisa realizar a Autenticação de
+                Segurança.
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #hasMfa_found>
+      <div class="d-flex align-items-center justify-content-start gap-2">
+        <span class="text-secondary fw-semibold">1.</span>
+        <span class="text-white fw-semibold">Selecione um estabelecimento</span>
+      </div>
+
+      <button
+        mat-raised-button
+        class="establishment-selector w-100 rounded-pill"
+        (click)="onSelectPrepaymentEstablishments()"
+      >
+        <span class="material-symbols-outlined text-secondary">add_business</span>
+        <span class="text-dark">
+          {{
+            !!selectedEstablishmentName ? selectedEstablishmentName : 'Selecione estabelecimentos'
+          }}
+        </span>
+        <div class="spacer"></div>
+      </button>
+
+      <div class="d-flex flex-column gap-2">
+        <div
+          class="card-available d-flex align-items-center gap-3 rounded-4 bg-gray-300 p-3"
+          *ngIf="hasPunctualPermission"
+        >
+          <span class="card-icon material-symbols-outlined text-primary fw-semibold"
+            >calendar_clock</span
+          >
+          <div class="flex-grow-1 d-flex flex-column gap-1">
+            <h6>Disponível para antecipar</h6>
+            <div class="d-flex align-items-end gap-2 text-primary lh-1">
+              <span class="fs-5">R$</span>
+              <span class="fs-1 fw-bold" *ngIf="visibilityOn; else hidden_total_amount">
+                {{ totalAvailableAmountPrepayment | number : '1.2-2' }}
+              </span>
+
+              <ng-template #hidden_total_amount>
+                <span class="fs-1 fw-bold">{{
+                  totalAvailableAmountPrepayment | hiddenValue : '&lowast;' : 5
+                }}</span>
+              </ng-template>
+            </div>
+          </div>
+
+          <button mat-icon-button (click)="onToggleVisibility()">
+            <span
+              class="material-symbols-outlined text-tiny-blue"
+              *ngIf="visibilityOn; else visible_icon"
+              >visibility_off</span
+            >
+            <ng-template #visible_icon>
+              <span class="material-symbols-outlined text-tiny-blue">visibility</span>
+            </ng-template>
+          </button>
+        </div>
+      </div>
+
+      <div class="overflow-y-auto d-flex flex-column gap-4" style="max-height: calc(100vh - 271px)">
+        <div class="d-flex flex-column gap-2">
+          <div
+            class="d-flex flex-column align-items-start justify-content-center gap-2 rounded-4 bg-gray-300 p-1"
+          >
+            <button
+              mat-button
+              class="shortcut-button w-100 justify-content-start"
+              (click)="openAuthorizationDialog()"
+              *ngIf="!isD1"
+            >
+              <span class="material-symbols-outlined text-tiny-blue">verified</span>
+              <span class="text-tiny-blue fs-6">Autorização para consulta</span>
+            </button>
+
+            <button
+              mat-button
+              class="shortcut-button w-100 justify-content-start"
+              (click)="onOpenHistoricClick()"
+            >
+              <span class="material-symbols-outlined text-tiny-blue">history</span>
+              <span class="text-tiny-blue fs-6">Histórico de antecipações</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-start gap-2">
+          <span class="text-secondary fw-semibold">2.</span>
+          <span class="text-primary fw-semibold">Selecione a forma de antecipação</span>
+        </div>
+
+        <div>
+          <div class="carousel-prepayment">
+            <app-prepayments-scheduled-card
+              *ngIf="hasScheduledPermission"
+              [finalized]="finalized"
+              [hasSelectedEstablishment]="hasPrepaymentsEstablishmentsSelected"
+              [documentNumberSelected]="prepaymentEstablishmentsSelected"
+              [scheduledRate]="scheduledRate"
+              (activate)="onActivateClick()"
+              (edit)="onEditScheduledFinalizedClick($event)"
+              (cancel)="onCancelScheduledFinalizedClick($event)"
+            >
+            </app-prepayments-scheduled-card>
+
+            <app-prepayments-punctual-card
+              *ngIf="hasPunctualPermission"
+              [hasSelectedEstablishment]="hasPrepaymentsEstablishmentsSelected"
+              [documentNumberSelected]="prepaymentEstablishmentsSelected"
+              [punctualRate]="punctualRate"
+              [available]="prepaymentsAvailable"
+              (requestClick)="onRequestPunctualClick()"
+            >
+            </app-prepayments-punctual-card>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>

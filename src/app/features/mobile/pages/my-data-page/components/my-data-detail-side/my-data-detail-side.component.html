@@ -1,0 +1,132 @@
+<app-sidenav-panel>
+  <div sidenavPanelHeader>
+    <div class="zigzag zigzag-bottom"></div>
+
+    <div class="title card-icon">
+      <a mat-button class="nav-link " (click)="onClose()">
+        <span class="material-symbols-outlined">arrow_back</span>
+        <span class="title lh-1">Detalhes</span>
+      </a>
+    </div>
+
+    <div class="my-data-side-title">
+      <span class="title lh-1 text-gray-700">Domicílio Bancário</span>
+    </div>
+
+    <div class="summary d-flex justify-content-start w-100 p-3" style="padding-top: 0px !important; height: 7rem;">
+      <div class="d-flex align-items-center gap-2">
+
+        <div class="card" style="width: 25%;">
+          <img src="../../../../../../../assets/icons/banks/{{bankingAccount.bankCode}}.jpg" class="card-img-top w-100"
+            alt="..." *ngIf="!bankingAccount.pix">
+
+          <img src="../../../../../../../assets/icons/pix/logo-pix-256.png" class="card-img-top w-100" alt="..."
+            *ngIf="bankingAccount.pix">
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <div class="d-flex flex-column justify-content-end gap-2 text-gray-900">
+            <div>
+              <span class="bank-name text-gray-700"><b>{{bankingAccount.bankName}}</b></span>
+              <span class="fs-5 text-gray-700">AG: </span>
+              <span class="fs-5"><b>{{bankingAccount.agency}}</b></span>
+              <span class="fs-5 text-gray-700"> CC: </span>
+              <span class="fs-5"><b>{{bankingAccount.account}}</b></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div sidenavPanelBody>
+
+    <table class="table table-hover">
+      <th class="px-2 fw-bolder text-left wd-30">Bandeiras</th>
+      <th class="px-2 fw-bolder text-center wd-15">Débito</th>
+      <th class="px-2 fw-bolder text-center wd-15">Crédito</th>
+      <th class="px-2 fw-bolder text-center wd-15">Pix</th>
+
+      <tr>
+        <td *ngIf="bankingAccount.hasElo">
+          <img src="../../../../../../../assets/icons/cards/elo.png" class="card-img-top card-brand-icon" alt="...">
+        </td>
+        <td class="text-center wd-15" *ngIf="bankingAccount.hasElo">
+          <mat-icon matSuffix class="icon-check" *ngIf="bankingAccount.elo.debit">check_circle</mat-icon>
+        </td>
+        <td class="text-center wd-15" *ngIf="bankingAccount.hasElo">
+          <mat-icon matSuffix class="icon-check" *ngIf="bankingAccount.elo.credit">check_circle</mat-icon>
+        </td>
+        <td class="text-center wd-15"></td>
+      </tr>
+
+      <tr>
+        <td class="wd-30" *ngIf="bankingAccount.hasVisa">
+          <img src="../../../../../../../assets/icons/cards/visa.png" class="card-img-top card-brand-icon" alt="...">
+        </td>
+        <td class="text-center wd-15" *ngIf="bankingAccount.hasVisa">
+          <mat-icon matSuffix class="icon-check" *ngIf="bankingAccount.visa.debit">check_circle</mat-icon>
+        </td>
+        <td class="text-center wd-15" *ngIf="bankingAccount.hasVisa">
+          <mat-icon matSuffix class="icon-check" *ngIf="bankingAccount.visa.credit">check_circle</mat-icon>
+        </td>
+        <td class="text-center wd-15"></td>
+      </tr>
+
+      <tr>
+        <td *ngIf="bankingAccount.hasMaster">
+          <img src="../../../../../../../assets/icons/cards/master.png" class="card-img-top card-brand-icon" alt="...">
+        </td>
+        <td class="text-center wd-15" *ngIf="bankingAccount.hasMaster">
+          <mat-icon matSuffix class="icon-check" *ngIf="bankingAccount.master.debit">check_circle</mat-icon>
+        </td>
+        <td class="text-center wd-15" *ngIf="bankingAccount.hasMaster">
+          <mat-icon matSuffix class="icon-check" *ngIf="bankingAccount.master.credit">check_circle</mat-icon>
+        </td>
+        <td class="text-center wd-15"></td>
+      </tr>
+
+      <tr>
+        <td *ngIf="bankingAccount.hasHiper">
+          <img src="../../../../../../../assets/icons/cards/hiper.png" class="card-img-top card-brand-icon" alt="...">
+        </td>
+        <td class="text-center wd-15" *ngIf="bankingAccount.hasHiper">
+          <mat-icon matSuffix class="icon-check" *ngIf="bankingAccount.hiper.debit">check_circle</mat-icon>
+        </td>
+        <td class="text-center wd-15" *ngIf="bankingAccount.hasHiper">
+          <mat-icon matSuffix class="icon-check" *ngIf="bankingAccount.hiper.credit">check_circle</mat-icon>
+        </td>
+        <td class="text-center wd-15"></td>
+      </tr>
+
+      <tr>
+        <td *ngIf="bankingAccount.hasAmex">
+          <img src="../../../../../../../assets/icons/cards/amex.png" class="card-img-top card-brand-icon" alt="...">
+        </td>
+        <td class="text-center wd-15" *ngIf="bankingAccount.hasAmex">
+          <mat-icon matSuffix class="icon-check" *ngIf="bankingAccount.amex.debit">check_circle</mat-icon>
+        </td>
+        <td class="text-center wd-15" *ngIf="bankingAccount.hasAmex">
+          <mat-icon matSuffix class="icon-check" *ngIf="bankingAccount.amex.credit">check_circle</mat-icon>
+        </td>
+        <td class="text-center wd-15"></td>
+      </tr>
+
+      <tr>
+        <td>
+          <img src="../../../../../../../assets/icons/pix/logo-pix-256.png" class="card-img-top card-brand-icon"
+            alt="...">
+        </td>
+        <td class="text-center wd-15"></td>
+        <td class="text-center wd-15"></td>
+        <td class="text-center wd-15">
+          <mat-icon matSuffix class="icon-check" *ngIf="bankingAccount.pix">check_circle</mat-icon>
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+</app-sidenav-panel>

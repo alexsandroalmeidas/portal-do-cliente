@@ -1,0 +1,13 @@
+<h5 class="fw-bold fs-5 mt-0 mb-2" [class.text-primary]="!hasError" [class.text-secondary]="hasError">
+  Selecione até 2 dias para receber
+</h5>
+
+<div class="d-flex flex-wrap justify-content-left gap-2">
+  <div class="day d-flex align-items-center justify-content-center rounded-circle"
+    *ngFor="let dayOfMonth of daysOfMonth; let i = index"
+    [class.bg-tiny-blue]="selection.isSelected(dayOfMonth) && !dayHasError(dayOfMonth)"
+    [class.text-white]="selection.isSelected(dayOfMonth)" [class.bg-gray-200]="!selection.isSelected(dayOfMonth)"
+    [class.bg-secondary]="dayHasError(dayOfMonth)" (click)="onCheckboxChange(dayOfMonth)">
+    {{dayOfMonth}}
+  </div>
+</div>

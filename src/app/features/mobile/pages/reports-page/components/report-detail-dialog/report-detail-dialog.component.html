@@ -1,0 +1,100 @@
+<app-sidenav-panel>
+  <div sidenavPanelHeader>
+    <div class="zigzag zigzag-bottom"></div>
+
+    <div class="title card-icon">
+      <a mat-button class="nav-link" (click)="onClose()">
+        <span class="material-symbols-outlined">arrow_back</span>
+        <span class="title lh-1">Detalhes</span>
+      </a>
+    </div>
+
+    <div class="header-content">
+      <div class="gross-value">
+        <h3 class="text-secondary text-uppercase info-label mb-0">Valor Bruto</h3>
+        <div class="lh-1 d-flex align-items-end gap-2 fs-3">
+          <span class="info-label"><small>R$</small></span>
+          <span class="info-currency-qtd-1">
+            {{ request.grossValue | number: '1.2-2' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="net-value" *ngIf="request.movementType !== 3">
+        <h3 class="text-secondary text-uppercase info-label mb-0">Valor Líquido</h3>
+        <div class="lh-1 d-flex align-items-end gap-2 fs-3">
+          <span class="info-label"><small>R$</small></span>
+          <span class="info-currency-qtd-1">
+            {{ request.netValue | number: '1.2-2' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="qtd-sales" *ngIf="request.movementType === 3">
+        <h3 class="text-secondary text-uppercase info-label mb-0">Quantidade de Vendas</h3>
+        <div class="lh-1 d-flex align-items-end gap-2 fs-3">
+          <span class="info-label"><small></small></span>
+          <span>
+            {{ request.qtdSales }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div sidenavPanelBody>
+    <mat-list class="mx-3 py-0">
+      <mat-list-item class="px-0">
+        <span> <strong>Data: </strong>{{ request.requested | date: 'dd/MM/yyyy' }} </span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span> <strong>Tipo de movimento: </strong>{{ request.movementTypeDescription }} </span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span>
+          <strong>Período: </strong>{{ request.initialDate | date: 'dd/MM/yyyy' }} -
+          {{ request.finalDate | date: 'dd/MM/yyyy' }}
+        </span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span> <strong>Status: </strong>{{ request.progressStatus }} </span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0 py-2 h-auto">
+        <span class="text-wrap"> <strong>Estabelecimentos: </strong>{{ request.documents }} </span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0 py-2 h-auto">
+        <span class="text-wrap"> <strong>Equipamentos: </strong>{{ request.equipments }} </span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+    </mat-list>
+  </div>
+
+  <div sidenavPanelFooter>
+    <button
+      mat-stroked-button
+      class="rounded-pill"
+      color="primary"
+      (click)="onDownload()"
+      *ngIf="canDownload()"
+    >
+      <span class="material-symbols-outlined text-primary">download</span>
+      <span class="text-primary">Baixar</span>
+    </button>
+  </div>
+</app-sidenav-panel>

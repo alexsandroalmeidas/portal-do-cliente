@@ -1,0 +1,64 @@
+<div class="daily-view d-flex flex-column gap-3">
+  <div class="card" *ngFor="let sale of sales; let i = index" [ngClass]="{'mt-3': i === 0}"
+    (click)="onDetailSale(sale)">
+    <div class="card-body">
+
+      <div class="card-content w-100 d-flex align-items-start justify-content-between gap-3">
+        <div class="content-info d-flex align-items-start justify-content-start gap-3">
+          <span class="material-symbols-outlined text-secondary">credit_score</span>
+          <div class="info-detail d-flex flex-column text-nowrap">
+
+            <span *ngIf="visibilityOn; else hidden_payment_type">
+              {{sale.paymentType}}
+            </span>
+
+            <ng-template #hidden_payment_type>
+              <span class="lh-1">
+                {{sale.paymentType | hiddenValue:'&lowast;':5 }}
+              </span>
+            </ng-template>
+
+            <span>
+              <span class="info-label mr-2"><small>R$</small></span>
+              <span class="info-currency-qtd-2" *ngIf="visibilityOn; else hidden_sale_amount">
+                {{sale.saleAmount | number:'1.2-2'}}
+              </span>
+
+              <ng-template #hidden_sale_amount>
+                <span class="lh-1">{{sale.saleAmount || 0 | hiddenValue:'&lowast;':5 }}</span>
+              </ng-template>
+            </span>
+
+            <span *ngIf="visibilityOn; else hidden_card_brand">
+              Bandeira: {{sale.cardBrand}}
+            </span>
+            <ng-template #hidden_card_brand>
+              <span class="lh-1">Bandeira: {{sale.cardBrand | hiddenValue:'&lowast;':5 }}</span>
+            </ng-template>
+
+            <span *ngIf="visibilityOn; else hidden_nsu" style="white-space: normal !important;">
+              Identificação: {{getIdentification(sale.nsu)}}
+            </span>
+            <ng-template #hidden_nsu>
+              <span class="lh-1"> Identificação: {{sale.nsu | hiddenValue:'&lowast;':5 }}</span>
+            </ng-template>
+
+            <span *ngIf="visibilityOn; else hidden_status">
+              Status: {{sale.status}}
+            </span>
+            <ng-template #hidden_status>
+              <span class="lh-1"> Status: {{sale.status | hiddenValue:'&lowast;':5 }}</span>
+            </ng-template>
+
+          </div>
+        </div>
+        <div class="card-actions d-flex align-items-center">
+          <button type="button" class="btn-icon m-0 p-0">
+            <span class="material-symbols-outlined">arrow_right</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

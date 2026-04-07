@@ -1,0 +1,41 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelHeaderTools>
+    <h1>Agendamento</h1>
+    <mat-divider></mat-divider>
+  </div>
+
+  <div bottomSheetPanelBody>
+    <mat-form-field appearance="fill">
+      <mat-label>Período</mat-label>
+      <mat-date-range-input [formGroup]="form" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Data início">
+        <input matEndDate formControlName="end" placeholder="Data fim">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-error *ngIf="form.get('start')?.hasError('matStartDateInvalid')">Data início inválida</mat-error>
+      <mat-error *ngIf="form.get('end')?.hasError('matEndDateInvalid')">Invalid Data fim</mat-error>
+    </mat-form-field>
+
+    <mat-divider></mat-divider>
+  </div>
+
+  <div bottomSheetPanelFooter>
+    <button mat-stroked-button
+            class="rounded-pill"
+            color="primary"
+            (click)="onCancel()">
+      <span class="text-primary">Cancelar</span>
+    </button>
+
+    <button mat-raised-button
+            class="rounded-pill"
+            color="primary"
+            [disabled]="form.invalid"
+            (click)="onSend()">
+      <span class="material-symbols-outlined text-white">arrow_forward</span>
+      <span class="text-white">Enviar</span>
+    </button>
+  </div>
+
+</app-bottom-sheet-panel>

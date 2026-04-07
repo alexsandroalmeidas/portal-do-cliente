@@ -1,0 +1,6 @@
+<section class="bottom-sheet-panel-header" *ngIf="hasHeader">
+  <div class="puller"></div>
+  <ng-content select="[bottomSheetPanelHeaderTools]"></ng-content>
+</section>
+<ng-content select="[bottomSheetPanelBody]"></ng-content>
+<ng-content select="[bottomSheetPanelFooter]"></ng-content>

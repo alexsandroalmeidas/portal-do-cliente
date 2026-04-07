@@ -1,0 +1,118 @@
+<app-bottom-sheet-panel [hasHeader]="false">
+  <div bottomSheetPanelBody class="d-flex flex-column justify-content-center gap-4 px-4 mt-3">
+    <div class="d-flex align-items-start gap-3">
+      <h4 class="flex-fill m-0 text-start text-primary fw-semibold">
+        Histórico de antecipações
+      </h4>
+      <button class="btn bg-transparent d-flex align-items-center justify-content-center border-0 p-0"
+        (click)="handleClose()">
+        <span class="material-symbols-outlined text-gray-600">close</span>
+      </button>
+    </div>
+
+    <div class="d-flex flex-column gap-2 w-100">
+      <h5 class="m-0 fw-normal">Periodo</h5>
+
+      <div class="filters d-flex justify-content-start align-items-center gap-2 w-100 overflow-auto">
+        <button class="btn text-nowrap d-flex align-items-center gap-2 py-2 px-3"
+          [class.bg-gray-600]="filter.period !== 'lastWeek'" [class.bg-tiny-blue]="filter.period === 'lastWeek'"
+          (click)="onChangeDatePeriod('lastWeek')">
+          <span class="lh-1 text-white">Última semana</span>
+        </button>
+
+        <button class="btn text-nowrap d-flex align-items-center gap-2 py-2 px-3"
+          [class.bg-gray-600]="filter.period !== 'lastMonth'" [class.bg-tiny-blue]="filter.period === 'lastMonth'"
+          (click)="onChangeDatePeriod('lastMonth')">
+          <span class="lh-1 text-white">Último mês</span>
+        </button>
+
+        <button class="btn text-nowrap d-flex align-items-center gap-2 py-2 px-3"
+          [class.bg-gray-600]="filter.period !== 'last3Months'" [class.bg-tiny-blue]="filter.period === 'last3Months'"
+          (click)="onChangeDatePeriod('last3Months')">
+          <span class="lh-1 text-white">Últimos 3 meses</span>
+        </button>
+
+        <button class="btn text-nowrap d-flex align-items-center gap-2 py-2 px-3"
+          [class.bg-gray-600]="filter.period !== 'lastYear'" [class.bg-tiny-blue]="filter.period === 'lastYear'"
+          (click)="onChangeDatePeriod('lastYear')">
+          <span class="lh-1 text-white">Último ano</span>
+        </button>
+
+        ou
+
+        <button class="btn text-nowrap d-flex align-items-center gap-2 py-2 px-3"
+          [class.bg-gray-600]="filter.period !== 'custom'" [class.bg-tiny-blue]="filter.period === 'custom'"
+          (click)="sidenavService.open(periodFilterRef)">
+          <span class="lh-1 text-white">{{filter.range.start | date:'dd/MM/yyyy'}} - {{filter.range.end |
+            date:'dd/MM/yyyy'}}</span>
+        </button>
+      </div>
+    </div>
+
+    <app-expansion-panel class="w-100">
+      <app-expansion-panel-item [expandable]="false" class="bg-transparent ps-2 pe-3 pt-2 pb-2 border-0">
+        <div panelTitle class="d-flex align-items-center gap-2 w-100">
+          <span class="flex-fill w-50 text-gray-600 ms-2 fw-semibold text-start">Status</span>
+          <span class="flex-fill text-gray-600 fw-semibold text-start">Valor antecipado</span>
+        </div>
+      </app-expansion-panel-item>
+
+      <app-expansion-panel-item class="bg-gray-200" [style.padding]="'0.75rem'"
+        *ngFor="let item of historic; let i = index">
+        <div panelTitle class="d-flex align-items-center justify-content-between gap-4 w-100">
+          <div class="flex-fill" [style.width]="'60%'">
+            <div class="alert rounded-pill m-0 px-3 py-1 fs-7" [style.width]="'fit-content'" role="alert"
+              [class.alert-success]="item.status === 1" [class.text-success]="item.status === 1"
+              [class.alert-warning]="item.status === 0" [class.text-warning]="item.status === 0"
+              [class.alert-secondary]="item.status === 2" [class.text-secondary]="item.status === 2">
+
+              <ng-container [ngSwitch]="item.status">
+                <span *ngSwitchCase="0">Em andamento</span>
+                <span *ngSwitchCase="1">Concluído</span>
+                <span *ngSwitchCase="2">Erro na antecipação</span>
+              </ng-container>
+            </div>
+          </div>
+          <div class="flex-fill" [style.width]="'40%'">
+            <span class="fw-semibold text-start me-2">{{item.prepaymentValue | currency:'BRL':'symbol':'1.2-2'}}</span>
+          </div>
+        </div>
+
+        <div panelContent class="d-flex flex-column gap-2 mt-3 p-1 pt-3 border-top">
+          <div class="border-bottom w-100 pb-3" *ngIf="item.status === 2">
+            <span>Favor entrar em contato com a central de atendimento</span>
+          </div>
+          <div class="d-flex align-items-center justify-content-between gap-2 w-100">
+            <div class="d-flex align-items-center gap-1 text-start">
+              <span class="text-gray-500">Tipo:</span>
+              <span>{{item.isPunctual ? 'Antecipação Pontual' : 'Antecipaçao programada'}}</span>
+            </div>
+            <div class="d-flex align-items-center gap-1 text-start">
+              <span class="text-gray-500">Código:</span>
+              <span>{{item.code}}</span>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between gap-2 w-100">
+            <div class="d-flex align-items-center gap-1 text-start">
+              <span class="text-gray-500">Tipo:</span>
+              <span>{{item.registrationDate | date:'dd/MM/YYYY'}}</span>
+            </div>
+            <div class="d-flex align-items-center gap-1 text-start">
+              <span class="text-gray-500">Canal:</span>
+              <span>{{item.channel}}</span>
+            </div>
+          </div>
+        </div>
+      </app-expansion-panel-item>
+    </app-expansion-panel>
+
+    <span class="text-center mb-3" *ngIf="!!historic && historic.length > 0">Fim da lista</span>
+  </div>
+</app-bottom-sheet-panel>
+
+<ng-template #periodFilterRef>
+  <app-period-filter-dialog [initialRange]="filter.range" [maxDate]="today" (confirm)="onChangeDateRange($event)"
+    (cancel)="sidenavService.close()">
+  </app-period-filter-dialog>
+</ng-template>

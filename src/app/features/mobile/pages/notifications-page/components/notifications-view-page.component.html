@@ -1,0 +1,9 @@
+<div class="pb-10 content-scroll">
+  <mat-list>
+    <mat-list-item class="card pt-1">
+      <div matListItemTitle>{{notificationView.createdDate | date:'dd/MM/yyyy'}}</div>
+      <div matListItemLine class="fw-bold">{{notificationView.title}}</div>
+      <div matListItemLine [innerHTML]="safeHtml"></div>
+    </mat-list-item>
+  </mat-list>
+</div>

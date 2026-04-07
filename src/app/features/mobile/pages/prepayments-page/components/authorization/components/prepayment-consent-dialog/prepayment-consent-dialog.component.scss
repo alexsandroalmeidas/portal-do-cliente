@@ -1,0 +1,77 @@
+:host {
+  .mt-08 {
+    margin-top: 0.8rem !important;
+  }
+  
+  .card {
+    height: 8rem;
+    border-color: var(--bs-light);
+    background: var(--bs-gray-200);
+
+    .word-break {
+      word-break: normal;
+    }
+
+    .btn-authorization-request {
+      width: 140px;
+      margin-top: 1rem;
+    }
+
+    .card-rates {
+
+      .card-rate {
+        border-radius: 7px;
+        background: var(--bs-gray-200);
+        color: var(--bs-primary);
+      }
+    }
+
+    .list {
+      width: 90%;
+      background: var(--bs-gray-200);
+
+      .list-group {
+        border: none !important;
+
+        .list-group-item {
+          border: none !important;
+          padding: 0px;
+          background: var(--bs-gray-200);
+
+          &:first-child {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+
+    .card-body {
+
+      .card-prepayment {
+        .container {
+          padding-left: 0px;
+        }
+
+        .prepayment-icon {
+          padding-bottom: 4rem;
+
+          .material-symbols-outlined {
+            font-size: 35px;
+          }
+        }
+
+        .fs-14 {
+          font-size: 14px !important;
+        }
+
+        .pr-2 {
+          padding-right: 2rem;
+        }
+
+        .pr-10 {
+          padding-right: 10rem;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+:host {
+  .card {
+    min-height: 17rem;
+    border-color: var(--bs-light);
+    background: var(--bs-gray-200);
+
+    .mt-1 {
+      margin-top: 1rem !important;
+    }
+
+    .card-body {
+      .card-summary {
+        .summary-icon {
+          .material-symbols-outlined {
+            font-size: 35px;
+          }
+        }
+      }
+
+      .card-detail {
+        font-size: 16px;
+        background: var(--bs-gray-200);
+
+        .list-group-item {
+          background: var(--bs-gray-200);
+        }
+
+        .values-align {
+          padding-left: 0.3rem;
+        }
+
+        .values-align .val-right {
+          float: right;
+        }
+
+        .values-align .val-left {
+          float: left;
+        }
+      }
+
+      /* 🔹 Caixa branca da última atualização */
+      .last-update-box {
+        background-color: white;
+        border-radius: 1.5rem;
+        width: auto; /* se ajusta ao conteúdo */
+        padding: 0.2rem 0.8rem; /* padding compacto */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0.3rem;
+        font-size: 0.8rem; /* fonte menor */
+      }
+
+      /* 🔹 Texto + ícone alinhados lado a lado */
+      .last-update-container {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem; /* espaço entre texto e ícone */
+        white-space: nowrap; /* evita quebrar linha */
+      }
+    }
+  }
+}

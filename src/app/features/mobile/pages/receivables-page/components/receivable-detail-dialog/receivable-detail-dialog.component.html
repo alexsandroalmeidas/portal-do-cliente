@@ -1,0 +1,187 @@
+<app-sidenav-panel>
+  <div sidenavPanelHeader>
+    <div class="zigzag zigzag-bottom"></div>
+
+    <div class="title card-icon">
+      <a mat-button class="nav-link " (click)="onClose()">
+        <span class="material-symbols-outlined">arrow_back</span>
+        <span class="title lh-1">Detalhes</span>
+      </a>
+    </div>
+
+    <div class="summary d-flex justify-content-start w-100 p-3 pt-0">
+      <div class="d-flex align-items-center gap-2">
+
+        <div class="d-flex align-items-center">
+          <span class="material-symbols-outlined text-secondary receivable-icon" *ngIf="visibilityOn">
+            {{receivable.paymentStatus === 'Pago' ? 'done' : 'schedule'}}
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <div class="d-flex flex-column justify-content-end gap-2 text-gray-900">
+            <span class="info-label">VALOR DO PAGAMENTO</span>
+            <div class="lh-1 d-flex align-items-end gap-2 fs-3">
+              <span class="info-label"><small>R$</small></span>
+              <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_receivable_amount">
+                {{receivable.paymentAmount | number:'1.2-2'}}
+              </span>
+              <ng-template #hidden_receivable_amount>
+                <span class="lh-1">
+                  {{receivable.paymentAmount || 0 | hiddenValue:'&lowast;':5 }}</span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div sidenavPanelBody>
+
+    <mat-list class="mx-3 py-0">
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Valor da venda:</span>
+
+        <span *ngIf="visibilityOn; else hidden_sale_amount">
+          {{receivable.saleAmount | currency: "BRL":"symbol":"1.2-2"}}
+        </span>
+        <ng-template #hidden_sale_amount>
+          <span class="lh-1">{{receivable.saleAmount | hiddenValue:'&lowast;':5 }}</span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Data da venda:</span>
+
+        <span *ngIf="visibilityOn; else hidden_sale_date">
+          {{receivable.saleDate | date:'dd/MM/yyyy'}} - {{receivable.saleDate | date:'HH'}}h{{receivable.saleDate |
+          date:'mm'}}
+        </span>
+        <ng-template #hidden_sale_date>
+          <span class="lh-1">
+            {{receivable.saleDate | hiddenValue:'&lowast;':5}} - {{receivable.saleDate |
+            hiddenValue:'&lowast;':5}}h{{receivable.saleDate | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Desconto da taxa:</span>
+        <span *ngIf="visibilityOn; else hidden_discount_fee">
+          {{receivable.discountFee | currency: "BRL":"symbol":"1.2-2"}}
+        </span>
+        <ng-template #hidden_discount_fee>
+          <span class="lh-1">{{receivable.discountFee | hiddenValue:'&lowast;':5 }}</span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0" *ngIf="!receivable.isAdjust">
+        <span class="fw-bold">Desconto da antecipação:</span>
+        <span *ngIf="visibilityOn; else hidden_prepayment_fee_amount">
+          {{receivable.prepaymentFeeAmount | currency: "BRL":"symbol":"1.2-2"}}
+        </span>
+        <ng-template #hidden_prepayment_fee_amount>
+          <span class="lh-1">{{receivable.prepaymentFeeAmount | hiddenValue:'&lowast;':5 }}</span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider *ngIf="!receivable.isAdjust"></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Data do pagamento:</span>
+
+        <span *ngIf="visibilityOn; else hidden_payment_date">
+          {{receivable.paymentDate | date:'dd/MM/yyyy'}}
+        </span>
+        <ng-template #hidden_payment_date>
+          <span class="lh-1">
+            {{receivable.paymentDate | hiddenValue:'&lowast;':5}} - {{receivable.saleDate |
+            hiddenValue:'&lowast;':5}}h{{receivable.saleDate | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0" *ngIf="!receivable.isAdjust">
+        <span class="fw-bold">Domicílio bancário:</span>
+        <span *ngIf="visibilityOn; else hidden_banking_account">
+          {{ receivable.bank }} / {{ receivable.agency }} / {{ receivable.account }}
+        </span>
+        <ng-template #hidden_banking_account>
+          <span class="lh-1">
+            {{ receivable.bank | hiddenValue:'&lowast;':5}} / {{ receivable.agency | hiddenValue:'&lowast;':5}} / {{
+            receivable.account | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+        <span></span>
+      </mat-list-item>
+
+      <mat-divider *ngIf="!receivable.isAdjust"></mat-divider>
+
+      <mat-list-item class="px-0" *ngIf="!receivable.isAdjust">
+        <span class="fw-bold">Número do equipamento:</span>
+        <span *ngIf="visibilityOn; else hidden_terminal_number">
+          {{receivable.terminalNumber}}
+        </span>
+        <ng-template #hidden_terminal_number>
+          <span class="lh-1">
+            {{receivable.terminalNumber | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider *ngIf="!receivable.isAdjust"></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Pagamento:</span>
+        <span *ngIf="visibilityOn; else hidden_payment_type">
+          {{receivable.paymentType}}
+        </span>
+        <ng-template #hidden_payment_type>
+          <span class="lh-1">
+            {{receivable.paymentType | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Bandeira:</span>
+        <span *ngIf="visibilityOn; else hidden_card_brand">
+          {{receivable.cardBrand}}
+        </span>
+        <ng-template #hidden_card_brand>
+          <span class="lh-1">
+            {{receivable.cardBrand | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-bold">Identificacao:</span>
+        <span *ngIf="visibilityOn; else hidden_nsu" style="white-space: normal !important;">
+          {{receivable.nsu}}
+        </span>
+        <ng-template #hidden_nsu>
+          <span class="lh-1">
+            {{receivable.nsu | hiddenValue:'&lowast;':5}}
+          </span>
+        </ng-template>
+      </mat-list-item>
+    </mat-list>
+
+  </div>
+</app-sidenav-panel>

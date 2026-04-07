@@ -1,0 +1,152 @@
+<app-bottom-sheet-panel>
+    <div bottomSheetPanelBody class="d-flex flex-column" [formGroup]="form">
+        <div class="zigzag zigzag-bottom"></div>
+
+        <div class="summary">
+            <div class="summary-icon">
+                <span class="material-symbols-outlined text-secondary">order_approve</span>
+            </div>
+            <div class="summary-info">
+                <span class="info-label info-label">Total dos Recebimentos Previsto</span>
+                <div class="info-text lh-1 d-flex align-items-end gap-2 fs-3">
+                    <span class="info-label"><small>R$</small></span>
+                    <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_receivables_amount">
+                        {{values.totalAmount || 0 | number:'1.2-2'
+                        }}</span>
+
+                    <ng-template #hidden_receivables_amount>
+                        <span class="lh-1">{{values.totalAmount || 0 | hiddenValue:'&lowast;':5 }}</span>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary2">
+            <mat-divider></mat-divider>
+            <div class="summary-info mt-4">
+                <div class="progressbar">
+                    <div class="d-flex justify-content-between">
+                        <span>DÉBITO</span>
+                        <span>CRÉDITO</span>
+                    </div>
+
+                    <section class="d-flex justify-content-start">
+                        <mat-progress-bar class="progress" [mode]="'determinate'" [value]="values.debitPercent"
+                            [bufferValue]="100">
+                        </mat-progress-bar>
+                    </section>
+
+                    <mat-list class="card-detail list-group list-group-flush w-100 mt-2">
+                        <mat-list-item class="px-0">
+                            <div class="values-align d-flex align-items-center justify-content-between">
+                                <span class="text-start val-left">
+                                    <span class="info-label mr-2"><small>R$</small></span>
+                                    <span class="text-end info-currency-qtd-2"
+                                        *ngIf="visibilityOn; else hidden_debit_amount">
+                                        {{values.debitAmount || 0 | number:'1.2-2' }}
+                                    </span>
+                                    <ng-template #hidden_debit_amount>
+                                        <span class="lh-1">{{values.debitAmount || 0 | hiddenValue:'&lowast;':5
+                                            }}</span>
+                                    </ng-template>
+                                </span>
+
+                                <span class="text-end val-right">
+                                    <span class="info-label mr-2"><small>R$</small></span>
+                                    <span class="text-end info-currency-qtd-2"
+                                        *ngIf="visibilityOn; else hidden_credit_amount">
+                                        {{values.creditAmount || 0 | number:'1.2-2' }}
+                                    </span>
+
+                                    <ng-template #hidden_credit_amount>
+                                        <span class="lh-1">{{values.creditAmount || 0 | hiddenValue:'&lowast;':5
+                                            }}</span>
+                                    </ng-template>
+                                </span>
+                            </div>
+                        </mat-list-item>
+
+                        <mat-divider></mat-divider>
+
+                        <mat-list-item class="px-0">
+                            <div class="values-align d-flex align-items-center justify-content-between">
+                                <span class="text-start val-left">
+                                    <span class="text-end info-currency-qtd-2"
+                                        *ngIf="visibilityOn; else hidden_debit_percent">
+                                        {{values.debitPercent}} %
+                                    </span>
+                                    <ng-template #hidden_debit_percent>
+                                        <span class="lh-1">{{values.debitPercent | hiddenValue:'&lowast;':5 }} %</span>
+                                    </ng-template>
+                                </span>
+
+                                <span class="text-end val-right">
+                                    <span class="text-end info-currency-qtd-2"
+                                        *ngIf="visibilityOn; else hidden_credit_percent">
+                                        {{values.creditPercent}} %
+                                    </span>
+                                    <ng-template #hidden_credit_percent>
+                                        <span class="lh-1">{{values.creditPercent | hiddenValue:'&lowast;':5 }} %</span>
+                                    </ng-template>
+                                </span>
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+            </div>
+
+        </div>
+
+        <mat-list class="card-detail list-group list-group-flush w-100 mt-2">
+            <mat-list-item class="px-0">
+                <div class="values-align d-flex align-items-center justify-content-between">
+                    <span class="text-start text-uppercase info-label val-left">Hoje</span>
+
+                    <span class="text-end val-right">
+                        <span class="info-label mr-2"><small>R$</small></span>
+                        <span class="text-end info-currency-qtd-1" *ngIf="visibilityOn; else hidden_today">
+                            {{values.todayAmount || 0 | number:'1.2-2' }}
+                        </span>
+
+                        <ng-template #hidden_today>
+                            <span class="lh-1">{{values.todayAmount || 0 | hiddenValue:'&lowast;':5 }}</span>
+                        </ng-template>
+                    </span>
+                </div>
+            </mat-list-item>
+
+            <mat-divider></mat-divider>
+
+            <mat-list-item class="px-0">
+                <div class="values-align d-flex align-items-center justify-content-between">
+                    <span class="text-start text-uppercase info-label val-left">Futuros Previsto</span>
+
+                    <span class="text-end val-right">
+                        <span class="info-label mr-2"><small>R$</small></span>
+                        <span class="text-end info-currency-qtd-1" *ngIf="visibilityOn; else hidden_future">
+                            {{values.futureAmount || 0 | number:'1.2-2' }}
+                        </span>
+                    </span>
+
+                    <ng-template #hidden_future>
+                        <span class="lh-1">{{values.futureAmount || 0 | hiddenValue:'&lowast;':5 }}</span>
+                    </ng-template>
+                </div>
+            </mat-list-item>
+
+            <mat-divider></mat-divider>
+
+            <span class="updatedDate fw-semibold">Os recebimentos futuros poderão sofrer alterações</span>
+        </mat-list>
+
+    </div>
+
+    <div bottomSheetPanelFooter>
+        <button mat-stroked-button class="rounded-pill" color="primary" *ngIf="data.showDetailsButtom"
+            (click)="goToReceivables()">
+            <span class="material-symbols-outlined text-primary">order_approve</span>
+            <span class="text-primary">Mais detalhes</span>
+        </button>
+    </div>
+
+</app-bottom-sheet-panel>

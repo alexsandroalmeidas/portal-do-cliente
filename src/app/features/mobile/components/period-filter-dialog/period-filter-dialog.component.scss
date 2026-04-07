@@ -1,0 +1,65 @@
+:host {
+  div.spacer {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+
+  .sidenav-panel {
+    justify-content: flex-start;
+
+    
+    .sidenav-panel-header {
+      display: flex;
+      flex-direction: column;
+
+      .close {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .title {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-left: 3rem;
+        font-weight: 600;
+        font-size: 13px;
+      }
+
+      .selection {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-left: 3rem;
+        font-weight: 600;
+        font-size: 16px;
+        gap: 0.5rem;
+
+        .mdc-icon-button {
+          .material-symbols-outlined {
+            font-size: 20px;
+          }
+        }
+      }
+    }
+
+    .sidenav-panel-body {
+      ::ng-deep .mat-calendar {
+        mat-calendar-header {
+          .mat-calendar-header {
+            .mat-calendar-controls {
+              margin-top: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .sidenav-panel-footer {
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+}

@@ -1,0 +1,85 @@
+<app-sidenav-panel>
+  <div sidenavPanelHeader>
+    <div class="zigzag zigzag-bottom"></div>
+
+    <div class="title card-icon">
+      <a mat-button class="nav-link" (click)="onClose()">
+        <span class="material-symbols-outlined">arrow_back</span>
+        <span class="title lh-1">Detalhes</span>
+      </a>
+    </div>
+
+    <div
+      class="summary d-flex justify-content-start w-100 p-3"
+      style="padding-top: 0px !important; height: 7rem"
+    >
+      <div class="d-flex align-items-center gap-2">
+        <div class="card" style="width: 50%">
+          <img
+            src="../../../../../../../assets/icons/cards/{{ cardBrandSelected }}.png"
+            class="card-img-top card-brand-icon w-100"
+            alt="..."
+            *ngIf="cardBrandSelected !== 'pix'"
+          />
+
+          <img
+            src="../../../../../../../assets/icons/pix/logo-pix-256.png"
+            class="card-img-top card-brand-icon w-100"
+            alt="..."
+            *ngIf="cardBrandSelected === 'pix'"
+          />
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <div class="d-flex flex-column justify-content-end gap-2 text-gray-900">
+            <span class="info-label">{{ cardBrandName }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div sidenavPanelBody>
+    <div
+      class="text-center"
+      *ngIf="
+        cardBrandSelected === 'pix' &&
+        !!economicGroupRates.pixMinRate &&
+        economicGroupRates.pixMinRate >= 0
+      "
+    >
+      <!-- <p>Taxa mínima: <b>R${{economicGroupRates.pixMinRate}}</b> </p> -->
+    </div>
+
+    <table>
+      <th class="px-2 fw-bolder">Forma de pagamento</th>
+      <th class="px-2 fw-bolder">Taxa</th>
+      <th class="px-2 fw-bolder">Prazo</th>
+      <tr *ngFor="let rate of rates">
+        <td class="px-2" style="text-align: start">
+          {{ rate.description }} {{ rate.paymentType === 'installment02' ? '*' : '' }}
+        </td>
+        <td class="px-2" *ngIf="cardBrandSelected != 'pix'">{{ getRate(rate) }}</td>
+        <td class="px-2" *ngIf="cardBrandSelected !== 'pix'">{{ getPeriod(rate) }}</td>
+
+        <td class="px-2" *ngIf="cardBrandSelected === 'pix' && !economicGroupRates.pixDisabled">
+          {{ getRate(rate) }}
+        </td>
+        <td class="px-2" *ngIf="cardBrandSelected === 'pix' && !economicGroupRates.pixDisabled">
+          {{ getPeriod(rate) }}
+        </td>
+        <td
+          class="px-2"
+          colspan="2"
+          *ngIf="cardBrandSelected === 'pix' && economicGroupRates.pixDisabled"
+        >
+          Produto Desabilitado
+        </td>
+      </tr>
+    </table>
+
+    <div class="text-start p-1" *ngIf="cardBrandSelected !== 'pix'">
+      <small>* Caso tenha antecipação automática, o prazo de pagamento pode mudar. </small>
+    </div>
+  </div>
+</app-sidenav-panel>

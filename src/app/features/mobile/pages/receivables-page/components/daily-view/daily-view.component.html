@@ -1,0 +1,59 @@
+<div class="daily-view d-flex flex-column gap-3">
+  <div class="card" *ngFor="let receivable of receivables; let i = index"
+       [ngClass]="{'mt-3': i === 0}"
+       (click)="onDetailReceivable(receivable)">
+    <div class="card-body">
+
+      <div class="card-content w-100 d-flex align-items-start justify-content-between gap-3">
+        <div class="content-info d-flex align-items-start justify-content-start gap-3">
+          <span class="material-symbols-outlined text-secondary" *ngIf="visibilityOn">{{receivable.paymentStatus === 'Pago' ? 'done' : 'schedule'}}</span>
+          <div class="info-detail d-flex flex-column text-nowrap">
+
+            <span class="fw-semibold text-uppercase" *ngIf="visibilityOn; else hidden_payment_status">
+              {{receivable.paymentStatus}}
+            </span>
+
+            <ng-template #hidden_payment_status>
+              <span class="lh-1">{{receivable.paymentStatus | hiddenValue:'&lowast;':5 }}</span>
+            </ng-template>
+
+            <span>
+              <span class="info-label"><small>R$</small></span>
+              <span class="info-currency-qtd-2" *ngIf="visibilityOn; else hidden_receivable_amount">
+                {{receivable.paymentAmount | number:'1.2-2'}}
+              </span>
+
+              <ng-template #hidden_receivable_amount>
+                <span class="lh-1">{{receivable.paymentAmount || 0 | hiddenValue:'&lowast;':5 }}</span>
+              </ng-template>
+            </span>
+
+            <span *ngIf="visibilityOn; else hidden_payment_type">
+              Pagamento: {{receivable.paymentType}}
+            </span>
+
+            <ng-template #hidden_payment_type>
+              <span class="lh-1">
+                {{receivable.paymentType | hiddenValue:'&lowast;':5 }}
+              </span>
+            </ng-template>
+
+            <span *ngIf="visibilityOn; else hidden_nsu" style="white-space: normal !important;">
+              Identificacao: {{receivable.nsu}}
+            </span>
+            <ng-template #hidden_nsu>
+              <span class="lh-1">{{receivable.nsu | hiddenValue:'&lowast;':5 }}</span>
+            </ng-template>
+
+          </div>
+        </div>
+        <div class="card-actions d-flex align-items-center">
+          <button type="button" class="btn-icon m-0 p-0">
+            <span class="material-symbols-outlined">arrow_right</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

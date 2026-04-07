@@ -51,3 +51,12 @@
 .v-align-middle {
   vertical-align: middle !important;
 }
+
+.text-secondary {
+  color: var(--primary) !important;
+}
+
+.bg-secondary {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(---text-neutral), var(--bs-bg-opacity)) !important;
+}

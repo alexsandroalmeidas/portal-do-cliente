@@ -1,0 +1,39 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelBody class="d-flex flex-column text-center">
+
+    <h1 mat-dialog-title>
+      <mat-icon matSuffix class="icon-color">check_circle</mat-icon> <br />
+
+      <div class="p-1 fs-3">
+        Antecipação Pontual solicitada com sucesso!
+      </div>
+    </h1>
+
+    <p class="p-1 attention">
+      Consulte o status da sua antecipação em "Histórico de Solicitações".
+    </p>
+
+    <p class="p-1 attention">
+      Ative a Antecipação Automática e escolha quando
+      desejar receber suas vendas de maneiras rápida e flexível!
+    </p>
+    
+    <p class="p-1 attention">
+      <button class="btn btn-primary btn-scheduled-activate"
+              (click)="goActivate()">
+        <span class="lh-1 text-white">
+          Ativar Antecipação Automática
+        </span>
+      </button>
+    </p>
+
+    <mat-dialog-actions align="end" class="float-end pt-1">
+      <button type="button"
+              class="btn btn-outline-primary"
+              (click)="onClose()">
+        Fechar
+      </button>
+    </mat-dialog-actions>
+
+  </div>
+</app-bottom-sheet-panel>

@@ -1,0 +1,25 @@
+.card {
+  border-color: var(--bs-light);
+  background: var(--bs-gray-200);
+
+  .card-body {
+    .card-actions {
+      margin-left: 2.5rem;
+
+      .card-action {
+        border-radius: 7px;
+      }
+    }
+  }
+}
+
+.weekly-view {
+  .card {
+    width: 50%;
+    max-height: 150px;
+
+    .card-header {
+      background: var(--bs-gray-600);
+    }
+  }
+}

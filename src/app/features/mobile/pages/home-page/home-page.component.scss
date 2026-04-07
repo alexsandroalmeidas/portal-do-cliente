@@ -1,0 +1,58 @@
+:host {
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+
+  ::ng-deep .mdc-button {
+    &.establishment-selector {
+      .mdc-button__label {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        padding-right: 5px;
+      }
+    }
+  }
+
+  ::ng-deep .mat-badge-small {
+    font-size: small !important;
+  }
+
+  ::ng-deep .cdk-overlay-pane {
+    width: 80% ! important;
+  }
+
+  .home-banner {
+    position: relative;
+    margin-top: 1rem;
+  }
+
+  .banner-img {
+    width: 100%;
+    border-radius: 0.5rem;
+  }
+
+  .home-banner-gif {
+    position: relative;
+    margin-top: 1rem;
+  }
+
+  .banner-gif {
+    width: 100%;
+    border-radius: 0.5rem;
+  }
+
+  .pb-10 {
+    padding-bottom: 10rem;
+  }
+}

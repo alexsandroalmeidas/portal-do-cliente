@@ -1,0 +1,125 @@
+<app-toolbar-background></app-toolbar-background>
+
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link brand" routerLink="/">
+      <img
+        src="./../../assets/img/logo_transparent.svg"
+        alt="Petlove"
+        width="110"
+      />
+    </a>
+
+    <div class="spacer"></div>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toolbar-action-notification"
+      aria-label="Notifications menu"
+      (click)="onNotificationClick()"
+    >
+      <span class="material-symbols-outlined">notifications</span>
+      <span
+        class="position-absolute translate-middle badge rounded-pill"
+        *ngIf="unreadedNotificationsCount > 0"
+      >
+        {{ unreadedNotificationsCount < 9 ? unreadedNotificationsCount : "9+" }}
+        <span class="visually-hidden">unread messages</span>
+      </span>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toggle-visibility"
+      aria-label="Toggle visibility"
+      (click)="onToggleVisibility()"
+    >
+      <span
+        class="material-symbols-outlined"
+        *ngIf="visibilityOn; else visibility_off"
+        >visibility_off</span
+      >
+
+      <ng-template #visibility_off>
+        <span class="material-symbols-outlined">visibility</span>
+      </ng-template>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action signout"
+      aria-label="Signout"
+      (click)="onOpenMyDataDialog()"
+    >
+      <span class="material-symbols-outlined">person</span>
+    </button>
+  </section>
+</ng-template>
+
+<div class="mx-4 pb-4">
+  <div class="user-info mb-1">
+    <span>Olá! hoje é {{ today | date: "fullDate" }}</span>
+  </div>
+
+  <button
+    mat-raised-button
+    class="establishment-selector w-100 mt-2 rounded-pill"
+    (click)="onSelectEstablishment()"
+  >
+    <span class="material-symbols-outlined text-secondary">add_business</span>
+    <span class="text-dark"> Selecione estabelecimentos </span>
+    <div class="spacer"></div>
+    <span
+      [matBadge]="selectedEstablishments.length"
+      matBadgePosition="after"
+      matBadgeColor="primary"
+    >
+    </span>
+  </button>
+
+  <div
+    class="mt-3 overflow-y-auto"
+    style="max-height: calc(100vh - 255px)"
+    *ngIf="hasSelectedEstablishments"
+  >
+    <ng-container *ngIf="hasPunctualPermission">
+      <app-prepayments-card
+        [visibilityOn]="visibilityOn"
+        [totalAmount]="totalAvailableAmountPrepayment"
+        [showRedirect]="true"
+        [available]="prepaymentsAvailable"
+        (filter)="onPrepaymentsFilter()"
+      >
+      </app-prepayments-card>
+    </ng-container>
+
+    <app-sales-card
+      [visibilityOn]="visibilityOn"
+      [values]="salesValues"
+      (refresh)="onRefreshSales()"
+      (filter)="onSalesFilter()"
+    >
+    </app-sales-card>
+
+    <app-receivables-card
+      [visibilityOn]="visibilityOn"
+      [values]="receivableValues"
+      [lastUpdateDate]="lastUpdateDateReceivables"
+      (filter)="onReceivablesFilter()"
+    >
+    </app-receivables-card>
+
+    <ng-container *ngIf="hasBannersPermission">
+      <section class="home-banner-gif">
+        <app-banner-carousel
+          [showIndicators]="true"
+          [noWrap]="false"
+          [isMobile]="true"
+          [slides]="slides"
+          *ngIf="!!slides.length"
+        >
+        </app-banner-carousel>
+      </section>
+    </ng-container>
+  </div>
+</div>

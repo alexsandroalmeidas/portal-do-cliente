@@ -1,0 +1,11 @@
+<div class="tooltip-wrapper">
+  <!-- Renderiza ícone só se tiver -->
+  <span *ngIf="icon" class="material-symbols-outlined info-icon">
+    {{ icon }}
+  </span>
+
+  <!-- Classes dinâmicas para posicionamento -->
+  <div class="custom-tooltip" [ngClass]="position.split(' ')">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<app-toolbar-background></app-toolbar-background>
+
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link back" (click)="onNavigateBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="title">Permissão Notificação</span>
+    </a>
+
+    <div class="spacer"></div>
+
+    <button
+      mat-icon-button
+      class="toolbar-action signout"
+      aria-label="Signout"
+      (click)="onOpenMyDataDialog()"
+    >
+      <span class="material-symbols-outlined">person</span>
+    </button>
+  </section>
+</ng-template>
+
+<div class="mx-4 pb-4 mh-100">
+  <div class="content h-100">
+    <div class="card card-brands mt-3" style="height: 25%">
+      <form [formGroup]="form" validate autocomplete="off" class="m-3">
+        <!-- Check estabelecimentos -->
+        <div
+          class="form-check form-switch mb-3 d-flex align-items-center gap-3"
+        >
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="enabled"
+            formControlName="enabled"
+            #buttonSubscriber
+          />
+          <label class="form-check-label fs-5" for="enabled"
+            >Permito o envio de notificações de comunicaçao da Petlove</label
+          >
+        </div>
+
+        <mat-divider></mat-divider>
+      </form>
+    </div>
+  </div>
+</div>

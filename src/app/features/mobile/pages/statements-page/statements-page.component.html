@@ -1,0 +1,103 @@
+<app-toolbar-background></app-toolbar-background>
+
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link back" (click)="onNavigateBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="title">Extratos Eletrônicos</span>
+    </a>
+
+    <div class="spacer"></div>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toolbar-action-notification"
+      aria-label="Notifications menu"
+      (click)="onNotificationClick()"
+    >
+      <span class="material-symbols-outlined">notifications</span>
+      <span
+        class="position-absolute translate-middle badge rounded-pill"
+        *ngIf="unreadedNotificationsCount > 0"
+      >
+        {{ unreadedNotificationsCount < 9 ? unreadedNotificationsCount : "9+" }}
+        <span class="visually-hidden">unread messages</span>
+      </span>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action signout"
+      aria-label="Signout"
+      (click)="onOpenMyDataDialog()"
+    >
+      <span class="material-symbols-outlined">person</span>
+    </button>
+  </section>
+</ng-template>
+
+<div class="mx-4 pb-4">
+  <div *ngIf="!hasEnabledStatement; else enabledStatement">
+    <div class="row card-group-row mb-lg-8pt">
+      <div class="col card-group-row__col">
+        <div class="card card-group-row__card">
+          <div class="card-body">
+            <h6 class="card-title fw-bolder text-secondary">
+              Estabelecimento não está habilitado para o extrato.
+            </h6>
+            <span>Caso haja interesse, entre em contato com a Petlove.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #enabledStatement>
+    <div class="statement-list content-scroll">
+      <mat-list>
+        <mat-list-item class="card pt-1" *ngFor="let statement of statements">
+          <div matListItemTitle class="fw-bold">
+            Data da geração:
+            {{ statement.createdDate | date: "dd/MM/yyyy HH:mm:ss" }}
+          </div>
+          <div matListItemLine>
+            Período: {{ statement.initialDate | date: "dd/MM/yyyy" }} -
+            {{ statement.finalDate | date: "dd/MM/yyyy" }}
+          </div>
+          <div matListItemLine>
+            Número do documento:
+            {{ statement.documentNumber | mask: "CPF_CNPJ" }}
+          </div>
+          <div matListItemLine class="pt-2">
+            <button
+              mat-stroked-button
+              class="rounded-pill"
+              color="primary"
+              (click)="onDownloadTxtClick(statement.fileName)"
+            >
+              <span class="text-primary">TXT</span>
+            </button>
+            <button
+              mat-stroked-button
+              class="rounded-pill ms-2"
+              color="primary"
+              (click)="onDownloadXmlClick(statement.fileName)"
+            >
+              <span class="text-primary">XML</span>
+            </button>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+
+    <div class="page-actions">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="onAddStatementRequest()"
+      >
+        <span class="material-symbols-outlined">add</span>
+      </button>
+    </div>
+  </ng-template>
+</div>

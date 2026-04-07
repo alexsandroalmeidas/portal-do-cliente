@@ -1,0 +1,45 @@
+<div class="punctual-container d-flex flex-column border rounded-4 p-4 gap-4 w-100 bg-gray-100">
+
+  <div class="header d-flex align-items-center justify-content-start gap-3">
+    <span class="icon material-symbols-outlined text-primary">step</span>
+    <div class="d-flex flex-column justify-content-center align-items-start gap-2 w-100 text-gray-900 lh-1">
+      <span class="text-primary">Antecipação</span>
+      <span class="text-primary fs-2 fw-semibold">Pontual</span>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-between gap-2 w-100 text-gray">
+    <div class="d-flex flex-column lh-1 gap-1">
+      <span class="fw-bold fs-1">{{punctualRate | number:'1.3-5' | slice:0:5}} %</span>
+      <span class="text-gray lh-1">taxa ao dia</span>
+    </div>
+  </div>
+
+  <ul class="list-group list-group-flush flex-fill d-flex flex-column gap-3" [style.min-height]="'210px'">
+    <li class="list-group-item d-flex align-items-center gap-3 p-0 bg-gray-100 border-0">
+      <app-check-marked [checkboxId]="'checkbox15'" [backgroundColor]="'gray'" />
+      <div class="text-gray fs-bullet">
+        <p class="mb-0">Controle quanto e quando receber</p>
+      </div>
+    </li>
+    <li class="list-group-item d-flex align-items-center gap-3 p-0 bg-gray-100 border-0">
+      <app-check-marked [checkboxId]="'checkbox16'" [backgroundColor]="'gray'" />
+      <div class="text-gray fs-bullet">
+        <p class="mb-0">Tenha dinheiro disponível rápido para emergências</p>
+      </div>
+    </li>
+    <li class="list-group-item d-flex align-items-center gap-3 p-0 bg-gray-100 border-0">
+      <app-check-marked [checkboxId]="'checkbox17'" [backgroundColor]="'gray'" />
+      <div class="text-gray fs-bullet">
+        <p class="mb-0">Menos burocracias, receba no mesmo dia</p>
+      </div>
+    </li>
+  </ul>
+
+  <button type="button"
+    class="d-flex align-items-center justify-content-center gap-2 btn btn-sm btn-seconday bg-primary text-white"
+    (click)="onRequestClick()">
+    <span class="material-symbols-outlined">step</span>
+    Solicitar
+  </button>
+</div>

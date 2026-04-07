@@ -1,0 +1,71 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelHeaderTools [formGroup]="form">
+    <mat-button-toggle-group class="rounded-pill" name="filter-period" aria-label="Período" formControlName="period">
+      <mat-button-toggle *ngFor="let item of salesPeriodOptions"
+                         [value]="item.value">
+        {{item.label}}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div bottomSheetPanelBody class="d-flex flex-column" [formGroup]="form">
+    <div class="zigzag zigzag-bottom"></div>
+
+    <div class="summary">
+      <div class="summary-icon">
+        <span class="material-symbols-outlined text-secondary">credit_card</span>
+      </div>
+      <div class="summary-info">
+        <span class="info-label">TOTAL DE VENDAS</span>
+        <div class="info-text lh-1 d-flex align-items-end gap-2 fs-3">
+          <span class="info-label"><small>R$</small></span>
+          <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_total_sales">
+            {{totalSales | number:'1.2-2' }}
+          </span>
+          <ng-template #hidden_total_sales>
+            <span class="lh-1">{{totalSales | hiddenValue:'&lowast;':5 }}</span>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+
+    <ul class="list-group list-group-flush w-100 mt-4 summary-values">
+      <li class="list-group-item">
+        <span class="text-start fw-bold fs-7">Forma de pagamento</span>
+        <span class="text-center fw-bold fs-7">Quantidade</span>
+        <span class="text-start fw-bold fs-7">Valores</span>
+      </li>
+      <li class="list-group-item" *ngFor="let item of salesSummary">
+        <span class="text-start fw-semibold">{{item.label}}</span>
+
+        <span class="text-center" *ngIf="visibilityOn; else hidden_count">
+          {{(item?.count ?? 0)}}
+        </span>
+        <ng-template #hidden_count>
+          <span class="lh-1">{{(item?.count ?? 0) | hiddenValue:'&lowast;':5 }}</span>
+        </ng-template>
+
+        <span class="text-start" *ngIf="visibilityOn; else hidden_amount">
+          {{(item?.amount ?? 0) | currency:'BRL':'symbol':'1.2-2' }}
+        </span>
+        <ng-template #hidden_amount>
+          <span class="lh-1">{{(item?.amount ?? 0) | hiddenValue:'&lowast;':5 }}</span>
+        </ng-template>
+
+      </li>
+    </ul>
+  </div>
+
+  <div bottomSheetPanelFooter>
+    <button mat-stroked-button
+            class="rounded-pill"
+            color="primary"
+            *ngIf="data.showDetailsButtom"
+            (click)="goToSales()">
+      <span class="material-symbols-outlined text-primary">credit_card</span>
+      <span class="text-primary">Mais detalhes</span>
+    </button>
+  </div>
+
+</app-bottom-sheet-panel>

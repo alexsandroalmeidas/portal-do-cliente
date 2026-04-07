@@ -1,0 +1,96 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelBody class="d-flex flex-column">
+    <div class="zigzag zigzag-bottom"></div>
+
+    <div class="summary">
+      <div class="summary-icon">
+        <span class="material-symbols-outlined text-secondary">attach_money</span>
+      </div>
+      <div class="summary-info">
+        <span class="info-label fw-semibold">TOTAL DOS RECEBIMENTOS PREVISTOS</span>
+        <div class="info-text lh-1 d-flex align-items-end gap-2 fs-3 ">
+          <span class="info-label"><small>R$</small></span>
+          <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_total_amount">
+            {{totalAmount | number:'1.2-2' }}
+          </span>
+          <ng-template #hidden_total_amount>
+            <span class="lh-1">{{totalAmount | hiddenValue:'&lowast;':5 }}</span>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <mat-list class="w-100 pt-4">
+      <div mat-subheader class="mx-0 fs-2">Créditos</div>
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-semibold">Recebimentos de vendas</span>
+        <div class="info-text lh-1 d-flex align-items-end gap-2 fs-3 ">
+          <span class="info-label"><small>R$</small></span>
+          <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_receivables_credit_amount">
+            {{receivablesCreditAmount | number:'1.2-2' }}
+          </span>
+          <ng-template #hidden_receivables_credit_amount>
+            <span class="lh-1">{{receivablesCreditAmount | hiddenValue:'&lowast;':5 }}</span>
+          </ng-template>
+        </div>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0" *ngFor="let adjustmentCredit of adjustmentsCredits">
+        <span class="fw-semibold">{{adjustmentCredit.description}}</span>
+        <div class="info-text lh-1 d-flex align-items-end gap-2 fs-3 ">
+          <span class="info-label"><small>R$</small></span>
+          <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_adjustments_credit_amount">
+            {{adjustmentCredit.amount | number:'1.2-2' }}
+          </span>
+          <ng-template #hidden_adjustments_credit_amount>
+            <span class="lh-1">{{adjustmentCredit.amount | hiddenValue:'&lowast;':5 }}</span>
+          </ng-template>
+        </div>
+
+      </mat-list-item>
+
+      <mat-divider *ngIf="!!adjustmentsCredits && adjustmentsCredits.length > 0"></mat-divider>
+
+      <div mat-subheader class="mx-0 fs-2">Débitos</div>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0">
+        <span class="fw-semibold">Recebimentos antecipados</span>
+        <div class="info-text lh-1 d-flex align-items-end gap-2 fs-3 ">
+          <span class="info-label"><small>R$</small></span>
+          <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_receivables_prepayment_amount">
+            {{receivablesPrepaymentAmount | number:'1.2-2' }}
+          </span>
+          <ng-template #hidden_receivables_prepayment_amount>
+            <span class="lh-1">{{receivablesPrepaymentAmount | hiddenValue:'&lowast;':5 }}</span>
+          </ng-template>
+        </div>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item class="px-0" *ngFor="let adjustmentDebit of adjustmentsDebits">
+        <span class="fw-semibold">{{adjustmentDebit.description}}</span>
+        <div class="info-text lh-1 d-flex align-items-end gap-2 fs-3 ">
+          <span class="info-label"><small>R$</small></span>
+          <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_adjustments_debit_amount">
+            {{adjustmentDebit.amount | number:'1.2-2' }}
+          </span>
+          <ng-template #hidden_adjustments_debit_amount>
+            <span class="lh-1">{{adjustmentDebit.amount | hiddenValue:'&lowast;':5 }}</span>
+          </ng-template>
+        </div>
+      </mat-list-item>
+
+      <mat-divider *ngIf="!!adjustmentsDebits && adjustmentsDebits.length > 0"></mat-divider>
+
+    </mat-list>
+
+  </div>
+
+</app-bottom-sheet-panel>

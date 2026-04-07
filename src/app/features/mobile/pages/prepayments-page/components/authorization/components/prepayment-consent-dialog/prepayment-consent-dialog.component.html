@@ -1,0 +1,66 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelBody class="d-flex flex-column gap-3 p-2 px-4">
+    <h3 class="text-primary fw-semibold m-0">Autorização para consulta</h3>
+
+    <span class="opacity-75">Autorizações de permissão para:</span>
+
+    <div class="border rounded-pill p-3 bg-gray-100">
+      <span
+        >{{ data.establishmentSelected.companyName }} -
+        {{ data.establishmentSelected.documentNumber | mask: "CPF_CNPJ" }}</span
+      >
+    </div>
+
+    <mat-slide-toggle
+      color="primary"
+      [checked]="hasAuthorization"
+      (change)="onChangeAuthorize($event)"
+    >
+      <span class="fw-semibold">
+        Autorizo a consulta de agendas de outras instituições financeiras.
+      </span>
+    </mat-slide-toggle>
+
+    <span class="lh-base opacity-75">
+      A autorização para consulta de valores de outras instituições financeiras
+      te da mais oportunidade de aproveitar condições especiais, ampliando suas
+      possibilidades além da Petlove.
+    </span>
+
+    <ul class="list-group list-group-flush d-flex flex-column gap-3">
+      <li class="list-group-item d-flex align-items-center gap-3 p-0 border-0">
+        <app-check-marked
+          [checkboxId]="'checkbox12'"
+          [backgroundColor]="'gray'"
+        />
+        <div class="text-gray fs-bullet">
+          <p class="mb-0 fw-semibold">
+            Aproveite taxas competitivas para antecipar.
+          </p>
+        </div>
+      </li>
+      <li class="list-group-item d-flex align-items-center gap-3 p-0 border-0">
+        <app-check-marked
+          [checkboxId]="'checkbox13'"
+          [backgroundColor]="'gray'"
+        />
+        <div class="text-gray fs-bullet">
+          <p class="mb-0 fw-semibold">
+            Tenha uma visão abrangente das suas finanças.
+          </p>
+        </div>
+      </li>
+      <li class="list-group-item d-flex align-items-center gap-3 p-0 border-0">
+        <app-check-marked
+          [checkboxId]="'checkbox14'"
+          [backgroundColor]="'gray'"
+        />
+        <div class="text-gray fs-bullet">
+          <p class="mb-0 fw-semibold">
+            Maximize seu potencial de crescimento financeiro.
+          </p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</app-bottom-sheet-panel>

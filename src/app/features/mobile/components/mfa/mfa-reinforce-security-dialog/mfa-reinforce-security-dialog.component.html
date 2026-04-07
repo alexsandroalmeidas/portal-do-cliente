@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>
+    <mat-icon matSuffix class="icon-color">mobile_friendly</mat-icon> <br />
+
+    <div class="p-1">
+        Reforce sua segurança
+    </div>
+</h1>
+
+<mat-dialog-content>
+
+    <p class="p-1">
+      Ative a Autenticação de Segurança 
+      para garantir mais segurança nas 
+      suas transações financeiras. É bem rápido, 
+      vamos lá?
+    </p>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button type="button"
+            class="btn btn-primary"
+            (click)="onActivateClick()">
+        Ativar MFA
+    </button>
+    <button type="button"
+            class="btn btn-outline-primary"
+            (click)="onCancelClick()">
+        Lembrar mais tarde
+    </button>
+</mat-dialog-actions>

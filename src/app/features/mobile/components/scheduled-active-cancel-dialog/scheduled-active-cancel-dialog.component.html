@@ -1,0 +1,27 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelBody class="d-flex flex-column text-center">
+    <h1 mat-dialog-title>
+      <mat-icon matSuffix class="icon-color">error</mat-icon> <br />
+
+      <div class="p-1 fs-3">Atenção!</div>
+    </h1>
+
+    <p class="p-1 attention">
+      Tem certeza que deseja cancelar a antecipação automática e perder todas as
+      vantagens e taxas competitivas da Petlove?
+    </p>
+
+    <mat-dialog-actions align="end" class="float-end pt-1">
+      <button
+        type="button"
+        class="btn btn-outline-primary mr-05"
+        (click)="onCancel(false)"
+      >
+        Cancelar
+      </button>
+      <button type="button" class="btn btn-primary" (click)="onKeep()">
+        Manter
+      </button>
+    </mat-dialog-actions>
+  </div>
+</app-bottom-sheet-panel>

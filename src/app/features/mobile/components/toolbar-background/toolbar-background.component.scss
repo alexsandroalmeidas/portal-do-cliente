@@ -1,0 +1,14 @@
+.toolbar-background {
+  position: absolute;
+  left: 50%;
+  z-index: -1;
+
+  .background-inner {
+    position: relative;
+    left: -50%;
+    background: var(--neutral-lightest);
+    border-radius: 50%;
+    height: 1038px;
+    width: 1038px;
+  }
+}

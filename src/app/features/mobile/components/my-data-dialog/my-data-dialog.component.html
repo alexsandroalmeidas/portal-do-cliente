@@ -1,0 +1,21 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelBody class="d-flex flex-column text-center">
+
+    <ul class="list-group list-group-flush w-100 mt-4 summary-values pb-15">
+      <li class="list-group-item" align="left" (click)="onMyData()">
+        <mat-icon matSuffix class="material-symbols-outlined">assignment</mat-icon>
+        <span class="text-start fs-5 pl-04">Meus dados</span>
+      </li>
+      <li class="list-group-item" align="left" (click)="openChangePasswordDialog()" *ngIf="!isAd">
+        <mat-icon matSuffix class="material-symbols-outlined">lock_open</mat-icon>
+        <span class="text-start fs-5 pl-04">Alterar Senha</span>
+      </li>
+
+      <li class="list-group-item" align="left" (click)="onSignout()">
+        <mat-icon matSuffix class="material-symbols-outlined">logout</mat-icon>
+        <span class="text-start fs-5 pl-04">Sair</span>
+      </li>
+    </ul>
+
+  </div>
+</app-bottom-sheet-panel>

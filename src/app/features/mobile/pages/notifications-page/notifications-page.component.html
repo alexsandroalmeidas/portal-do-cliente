@@ -1,0 +1,162 @@
+<app-toolbar-background></app-toolbar-background>
+
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link back" (click)="onNavigateBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="title">Notificações</span>
+    </a>
+
+    <div class="spacer"></div>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toolbar-action-notification"
+      aria-label="Notifications menu"
+      (click)="onNotificationClick()"
+    >
+      <span class="material-symbols-outlined">notifications</span>
+      <span
+        class="position-absolute translate-middle badge rounded-pill"
+        *ngIf="unreadedNotificationsCount > 0"
+      >
+        {{ unreadedNotificationsCount < 9 ? unreadedNotificationsCount : "9+" }}
+        <span class="visually-hidden">unread messages</span>
+      </span>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action select-establishments"
+      aria-label="Select establishments"
+      (click)="onSelectEstablishment()"
+    >
+      <span class="material-symbols-outlined">store</span>
+      <span
+        class="position-absolute translate-middle badge rounded-pill"
+        *ngIf="selectedEstablishments.length > 0"
+      >
+        {{
+          selectedEstablishments.length < 100
+            ? selectedEstablishments.length
+            : "99+"
+        }}
+        <span class="visually-hidden"> unread messages</span>
+      </span>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toggle-visibility"
+      aria-label="Toggle visibility"
+      (click)="onToggleVisibility()"
+    >
+      <span
+        class="material-symbols-outlined"
+        *ngIf="visibilityOn; else visibility_off"
+        >visibility_off</span
+      >
+
+      <ng-template #visibility_off>
+        <span class="material-symbols-outlined">visibility</span>
+      </ng-template>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action signout"
+      aria-label="Signout"
+      (click)="onOpenMyDataDialog()"
+    >
+      <span class="material-symbols-outlined">person</span>
+    </button>
+  </section>
+</ng-template>
+
+<div class="mx-4 pb-4 mh-100">
+  <button
+    mat-raised-button
+    *ngIf="!notificationView"
+    class="establishment-selector w-100 mt-2 rounded-pill"
+    (click)="onSelectEstablishments()"
+  >
+    <span class="material-symbols-outlined text-secondary">add_business</span>
+    <span class="text-dark">
+      {{
+        !!selectedEstablishmentName
+          ? selectedEstablishmentName
+          : "Selecione estabelecimentos"
+      }}
+    </span>
+    <div class="spacer"></div>
+  </button>
+
+  <div class="content">
+    <div class="card card-brands mt-3" style="height: 25%">
+      <form [formGroup]="form" validate autocomplete="off" class="m-3">
+        <div
+          class="form-check form-switch mb-3 d-flex align-items-center gap-3"
+        >
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="enabled"
+            formControlName="enabled"
+            #buttonSubscriber
+          />
+          <label class="form-check-label fs-5" for="enabled"
+            >Permito o envio de notificações de comunicaçao da Petlove</label
+          >
+        </div>
+
+        <mat-divider></mat-divider>
+      </form>
+    </div>
+  </div>
+
+  <div class="pb-10 content-scroll">
+    <div class="notifications-list" *ngIf="!notificationView">
+      <mat-list>
+        <mat-list-item
+          class="card pt-1 card-notification"
+          *ngFor="let notification of filteredNotifications"
+        >
+          <div
+            matListItemTitle
+            class="d-flex align-items-center justify-content-between"
+            style="display: block !important"
+          >
+            <div
+              style="float: left"
+              class="{{ notification.read ? '' : 'fw-bolder' }}"
+            >
+              {{ notification.createdDate | date: "dd/MM/yyyy" }}
+            </div>
+            <div style="float: right">
+              <button
+                type="button"
+                class="btn-icon m-0 p-0"
+                (click)="onViewClick(notification)"
+              >
+                <span class="material-symbols-outlined">arrow_right</span>
+              </button>
+            </div>
+          </div>
+          <div
+            matListItemLine
+            class="{{ notification.read ? '' : 'fw-bolder' }}"
+          >
+            {{ notification.title }}
+          </div>
+          <div matListItemLine [innerHTML]="byPassHTML(notification)"></div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+
+    <app-notifications-view
+      *ngIf="notificationView"
+      [notificationView]="notificationView"
+    ></app-notifications-view>
+  </div>
+</div>

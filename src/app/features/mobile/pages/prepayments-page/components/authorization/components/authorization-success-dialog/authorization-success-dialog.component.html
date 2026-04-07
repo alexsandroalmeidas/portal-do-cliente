@@ -1,0 +1,28 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelBody class="d-flex flex-column text-center">
+
+    <h1 mat-dialog-title>
+      <mat-icon matSuffix class="icon-color">check_circle</mat-icon> <br />
+
+      <div class="p-1 fs-3">
+        Autorização realizada com sucesso!
+      </div>
+    </h1>
+
+    <p class="p-1 attention">
+      Agora você pode antecipar todas as suas vendas
+      incluindo as realizadas em outras instituições 
+      financeiras. Além disso, as taxas são as mais 
+      competitiva do mercado.
+    </p>
+
+    <mat-dialog-actions align="end" class="float-end pt-1">
+      <button type="button"
+              class="btn btn-outline-primary"
+              (click)="onClose()">
+        Fechar
+      </button>
+    </mat-dialog-actions>
+
+  </div>
+</app-bottom-sheet-panel>

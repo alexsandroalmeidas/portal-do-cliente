@@ -1,0 +1,136 @@
+:host {
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+
+  .scroll-container {
+    overflow-y: auto;
+  }
+
+  .hidden-none {
+    display: none !important;
+  }
+
+  .mt-7 {
+    margin-top: 7rem !important;
+  }
+
+  ::ng-deep {
+    .mat-mdc-checkbox-checked.mat-primary .mdc-checkbox__background {
+      background-color: var(--bs-tiny-blue) !important;
+      border-color: var(--bs-tiny-blue) !important;
+    }
+
+    .mat-mdc-checkbox-checked.mat-primary .mdc-mdc-checkbox__ripple {
+      background-color: var(--bs-tiny-blue) !important;
+    }
+
+    .mat-mdc-checkbox.mat-primary .mdc-checkbox--selected~.mdc-checkbox__ripple {
+      background: var(--bs-tiny-blue) !important;
+    }
+
+    .mat-mdc-checkbox-indeterminate.mat-primary .mdc-checkbox__background {
+      background-color: var(--bs-tiny-blue) !important;
+    }
+  }
+
+  .mat-mdc-list-item {
+    border-bottom: solid 1px var(--bs-gray-500);
+    padding-bottom: 1rem;
+  }
+
+  .page-actions {
+    position: relative;
+    padding-top: 1rem !important;
+    float: right;
+
+    padding-bottom: 8rem !important;
+  }
+
+  .card-header {
+    border: none !important;
+    background-color: unset !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    position: absolute;
+    z-index: 9999999;
+  }
+
+  .header {
+    text-align: center;
+    position: relative;
+  }
+
+  .pt-1 {
+    padding-top: 1rem !important;
+  }
+
+  .pb-1 {
+    padding-bottom: 1rem !important;
+  }
+
+  .pb-01 {
+    padding-bottom: 0.5rem;
+  }
+
+  .pr-1 {
+    padding-right: 1rem;
+  }
+
+  .mt-08 {
+    margin-top: 0.8rem !important;
+  }
+
+  .mr-1 {
+    margin-right: 1rem !important;
+  }
+
+  .fs-09 {
+    font-size: 0.9rem;
+  }
+
+  .w-4 {
+    width: 4rem;
+  }
+
+  .info-label {
+    font-size: 14px !important;
+  }
+
+  .content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    text-align: center;
+    position: relative;
+    // z-index: -1;
+    top: 6rem;
+
+    .valign {
+      vertical-align: bottom;
+    }
+  }
+
+  .card {
+    border-color: var(--bs-light);
+    background: var(--bs-gray-200);
+
+    .btn-punctual-request {
+      width: 67%;
+      margin-top: 1rem;
+    }
+
+    .card-body {
+      .card-action {
+        border-radius: 7px;
+      }
+    }
+  }
+}

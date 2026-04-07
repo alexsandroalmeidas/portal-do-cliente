@@ -1,0 +1,56 @@
+:host {
+  .p-0 {
+    padding: 0px;
+  }
+
+  .pb-1 {
+    padding-bottom: 1rem;
+  }
+
+  .pr-05 {
+    padding-right: 4.1rem !important;
+  }
+
+  .sales-message {
+    padding-top: 0.5rem !important;
+    position: fixed;
+    left: 4.7rem;
+  }
+
+  .list-prep {
+    padding-left: 0px;
+    list-style: none;
+  }
+
+  .card {
+    border-color: var(--bs-light);
+    background: var(--bs-gray-200);
+
+    .card-body {
+
+      .card-sales {
+        .sales-icon {
+          padding-bottom: 1.5rem;
+
+          .material-symbols-outlined {
+            font-size: 35px;
+          }
+        }
+
+        .list-group-item {
+          background: var(--bs-gray-200);
+        }
+      }
+
+      .update-icon {
+        font-size: 30px !important;
+      }
+
+      .card-actions {
+        .card-action {
+          border-radius: 7px;
+        }
+      }
+    }
+  }
+}

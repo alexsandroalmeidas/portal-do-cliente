@@ -1,0 +1,62 @@
+:host {
+  .mt-08 {
+    margin-top: 0.8rem !important;
+  }
+  
+  .ul-accreditations {
+    list-style-type: circle !important;
+  }
+  
+  .li-accreditations {
+    padding-left: 0.5rem !important;
+  }
+  
+  .w-4 {
+    width: 4rem;
+  }
+  
+  .card {
+    height: 18rem;
+    border-color: var(--bs-light);
+    background: var(--bs-gray-200);
+
+    .card-body {
+
+      .card-prepayment {
+        .container {
+          padding-left: 0px;
+        }
+
+        .prepayment-icon {
+          padding-bottom: 3.6rem;
+
+          .material-symbols-outlined {
+            font-size: 35px;
+          }
+        }
+
+        .fs-14 {
+          font-size: 14px !important;
+        }
+
+        .pr-2 {
+          padding-right: 2rem;
+        }
+      }
+
+      .container {
+        padding-left: 2.5rem;
+
+        .btn-scheduled-edit {
+          width: 140px;
+          margin-top: 1rem;
+        }
+
+        .btn-scheduled-cancel {
+          width: 140px;
+          margin-top: 1rem;
+        }
+      }
+    }
+  }
+}

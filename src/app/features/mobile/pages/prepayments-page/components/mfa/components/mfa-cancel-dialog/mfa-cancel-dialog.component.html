@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>
+  <mat-icon matSuffix class="icon-color">error</mat-icon> <br />
+
+  <div class="p-1">
+    Atenção!
+  </div>
+</h1>
+
+<mat-dialog-content>
+
+  <p class="p-1">
+    O cancelamento da Autenticação em
+    Dois Fatores (MFA) impede que você
+    conclua sua ação.
+  </p>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button type="button"
+          class="btn btn-outline-primary"
+          (click)="onCancelClick()">
+    Cancelar
+  </button>
+  <button type="button"
+          class="btn btn-primary"
+          (click)="onContinueClick()">
+    Continuar
+  </button>
+</mat-dialog-actions>

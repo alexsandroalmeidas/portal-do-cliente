@@ -1,0 +1,30 @@
+<header>
+  <mat-toolbar color="primary" class="toolbar-top" [ngClass]="toolbarStyle">
+    <ng-template *ngIf="toolbarService.portal" [cdkPortalOutlet]="toolbarService.portal"></ng-template>
+  </mat-toolbar>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<footer>
+  <mat-toolbar class="toolbar-bottom">
+    <mat-nav-list *ngFor="let item of filter">
+      <a mat-list-item [routerLink]="[item.path]" [disableRipple]="true" routerLinkActive="active">
+
+        <div class="mat-list-item-icon py-1 rounded-pill">
+          <span class="material-symbols-outlined">{{item.icon}}</span>
+        </div>
+        <span>{{item.label}}</span>
+      </a>
+    </mat-nav-list>
+  </mat-toolbar>
+</footer>
+
+<mat-sidenav-container [hasBackdrop]="true">
+  <mat-sidenav #rightSidenavPanel class="panel" position="end" disableClose md-disable-backdrop>
+    <!-- this is where i want to load different components dynamically -->
+    <ng-container #rightSidenavContent></ng-container>
+  </mat-sidenav>
+</mat-sidenav-container>

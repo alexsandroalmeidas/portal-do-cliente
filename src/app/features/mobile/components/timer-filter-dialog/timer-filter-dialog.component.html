@@ -1,0 +1,26 @@
+<app-bottom-sheet-panel>
+    <div bottomSheetPanelHeaderTools>
+        <h1>{{title}}</h1>
+    </div>
+
+    <div bottomSheetPanelBody>
+
+        <div class="d-flex justify-content-center align-items-center mb-3">
+            <div class="col-6">
+                <input id="timeValue"
+                       class="form-control"
+                       type="time"
+                       [formControl]="timeValue">
+            </div>
+        </div>
+
+    </div>
+
+    <div bottomSheetPanelFooter>
+        <button type="button"
+                class="btn btn-primary w-100"
+                (click)="onClose()">
+            Filtrar
+        </button>
+    </div>
+</app-bottom-sheet-panel>

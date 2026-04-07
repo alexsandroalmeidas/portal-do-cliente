@@ -1,0 +1,12 @@
+.card {
+  border-color: var(--bs-light);
+  background: var(--bs-gray-200);
+
+  .card-body {
+    .card-actions {
+      .card-action {
+        border-radius: 7px;
+      }
+    }
+  }
+}

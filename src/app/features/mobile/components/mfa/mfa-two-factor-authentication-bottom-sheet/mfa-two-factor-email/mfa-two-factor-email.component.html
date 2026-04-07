@@ -1,0 +1,41 @@
+<div class="d-flex flex-column justify-content-center gap-4 px-4 mt-1">
+  <div class="d-flex align-items-start gap-3">
+    <h3 class="flex-fill m-0 text-start text-gray-700">
+      {{!isActivation ? 'Autenticação de 2 fatores' : 'Ativar autenticação de 2 fatores'}}
+    </h3>
+    <span class="material-symbols-outlined text-gray-600" (click)="onCancelClick()">close</span>
+  </div>
+
+  <div class="d-flex justify-content-center align-items-center">
+    <app-stepper [totalSteps]="3" [active]="0" color="gray"></app-stepper>
+  </div>
+
+  <h2 class="m-0 fw-bold text-primary fs-5">Verifique seu email</h2>
+
+  <p class="m-0">
+    Por favor, para confirmar sua identidade, <b>insira abaixo o código que foi enviado para o seu e-mail
+      que você usa para acessar o Portal.</b>
+  </p>
+
+  <code-input [isCodeHidden]="false" [codeLength]="6" (codeCompleted)="onCodeCompleted($event)">
+  </code-input>
+
+  <div class="d-flex align-items-center justify-content-center">
+    <button type="button" class="btn btn-outline-primary w-100" [disabled]="buttonResendDisabled"
+      (click)="onResendClick()">
+      {{display}}
+    </button>
+  </div>
+
+  <hr class="w-100">
+
+  <div class="d-flex align-items-center justify-content-start gap-2 mb-4">
+    <button class="btn btn-outline-primary px-3 py-2 fs-5" (click)="onCancelClick()">
+      Cancelar
+    </button>
+    <button class="btn btn-primary px-3 py-2 fs-5 d-flex align-items-center gap-2" (click)="onContinueClick()">
+      <mat-icon>arrow_forward</mat-icon>
+      Continuar
+    </button>
+  </div>
+</div>

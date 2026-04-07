@@ -1,0 +1,442 @@
+<app-toolbar-background></app-toolbar-background>
+
+
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link back" (click)="onNavigateBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="title">Antecipação</span>
+    </a>
+
+    <div class="spacer"></div>
+
+    <button mat-icon-button class="toolbar-action toggle-visibility" aria-label="Toggle visibility"
+      (click)="onToggleVisibility()">
+      <span class="material-symbols-outlined" *ngIf="visibilityOn; else visibility_off">visibility_off</span>
+
+      <ng-template #visibility_off>
+        <span class="material-symbols-outlined">visibility</span>
+      </ng-template>
+    </button>
+
+    <button mat-icon-button class="toolbar-action signout" aria-label="Signout" (click)="onOpenMyDataDialog()">
+      <span class="material-symbols-outlined">person</span>
+    </button>
+
+  </section>
+</ng-template>
+
+<div class="d-flex flex-column gap-3 mx-3 mh-100">
+
+  <div class="d-flex flex-column gap-2 pb-3 pt-4">
+
+    <div class="d-flex flex-column gap-3 mx-3">
+      <div class="d-flex flex-column gap-2 w-100 text-center">
+        <h5 class="text-white fs-5 fw-bold">Ativar antecipação programada</h5>
+
+        <div *ngIf="viewMode === 'initial'">
+          <app-stepper [totalSteps]="3" [active]="0"></app-stepper>
+          <label class="text-white fs-5 fw-semibold">Selecione a periodicidade</label>
+        </div>
+
+        <div *ngIf="viewMode === 'daily' || viewMode === 'daily-accreditations'">
+          <app-stepper [totalSteps]="3" [active]="1"></app-stepper>
+          <label class="text-white fs-5 fw-semibold">Diariamente</label>
+        </div>
+
+        <div *ngIf="viewMode === 'daily-check'">
+          <app-stepper [totalSteps]="3" [active]="2"></app-stepper>
+          <label class="text-white fs-5 fw-semibold">Diariamente</label>
+        </div>
+
+        <div *ngIf="viewMode === 'weekly' || viewMode === 'weekly-accreditations'">
+          <app-stepper [totalSteps]="3" [active]="1"></app-stepper>
+          <label class="text-white fs-5 fw-semibold">Semanalmente</label>
+        </div>
+
+
+        <div *ngIf="viewMode === 'weekly-check'">
+          <app-stepper [totalSteps]="3" [active]="2"></app-stepper>
+          <label class="text-white fs-5 fw-semibold">Semanalmente</label>
+        </div>
+
+        <div *ngIf="viewMode === 'monthly' || viewMode === 'monthly-accreditations'">
+          <app-stepper [totalSteps]="3" [active]="1"></app-stepper>
+          <label class="text-white fs-5 fw-semibold">Mensalmente</label>
+        </div>
+
+
+        <div *ngIf="viewMode === 'monthly-check'">
+          <app-stepper [totalSteps]="3" [active]="2"></app-stepper>
+          <label class="text-white fs-5 fw-semibold">Mensalmente</label>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="d-flex flex-column gap-3 overflow-y-auto mh-100 pb-1">
+
+    <div *ngIf="viewMode === 'initial'" class="d-flex flex-column gap-3 overflow-y-auto">
+
+      <div class="p-3 d-flex flex-column align-items-start w-100 p-4 bg-gray-100 border rounded-4 gap-2"
+        *ngFor="let schedule of schedules;">
+        <h3 class="fw-semibold lh-1 p-0 m-0">{{schedule.title}}</h3>
+        <span class="fs-6 lh-1">{{schedule.description}}</span>
+
+        <ul class="list-group list-group-flush d-flex flex-column gap-2 mt-4">
+          <li class="list-group-item d-flex align-items-center gap-3 p-0 border-0 bg-gray-100"
+            *ngFor="let benefit of schedule.benefits">
+            <app-check-marked [checkboxId]="'checkbox18'" [backgroundColor]="'gray'" />
+            <div class="text-gray fs-bullet">
+              <p class="mb-0">{{benefit}}</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="d-flex align-items-center justify-content-center px-5 mt-4 w-100">
+          <button type="button" class="btn btn-primary w-100 px-3 py-2" (click)="onOpenContinue(schedule)">
+            Selecionar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="viewMode === 'daily-accreditations'" class="d-flex flex-column gap-4 overflow-y-auto">
+
+      <div class="mt-3 mx-3">
+        <app-prepayments-accreditations-card [accreditations]="accreditations" [hasError]="!!errors.length"
+          (selectedAccreditations)="onSelectedAccreditations($event)">
+        </app-prepayments-accreditations-card>
+      </div>
+
+      <div *ngFor="let item of errors" class="d-flex gap-2 align-items-start w-100 p-3 bg-gray-200">
+        <span class="material-symbols-outlined text-secondary" [style.font-size]="'34px'">
+          error
+        </span>
+        <div class="d-flex flex-column">
+          <span class="text-secondary fw-semibold">{{item.title}}</span>
+          <span>{{item.description}}</span>
+        </div>
+      </div>
+
+      <hr class="mx-3 my-0">
+
+      <div class="d-flex align-items-center justify-content-start gap-2 mx-3">
+        <button type="button" class="btn btn-outline-primary px-3 py-2" (click)="onBackClick(viewMode)">
+          Voltar
+        </button>
+        <button type="button" class="btn btn-primary px-3 py-2" (click)="onContinueClick(viewMode)">
+          Continuar
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="viewMode === 'daily-check'" class="d-flex flex-column gap-4 overflow-y-auto">
+
+      <div class="mt-3">
+        <h4 class="fw-bold text-primary fs-5 mt-0">Confira sua antecipação</h4>
+        <h6 class="text-gray-600">Confirme os dados da sua antecipação programada</h6>
+      </div>
+
+      <ul class="list-group list-group-flush d-flex flex-column">
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between gap-3 py-3 px-0 border-bottom fs-5">
+          <span class="text-gray-600 fw-semibold">Período</span>
+          <span>Diariamente</span>
+        </li>
+
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between gap-3 py-3 px-0 border-bottom fs-5">
+          <span class="text-gray-600 fw-semibold">Taxa aplicada ao dia</span>
+          <span>{{rate | number:'1.3-3'}} %</span>
+        </li>
+
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between gap-3 py-3 px-0 border-bottom fs-5">
+          <span class="text-gray-600 fw-semibold">Adquirentes</span>
+          <span>{{selectedAccreditationsName}}</span>
+        </li>
+      </ul>
+
+      <h4 class="fw-bold text-primary fs-5 mt-0">Conta em que você irá receber</h4>
+
+      <div class="d-flex gap-1">
+        <span class="text-gray-600 fw-semibold">Banco:</span>
+        <span>{{bankingAccount?.bank}}</span>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-1">
+          <span class="text-gray-600 fw-semibold">Agência:</span>
+          <span>{{bankingAccount?.agency}}</span>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <span class="text-gray-600 fw-semibold">Conta:</span>
+          <span>{{bankingAccount?.accountNumber}}-{{bankingAccount?.checkDigitNumber}}</span>
+        </div>
+      </div>
+
+      <hr class="my-0">
+
+      <div class="d-flex align-items-center justify-content-start gap-2">
+        <button type="button" class="btn btn-outline-primary px-3 py-2" (click)="onBackClick(viewMode)">
+          Voltar
+        </button>
+        <button type="button" class="btn btn-soft-green text-white px-3 py-2"
+          (click)="openMfaTwoFactorAuthenticationBottomSheet()">
+          Confirmar ativação
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="viewMode === 'weekly'" class="d-flex flex-column gap-4 overflow-y-auto">
+
+      <div class="mt-3 mx-3">
+        <app-weekly-activation [daysOfWeek]="daysOfWeek" [hasError]="!!errors.length"
+          (selectedDaysOfWeek)="onSelectDaysOfWeek($event)">
+        </app-weekly-activation>
+      </div>
+
+      <div *ngFor="let item of errors" class="d-flex gap-2 align-items-start w-100 p-3 bg-gray-200">
+        <span class="material-symbols-outlined text-secondary" [style.font-size]="'34px'">
+          error
+        </span>
+        <div class="d-flex flex-column">
+          <span class="text-secondary fw-semibold">{{item.title}}</span>
+          <span>{{item.description}}</span>
+        </div>
+      </div>
+
+      <hr class="mx-3 my-0">
+
+      <div class="d-flex align-items-center justify-content-start gap-2 mx-3">
+        <button type="button" class="btn btn-outline-primary px-3 py-2" (click)="onBackClick(viewMode)">
+          Voltar
+        </button>
+        <button type="button" class="btn btn-primary px-3 py-2" (click)="onContinueClick(viewMode)">
+          Continuar
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="viewMode === 'weekly-accreditations'" class="d-flex flex-column gap-4 overflow-y-auto">
+
+      <div class="mt-3 mx-3">
+        <app-prepayments-accreditations-card [accreditations]="accreditations" [hasError]="!!errors.length"
+          (selectedAccreditations)="onSelectedAccreditations($event)">
+        </app-prepayments-accreditations-card>
+      </div>
+
+      <div *ngFor="let item of errors" class="d-flex gap-2 align-items-start w-100 p-3 bg-gray-200">
+        <span class="material-symbols-outlined text-secondary" [style.font-size]="'34px'">
+          error
+        </span>
+        <div class="d-flex flex-column">
+          <span class="text-secondary fw-semibold">{{item.title}}</span>
+          <span>{{item.description}}</span>
+        </div>
+      </div>
+
+      <hr class="mx-3 my-0">
+
+      <div class="d-flex align-items-center justify-content-start gap-2 mx-3">
+        <button type="button" class="btn btn-outline-primary px-3 py-2" (click)="onBackClick(viewMode)">
+          Voltar
+        </button>
+        <button type="button" class="btn btn-primary px-3 py-2" (click)="onContinueClick(viewMode)">
+          Continuar
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="viewMode === 'weekly-check'" class="d-flex flex-column gap-4 overflow-y-auto">
+
+      <div class="mt-3">
+        <h4 class="fw-bold text-primary fs-5 mt-0">Confira sua antecipação</h4>
+        <h6 class="text-gray-600">Confirme os dados da sua antecipação programada</h6>
+      </div>
+
+      <ul class="list-group list-group-flush d-flex flex-column">
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between gap-3 py-3 px-0 border-bottom fs-5">
+          <span class="text-gray-600 fw-semibold">Período</span>
+          <span>Semanalmente</span>
+        </li>
+
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between gap-3 py-3 px-0 border-bottom fs-5">
+          <span class="text-gray-600 fw-semibold">Dias escolhidos</span>
+          <span>{{selectedWeeklyDaysName}}</span>
+        </li>
+
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between gap-3 py-3 px-0 border-bottom fs-5">
+          <span class="text-gray-600 fw-semibold">Taxa aplicada ao dia</span>
+          <span>{{rate | number:'1.3-3'}} %</span>
+        </li>
+
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between gap-3 py-3 px-0 border-bottom fs-5">
+          <span class="text-gray-600 fw-semibold">Adquirentes</span>
+          <span>{{selectedAccreditationsName}}</span>
+        </li>
+      </ul>
+
+      <h4 class="fw-bold text-primary fs-5 mt-0">Conta em que você irá receber</h4>
+
+      <div class="d-flex gap-1">
+        <span class="text-gray-600 fw-semibold">Banco:</span>
+        <span>{{bankingAccount?.bank}}</span>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-1">
+          <span class="text-gray-600 fw-semibold">Agência:</span>
+          <span>{{bankingAccount?.agency}}</span>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <span class="text-gray-600 fw-semibold">Conta:</span>
+          <span>{{bankingAccount?.accountNumber}}-{{bankingAccount?.checkDigitNumber}}</span>
+        </div>
+      </div>
+
+      <hr class="my-0">
+
+      <div class="d-flex align-items-center justify-content-start gap-2">
+        <button type="button" class="btn btn-outline-primary px-3 py-2" (click)="onBackClick(viewMode)">
+          Voltar
+        </button>
+        <button type="button" class="btn btn-soft-green text-white px-3 py-2"
+          (click)="openMfaTwoFactorAuthenticationBottomSheet()">
+          Confirmar ativação
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="viewMode === 'monthly'" class="d-flex flex-column gap-4 overflow-y-auto">
+
+      <div class="mt-3 mx-3">
+        <app-monthly-activation (selectedDaysOfMonth)="onSelectDaysOfMonth($event)" [hasError]="!!errors.length">
+        </app-monthly-activation>
+      </div>
+
+      <div *ngFor="let item of errors" class="d-flex gap-2 align-items-start w-100 p-3 bg-gray-200">
+        <span class="material-symbols-outlined text-secondary" [style.font-size]="'34px'">
+          error
+        </span>
+        <div class="d-flex flex-column">
+          <span class="text-secondary fw-semibold">{{item.title}}</span>
+          <span>{{item.description}}</span>
+        </div>
+      </div>
+
+      <hr class="mx-3 my-0">
+
+      <div class="d-flex align-items-center justify-content-start gap-2 mx-3">
+        <button type="button" class="btn btn-outline-primary px-3 py-2" (click)="onBackClick(viewMode)">
+          Voltar
+        </button>
+        <button type="button" class="btn btn-primary px-3 py-2" (click)="onContinueClick(viewMode)">
+          Continuar
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="viewMode === 'monthly-accreditations'" class="d-flex flex-column gap-4 overflow-y-auto">
+
+      <div class="mt-3 mx-3">
+        <app-prepayments-accreditations-card [accreditations]="accreditations" [hasError]="!!errors.length"
+          (selectedAccreditations)="onSelectedAccreditations($event)">
+        </app-prepayments-accreditations-card>
+      </div>
+
+      <div *ngFor="let item of errors" class="d-flex gap-2 align-items-start w-100 p-3 bg-gray-200">
+        <span class="material-symbols-outlined text-secondary" [style.font-size]="'34px'">
+          error
+        </span>
+        <div class="d-flex flex-column">
+          <span class="text-secondary fw-semibold">{{item.title}}</span>
+          <span>{{item.description}}</span>
+        </div>
+      </div>
+
+      <hr class="mx-3 my-0">
+
+      <div class="d-flex align-items-center justify-content-start gap-2 mx-3">
+        <button type="button" class="btn btn-outline-primary px-3 py-2" (click)="onBackClick(viewMode)">
+          Voltar
+        </button>
+        <button type="button" class="btn btn-primary px-3 py-2" (click)="onContinueClick(viewMode)">
+          Continuar
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="viewMode === 'monthly-check'" class="d-flex flex-column gap-4 overflow-y-auto">
+
+      <div class="mt-3">
+        <h4 class="fw-bold text-primary fs-5 mt-0">Confira sua antecipação</h4>
+        <h6 class="text-gray-600">Confirme os dados da sua antecipação programada</h6>
+      </div>
+
+      <ul class="list-group list-group-flush d-flex flex-column">
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between gap-3 py-3 px-0 border-bottom fs-5">
+          <span class="text-gray-600 fw-semibold">Período</span>
+          <span>Mensalmente</span>
+        </li>
+
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between gap-3 py-3 px-0 border-bottom fs-5">
+          <span class="text-gray-600 fw-semibold">Dias escolhidos</span>
+          <span>{{selectedMonthlyDaysName}}</span>
+        </li>
+
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between gap-3 py-3 px-0 border-bottom fs-5">
+          <span class="text-gray-600 fw-semibold">Taxa aplicada ao dia</span>
+          <span>{{rate | number:'1.3-3'}} %</span>
+        </li>
+
+        <li
+          class="list-group-item d-flex align-items-center justify-content-between gap-3 py-3 px-0 border-bottom fs-5">
+          <span class="text-gray-600 fw-semibold">Adquirentes</span>
+          <span>{{selectedAccreditationsName}}</span>
+        </li>
+      </ul>
+
+      <h4 class="fw-bold text-primary fs-5 mt-0">Conta em que você irá receber</h4>
+
+      <div class="d-flex gap-1">
+        <span class="text-gray-600 fw-semibold">Banco:</span>
+        <span>{{bankingAccount?.bank}}</span>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-1">
+          <span class="text-gray-600 fw-semibold">Agência:</span>
+          <span>{{bankingAccount?.agency}}</span>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <span class="text-gray-600 fw-semibold">Conta:</span>
+          <span>{{bankingAccount?.accountNumber}}-{{bankingAccount?.checkDigitNumber}}</span>
+        </div>
+      </div>
+
+      <hr class="my-0">
+
+      <div class="d-flex align-items-center justify-content-start gap-2">
+        <button type="button" class="btn btn-outline-primary px-3 py-2" (click)="onBackClick(viewMode)">
+          Voltar
+        </button>
+        <button type="button" class="btn btn-soft-green text-white px-3 py-2"
+          (click)="openMfaTwoFactorAuthenticationBottomSheet()">
+          Confirmar ativação
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

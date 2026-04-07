@@ -1,0 +1,22 @@
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link back" (click)="onNavigateBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="title">Ops!</span>
+    </a>
+  </section>
+</ng-template>
+
+<div class="content fs-09">
+
+  <img class="img-prepayment" src="../../../../../../../assets/img/failure.png">
+
+</div>
+
+<div class="page-actions">
+  <button type="button"
+          class="btn btn-outline-primary"
+          (click)="onNavigateBack()">
+    Tentar novamente
+  </button>
+</div>

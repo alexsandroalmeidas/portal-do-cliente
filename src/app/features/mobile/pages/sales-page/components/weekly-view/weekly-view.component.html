@@ -1,0 +1,66 @@
+<div class="weekly-view d-flex flex-wrap">
+  <div
+    class="card"
+    *ngFor="let sale of weeklySales; let i = index"
+    [ngClass]="{ 'mt-3': i === 0 || i === 1 }"
+  >
+    <div
+      class="card-header d-flex justify-content-between align-items-center gap-2 bg-gray"
+      [ngClass]="{
+        'bg-secondary': sale.date.isToday(),
+        'text-white': !sale.date.isToday(),
+      }"
+    >
+      <span class="title">{{ sale.date | referenceDay }}</span>
+      <span class="date">{{ sale.date | date: "dd/MM" }}</span>
+    </div>
+    <div class="card-body">
+      <div
+        class="data d-flex flex-column align-items-start justify-content-center"
+      >
+        <span class="text-uppercase info-label">Total de vendas</span>
+
+        <span class="text-end">
+          <span class="info-label mr-7"><small>R$</small></span>
+          <span
+            class="text-end info-currency-qtd-1"
+            *ngIf="visibilityOn; else hidden_sale_amount"
+          >
+            {{ sale.totalAmount | number: "1.2-2" }}
+          </span>
+
+          <ng-template #hidden_sale_amount>
+            <span class="lh-1">{{
+              sale.totalAmount || 0 | hiddenValue: "&lowast;" : 5
+            }}</span>
+          </ng-template>
+        </span>
+
+        <span class="text-end">
+          <span class="info-label mr-2"><small>QTD</small></span>
+          <span
+            class="text-end info-currency-qtd-2"
+            *ngIf="visibilityOn; else hidden_sale_qtd"
+          >
+            {{ sale.totalCount }}
+          </span>
+
+          <ng-template #hidden_sale_qtd>
+            <span class="lh-1">{{
+              sale.totalCount || 0 | hiddenValue: "&lowast;" : 5
+            }}</span>
+          </ng-template>
+        </span>
+      </div>
+      <div class="card-actions card-icon d-flex align-items-center mt-2">
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm card-action"
+          (click)="goToSales(sale.date)"
+        >
+          detalhes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

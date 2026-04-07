@@ -1,0 +1,181 @@
+<app-toolbar-background></app-toolbar-background>
+
+<ng-template #toolbarContent>
+  <section class="toolbar-content">
+    <a mat-button class="nav-link back" (click)="onNavigateBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span class="title">Meus dados</span>
+    </a>
+
+    <div class="spacer"></div>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toolbar-action-notification"
+      aria-label="Notifications menu"
+      (click)="onNotificationClick()"
+    >
+      <span class="material-symbols-outlined">notifications</span>
+      <span
+        class="position-absolute translate-middle badge rounded-pill"
+        *ngIf="unreadedNotificationsCount > 0"
+      >
+        {{ unreadedNotificationsCount < 9 ? unreadedNotificationsCount : "9+" }}
+        <span class="visually-hidden">unread messages</span>
+      </span>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action select-establishments"
+      aria-label="Select establishments"
+      (click)="onSelectEstablishment()"
+    >
+      <span class="material-symbols-outlined">store</span>
+      <span
+        class="position-absolute translate-middle badge rounded-pill"
+        *ngIf="selectedEstablishments.length > 0"
+      >
+        {{
+          selectedEstablishments.length < 100
+            ? selectedEstablishments.length
+            : "99+"
+        }}
+        <span class="visually-hidden"> unread messages</span>
+      </span>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action toggle-visibility"
+      aria-label="Toggle visibility"
+      (click)="onToggleVisibility()"
+    >
+      <span
+        class="material-symbols-outlined"
+        *ngIf="visibilityOn; else visibility_off"
+        >visibility_off</span
+      >
+
+      <ng-template #visibility_off>
+        <span class="material-symbols-outlined">visibility</span>
+      </ng-template>
+    </button>
+
+    <button
+      mat-icon-button
+      class="toolbar-action signout"
+      aria-label="Signout"
+      (click)="onOpenMyDataDialog()"
+    >
+      <span class="material-symbols-outlined">person</span>
+    </button>
+  </section>
+</ng-template>
+
+<div class="mx-4 pb-4 mh-100">
+  <div class="my-data-title">
+    <span class="text-white"
+      >Confira os dados do(s) seu(s) estabelecimento(s) cadastrado(s) na
+      Petlove:</span
+    >
+  </div>
+
+  <button
+    mat-raised-button
+    class="establishment-selector w-100 mt-2 rounded-pill"
+    (click)="onSelectEstablishments()"
+  >
+    <span class="material-symbols-outlined text-secondary">add_business</span>
+    <span class="text-dark">
+      {{
+        !!selectedEstablishmentName
+          ? selectedEstablishmentName
+          : "Selecione estabelecimentos"
+      }}
+    </span>
+    <div class="spacer"></div>
+  </button>
+
+  <div class="mt-3 overflow-y-auto" style="max-height: calc(100vh - 255px)">
+    <div class="card mt-08 card-banking-account">
+      <div class="card-body d-flex flex-column align-items-start gap-2 p-05">
+        <div class="d-flex align-items-start">
+          <span class="material-symbols-outlined text-primary"
+            >account_balance</span
+          >
+          <div class="my-data-card-title">
+            <h5 class="d-flex align-items-center mb-0 mt-01">
+              <span class="pl-05"><strong>Dados Bancários</strong></span>
+            </h5>
+          </div>
+        </div>
+
+        <div
+          class="card card-my-card w-100 d-flex align-items-start justify-content-start gap-2 p-05"
+        >
+          <div>
+            <div class="my-data-card-title">
+              <span class="text-gray-700">
+                <strong>Domicílio Bancário</strong>
+              </span>
+            </div>
+          </div>
+          <div
+            class="w-100"
+            *ngFor="let bankingAccount of economicGroupBankingAccounts"
+          >
+            <div class="entry-thumb">
+              <img
+                src="../../../../../../../assets/icons/banks/{{
+                  bankingAccount.bankCode
+                }}.jpg"
+                class="ent-img text-gray-700"
+              />
+            </div>
+
+            <div class="d-flex justify-content-between mb-3 pl-05">
+              <div>
+                <span class="bank-name text-gray-700"
+                  ><b>{{ bankingAccount.bankName }}</b></span
+                >
+                <span class="fs-5 text-gray-700">AG: </span>
+                <span class="fs-5"
+                  ><b>{{ bankingAccount.agency }}</b></span
+                >
+                <span class="fs-5 text-gray-700"> CC: </span>
+                <span class="fs-5"
+                  ><b>{{ bankingAccount.account }}</b></span
+                >
+              </div>
+              <div class="entry-next">
+                <button
+                  type="button"
+                  class="btn-icon m-0 p-0"
+                  (click)="onOpenDetailCardBrands(bankingAccount)"
+                >
+                  <span class="material-symbols-outlined"> arrow_right </span>
+                </button>
+              </div>
+            </div>
+            <mat-divider
+              *ngIf="
+                !!economicGroupBankingAccounts &&
+                economicGroupBankingAccounts.length > 1
+              "
+            ></mat-divider>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #myDataDetailRef>
+      <app-card-my-data-detail-side
+        [visibilityOn]="visibilityOn"
+        [bankingAccount]="bankingAccount"
+        (close)="onCloseDetailCardBrands()"
+      >
+      </app-card-my-data-detail-side>
+    </ng-template>
+  </div>
+</div>

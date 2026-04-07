@@ -1,0 +1,26 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelBody class="d-flex flex-column text-center">
+
+    <h1 mat-dialog-title>
+      <mat-icon matSuffix class="icon-color">error</mat-icon> <br />
+
+      <div class="p-1 fs-3">
+        Antecipação Pontual cancelada!
+      </div>
+    </h1>
+
+    <p class="p-1 attention">
+      Atenção: Todo o processo foi cancelado e os valores
+      disponíveis podem ser distintos.
+    </p>
+
+    <mat-dialog-actions align="end" class="float-end pt-1">
+      <button type="button"
+              class="btn btn-outline-primary"
+              (click)="onClose()">
+        Fechar
+      </button>
+    </mat-dialog-actions>
+
+  </div>
+</app-bottom-sheet-panel>

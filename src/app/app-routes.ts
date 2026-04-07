@@ -56,6 +56,7 @@ export const APP_ROUTES: Routes = [
   // 🔓 PUBLICO
   {
     path: '',
+    // canActivate: [() => checkIfIsNotMobile()],
     loadChildren: () =>
       import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
@@ -66,6 +67,12 @@ export const APP_ROUTES: Routes = [
     canActivate: [() => checkIfIsNotMobile()],
     loadChildren: () =>
       import('./features/main/main.routes').then((m) => m.MAIN_ROUTES),
+  },
+  {
+    path: '',
+    canActivate: [() => checkIfIsMobile()],
+    loadChildren: () =>
+      import('./features/mobile/mobile.routes').then((m) => m.MOBILE_ROUTES),
   },
 
   { path: '**', redirectTo: 'login' },

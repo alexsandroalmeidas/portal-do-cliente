@@ -1,0 +1,58 @@
+:host {
+
+  --toolbar-height: 200px;
+
+  .pt-1 {
+    padding-top: 1rem !important;
+  }
+
+  .card {
+    border-color: var(--bs-light);
+    background: var(--bs-gray-200);
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+
+    .card-body {
+      .card-actions {
+        .card-action {
+          border-radius: 7px;
+        }
+      }
+    }
+  }
+
+  .page-actions {
+    position: absolute;
+    bottom: calc(75px + 2rem);
+    right: 1.5rem;
+  }
+
+  ::ng-deep .mdc-list-item__content {
+    align-self: start !important;
+  }
+
+  ::ng-deep .mat-mdc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-top: solid 1px var(--bs-gray-500);
+  }
+
+  .mat-mdc-list-item {
+    border-bottom: solid 1px var(--bs-gray-500);
+    padding-bottom: 1rem;
+  }
+
+  .statement-list {
+    padding-bottom: 10rem;
+  }
+}

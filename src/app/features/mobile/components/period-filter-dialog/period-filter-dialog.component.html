@@ -1,0 +1,40 @@
+<app-sidenav-panel>
+  <div sidenavPanelHeader>
+    <div class="close">
+      <button mat-icon-button (click)="onCancel()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="title">
+      <span>Período selecionado</span>
+    </div>
+    <div class="selection">
+      <span>{{selectedDateRange.start?.format('DD/MM/yyyy')}} - {{selectedDateRange.end?.format('DD/MM/yyyy')}}</span>
+      <!-- <button mat-icon-button>
+        <span class="material-symbols-outlined">edit</span>
+      </button> -->
+    </div>
+  </div>
+
+  <div sidenavPanelBody>
+    <mat-calendar color="accent"
+                  [maxDate]="maxDate"
+                  (selectedChange)="onSelectedChange($event)"
+                  [selected]="selectedDateRange">
+    </mat-calendar>
+  </div>
+
+  <div sidenavPanelFooter>
+    <button type="button"
+            class="btn btn-outline-primary mr-05"
+            (click)="onCancel()">
+      Cancelar
+    </button>
+    <button type="button"
+            class="btn btn-primary"
+            [disabled]="!selectedDateRange.start || !selectedDateRange.end"
+            (click)="onConfirm()">
+      Enviar
+    </button>
+  </div>
+</app-sidenav-panel>

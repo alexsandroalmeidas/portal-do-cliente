@@ -1,0 +1,48 @@
+:host {
+  .bottom-sheet-panel-header-tools {
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    align-items: center;
+  }
+
+  .bottom-sheet-panel-body {
+    display: flex;
+    flex-direction: column;
+
+    ::ng-deep .mat-mdc-list {
+      padding: 0;
+
+      .mat-mdc-list-item {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+
+        .mdc-list-item__content {
+          .mdc-list-item__primary-text {
+            .mat-mdc-slide-toggle {
+              width: 100%;
+
+              .mdc-form-field {
+                width: 100%;
+                gap: 0.5rem;
+
+                label {
+                  width: 100%;
+
+                  .label-content {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+<div class="not-finalized-container d-flex flex-column border rounded-4 p-4 bg-primary gap-4 w-100" *ngIf="!finalized">
+
+  <div class="header d-flex align-items-center justify-content-start gap-3">
+    <span class="icon material-symbols-outlined text-white">schedule</span>
+    <div class="d-flex flex-column justify-content-center align-items-start gap-2 w-100 text-gray-900 lh-1">
+      <span class="text-gray-500">Antecipação</span>
+      <span class="text-white fs-2 fw-semibold">Programada</span>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-between gap-2 w-100 text-white">
+    <div class="d-flex flex-column lh-1 gap-1">
+      <span class="fw-bold fs-1">{{scheduledRate | number:'1.3-5' | slice:0:5}} %</span>
+      <span class="text-gray-500 lh-1">taxa ao dia</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-end">
+      <span class="rounded-3 p-2 text-primary fw-semibold bg-soft-blue">Mais vantajoso</span>
+    </div>
+  </div>
+
+  <ul class="list-group list-group-flush flex-fill d-flex flex-column gap-3">
+    <li class="list-group-item d-flex align-items-center gap-3 p-0 bg-primary border-0">
+      <app-check-marked [checkboxId]="'checkbox19'" [backgroundColor]="'white'" />
+      <div class="text-white fs-bullet">
+        <p class="mb-0 mt-04">Tarifas menores do que a Pontual</p>
+      </div>
+    </li>
+    <li class="list-group-item d-flex align-items-center gap-3 p-0 bg-primary border-0">
+      <app-check-marked [checkboxId]="'checkbox20'" [backgroundColor]="'white'" />
+      <div class="text-white fs-bullet">
+        <p class="mb-0">Facilidade: Solicite apenas uma vez</p>
+      </div>
+    </li>
+    <li class="list-group-item d-flex align-items-center gap-3 p-0 bg-primary border-0">
+      <app-check-marked [checkboxId]="'checkbox21'" [backgroundColor]="'white'" />
+      <div class="text-white fs-bullet">
+        <p class="mb-0">Mais tempo e facilidade para o seu negócio</p>
+      </div>
+    </li>
+    <li class="list-group-item d-flex align-items-center gap-3 p-0 bg-primary border-0">
+      <app-check-marked [checkboxId]="'checkbox22'" [backgroundColor]="'white'" />
+      <div class="text-white fs-bullet">
+        <p class="mb-0">Negocie melhor com seus fornecedores</p>
+      </div>
+    </li>
+  </ul>
+
+  <button type="button"
+    class="d-flex align-items-center justify-content-center gap-2 btn btn-sm btn-seconday bg-secondary text-white px-3 py-2"
+    (click)="onActivateClick()">
+    <span class="material-symbols-outlined">schedule</span>
+    Ativar agora
+  </button>
+</div>
+
+<div class="finalized-container d-flex flex-column rounded-4 bg-primary gap-4 w-100" *ngIf="finalized">
+
+  <div class="header d-flex flex-column align-items-center py-3 px-5 gap-2 rounded-top-4 bg-soft-blue text-center">
+    <span class="icon material-symbols-outlined text-primary fw-semibold">task_alt</span>
+    <span class="text-primary fs-2 fw-bold">Antecipação ativa</span>
+  </div>
+
+  <div class="body d-flex flex-column align-items-center p-4 gap-4 rounded-bottom-4 bg-primary text-soft-blue">
+    <div class="d-flex flex-column justify-content-center align-items-start gap-2 w-100 lh-1">
+      <span class="text-soft-blue">Antecipação</span>
+      <span class="text-soft-blue fs-2 fw-semibold">Programada</span>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between gap-2 w-100 text-soft-blue">
+      <div class="d-flex flex-column lh-1 gap-1">
+        <span class="fw-bold fs-1">{{scheduledRate | number:'1.3-5' | slice:0:5}} %</span>
+        <span class="text-soft-blue lh-1">taxa ao dia</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-end">
+        <span class="rounded-3 p-2 text-primary fw-semibold bg-soft-blue">Mais vantajoso</span>
+      </div>
+    </div>
+
+    <div class="actions d-flex align-items-center gap-2">
+      <button mat-stroked-button class="d-flex align-items-center border border-white rounded-pill text-white px-3 py-2"
+        (click)="onEditClick()">
+        <mat-icon matPrefix class="material-symbols-outlined text-white">edit</mat-icon>
+        Editar
+      </button>
+      <button mat-stroked-button class="d-flex align-items-center border border-white rounded-pill text-white px-3 py-2"
+        (click)="onCancelClick()">
+        <mat-icon matPrefix class="material-symbols-outlined text-white">cancel</mat-icon>
+        Cancelar
+      </button>
+    </div>
+  </div>
+
+</div>

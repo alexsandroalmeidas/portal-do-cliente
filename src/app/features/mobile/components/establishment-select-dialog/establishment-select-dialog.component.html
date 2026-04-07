@@ -1,0 +1,59 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelHeaderTools>
+    <mat-form-field class="search-input w-100">
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        placeholder="Pesquisar estabelecimento"
+        [formControl]="filterEstablishmentsControl"
+      />
+    </mat-form-field>
+  </div>
+
+  <div bottomSheetPanelBody>
+    <mat-list>
+      <cdk-virtual-scroll-viewport itemSize="18" style="height: 100vh">
+        <mat-list-item *ngIf="enableAllEstablishments">
+          <mat-slide-toggle
+            [disableRipple]="true"
+            [checked]="allEstablishmentsSelected"
+            (change)="onAllEstablishmentsToglleSelect()"
+            color="primary"
+          >
+            <span class="fw-semibold">Selecionar tudo</span>
+          </mat-slide-toggle>
+        </mat-list-item>
+
+        <mat-list-item
+          *cdkVirtualFor="let establishment of filteredEstablishments; let i = index"
+          [id]="establishment.uid"
+        >
+          <mat-slide-toggle
+            color="primary"
+            [disableRipple]="true"
+            [disabled]="disableSelected(establishment.uid)"
+            [checked]="selectedEstablishmentsUids.includes(establishment.uid)"
+            (change)="onChangeEstablishmentSelection(establishment)"
+          >
+            <div class="label-content">
+              <span class="fw-semibold">{{ establishment.companyName }}</span>
+              <span>{{ establishment.document | mask: 'CPF_CNPJ' }}</span>
+            </div>
+          </mat-slide-toggle>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </cdk-virtual-scroll-viewport>
+    </mat-list>
+  </div>
+
+  <div bottomSheetPanelFooter>
+    <button
+      type="button"
+      class="btn btn-primary w-100"
+      [disabled]="!selectedEstablishmentsUids.length"
+      (click)="onSelectEstablishments()"
+    >
+      Selecionar
+    </button>
+  </div>
+</app-bottom-sheet-panel>

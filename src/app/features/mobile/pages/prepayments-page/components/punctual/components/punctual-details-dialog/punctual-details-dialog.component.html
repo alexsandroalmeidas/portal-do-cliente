@@ -1,0 +1,111 @@
+<app-bottom-sheet-panel>
+  <div bottomSheetPanelBody class="d-flex flex-column">
+    <div class="zigzag zigzag-bottom"></div>
+
+    <div class="list">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-bolder text-uppercase">Valor Total</span>
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="info-label mr-2"><small>R$ </small></span>
+              <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_total_amount">
+                {{totalAmount | number:'1.2-2'}}
+              </span>
+
+              <ng-template #hidden_total_amount>
+                <span class="lh-1">{{totalAmount || 0 | hiddenValue:'&lowast;':5 }}</span>
+              </ng-template>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-bolder text-uppercase">Taxa Aplicada ao dia</span>
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_rate">
+                {{rate | number:'1.3-5' | slice:0:5}} %
+              </span>
+
+              <ng-template #hidden_rate>
+                <span class="lh-1">{{rate || 0 | hiddenValue:'&lowast;':5 }}</span>
+              </ng-template>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="prepayment-total-amount">
+        <span class="fw-bolder text-uppercase">Valor Total da Antecipação</span> <br />
+        <span class="info-label mr-2"><small>R$</small></span>
+        <span class="info-currency-qtd-1" *ngIf="visibilityOn; else hidden_prepayment_total_amount">
+          {{prepaymentTotalAmount || 0 | number:'1.2-2' }}
+        </span>
+
+        <ng-template #hidden_prepayment_total_amount>
+          <span class="lh-1">{{prepaymentTotalAmount || 0 | hiddenValue:'&lowast;':5 }}</span>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="content-info">
+      <mat-list-item class="px-0 pb-1 pt-1">
+        <span class="text-start info-label val-left">Conta em que você vai receber</span>
+      </mat-list-item>
+
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <span class="text-uppercase">Banco:</span>
+          </div>
+          <div class="col">
+            <span class="text-uppercase">Agência:</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span class="fw-bolder">{{bankingAccount.bank}}</span>
+          </div>
+          <div class="col">
+            <span class="fw-bolder">{{bankingAccount.agency}}</span>
+          </div>
+        </div>
+
+        <div class="row pt-1">
+          <div class="col">
+            <span class="text-uppercase">Conta Corrente:</span>
+          </div>
+          <div class="col">
+            <span class="text-uppercase">Previsão Recebimento:</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span class="fw-bolder">{{bankingAccount.accountNumber}}</span>
+          </div>
+          <div class="col">
+            <span class="fw-bolder">{{schedule.paymentDate | date:'dd/MM/yyyy'}}</span>
+          </div>
+        </div>
+
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <mat-dialog-actions align="end" class="float-end pt-1">
+        <button type="button"
+                class="btn btn-outline-primary mr-5"
+                (click)="openPunctualCancelDialog()">
+          Cancelar
+        </button>
+        <button type="button"
+                class="btn btn-primary"
+                (click)="onConfirm()">
+          Confirmar
+        </button>
+      </mat-dialog-actions>
+
+    </div>
+
+  </div>
+</app-bottom-sheet-panel>
