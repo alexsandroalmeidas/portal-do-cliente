@@ -12,6 +12,8 @@ import {
   mockLastUpdate,
   mockLastSales,
   buildCalendar,
+  buildSalesCalendarExcelBlob,
+  buildSalesDetailExcelBlob,
 } from './sales.mock';
 
 import { SalesCalendar, SalesDetail, SummaryLastSales } from './sales.models';
@@ -227,21 +229,29 @@ export class SalesStoreEffects {
 
   loadExcelSalesDetailEffect$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SalesStoreActions.ActionTypes.SELECT_SALES_DETAIL_EXCEL),
-      switchMap((action: any) => {
-        const { initialDate, finalDate } = action.payload;
+      ofType<SalesStoreActions.SelectSalesDetailExcelAction>(
+        SalesStoreActions.ActionTypes.SELECT_SALES_DETAIL_EXCEL,
+      ),
+      switchMap((action) => {
+        const { initialDate, finalDate, uids } = action.payload;
 
         const filtered = this.applyFilters(
           mockDetails,
           (d) => new Date(d.saleDate),
-          initialDate,
-          finalDate,
+          new Date(initialDate),
+          new Date(finalDate),
+          null as any,
+          uids,
         );
 
-        return of(filtered).pipe(
+        const blob = buildSalesDetailExcelBlob(filtered);
+
+        return of(blob).pipe(
           map(
             (result) =>
-              new SalesStoreActions.LoadSalesDetailExcelAction({ result }),
+              new SalesStoreActions.LoadSalesDetailExcelAction({
+                result,
+              }),
           ),
         );
       }),
@@ -254,20 +264,26 @@ export class SalesStoreEffects {
 
   loadExcelSalesCalendarEffect$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SalesStoreActions.ActionTypes.SELECT_SALES_CALENDAR_EXCEL),
-      switchMap((action: any) => {
-        const { initialDate, finalDate } = action.payload;
+      ofType<SalesStoreActions.SelectSalesCalendarExcelAction>(
+        SalesStoreActions.ActionTypes.SELECT_SALES_CALENDAR_EXCEL,
+      ),
+      switchMap((action) => {
+        const { initialDate, finalDate, uids } = action.payload;
 
         const filteredDetails = this.applyFilters(
           mockDetails,
           (d) => new Date(d.saleDate),
-          initialDate,
-          finalDate,
+          new Date(initialDate),
+          new Date(finalDate),
+          null as any,
+          uids,
         );
 
         const calendar = buildCalendar(filteredDetails);
 
-        return of(calendar).pipe(
+        const blob = buildSalesCalendarExcelBlob(calendar);
+
+        return of(blob).pipe(
           map(
             (result) =>
               new SalesStoreActions.LoadSalesCalendarExcelAction({

@@ -18,6 +18,8 @@ import {
   mockReceivables,
   buildReceivablesCalendar,
   buildReceivablesSummaryFromCalendar,
+  buildExcelDetailBlob,
+  buildExcelCalendarBlob,
 } from './receivables.mock';
 import { Receivable, ReceivableDetail } from './receivables.models';
 
@@ -239,22 +241,24 @@ export class ReceivablesStoreEffects {
   // =============================
   loadExcelReceivablesDetailEffect$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
+      ofType<ReceivablesStoreActions.SelectReceivablesDetailExcelAction>(
         ReceivablesStoreActions.ActionTypes.SELECT_RECEIVABLES_DETAIL_EXCEL,
       ),
-      switchMap((action: any) => {
-        const { initialDate, finalDate, documentNumber, uids } = action.payload;
+      switchMap((action) => {
+        const { initialDate, finalDate, uids } = action.payload;
 
         const filtered = this.applyFilters(
           mockDetails,
           (d) => new Date(d.paymentDate),
-          initialDate,
-          finalDate,
-          documentNumber,
+          new Date(initialDate),
+          new Date(finalDate),
+          undefined,
           uids,
         );
 
-        return of(filtered).pipe(
+        const blob = buildExcelDetailBlob(filtered);
+
+        return of(blob).pipe(
           map(
             (result) =>
               new ReceivablesStoreActions.LoadReceivablesDetailExcelAction({
@@ -271,22 +275,24 @@ export class ReceivablesStoreEffects {
   // =============================
   loadExcelReceivablesCalendarEffect$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
+      ofType<ReceivablesStoreActions.SelectReceivablesCalendarExcelAction>(
         ReceivablesStoreActions.ActionTypes.SELECT_RECEIVABLES_CALENDAR_EXCEL,
       ),
-      switchMap((action: any) => {
-        const { initialDate, finalDate, documentNumber, uids } = action.payload;
+      switchMap((action) => {
+        const { initialDate, finalDate, uids } = action.payload;
 
         const filtered = this.applyFilters(
           mockCalendar,
           (d) => d.sortingDate,
-          initialDate,
-          finalDate,
-          documentNumber,
+          new Date(initialDate),
+          new Date(finalDate),
+          undefined,
           uids,
         );
 
-        return of(filtered).pipe(
+        const blob = buildExcelCalendarBlob(filtered);
+
+        return of(blob).pipe(
           map(
             (result) =>
               new ReceivablesStoreActions.LoadReceivablesCalendarExcelAction({

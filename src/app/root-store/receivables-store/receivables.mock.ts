@@ -334,3 +334,37 @@ export const mockSummary = buildReceivablesSummaryFromCalendar(mockCalendar);
 export const mockLastUpdate: LastUpdateDateReceivables = {
   lastUpdateDate: new Date(),
 };
+
+/* =========================
+   EXCEL HELPERS
+========================= */
+
+function buildCsv(content: any[]): string {
+  if (!content.length) return '';
+
+  const headers = Object.keys(content[0]).join(',');
+
+  const rows = content.map((item) =>
+    Object.values(item)
+      .map((v) => `"${v ?? ''}"`)
+      .join(','),
+  );
+
+  return [headers, ...rows].join('\n');
+}
+
+export function buildExcelDetailBlob(data: any[]): Blob {
+  const csv = buildCsv(data);
+
+  return new Blob([csv], {
+    type: 'application/vnd.ms-excel',
+  });
+}
+
+export function buildExcelCalendarBlob(data: any[]): Blob {
+  const csv = buildCsv(data);
+
+  return new Blob([csv], {
+    type: 'application/vnd.ms-excel',
+  });
+}
