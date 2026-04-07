@@ -1,6 +1,12 @@
-import { AdministrationStoreActions, AdministrationStoreSelectors } from '@/root-store/administration-store';
+import {
+  AdministrationStoreActions,
+  AdministrationStoreSelectors,
+} from '@/root-store/administration-store';
 import { MfaStoreActions, MfaStoreSelectors } from '@/root-store/mfa-store';
-import { PrepaymentsStoreActions, PrepaymentsStoreSelectors } from '@/root-store/prepayments-store';
+import {
+  PrepaymentsStoreActions,
+  PrepaymentsStoreSelectors,
+} from '@/root-store/prepayments-store';
 import {
   BankingAccount,
   FinalizePunctualRequest,
@@ -8,14 +14,19 @@ import {
   LeadAction,
   PunctualDetail,
   ReceivablesSchedule,
-  ReceivablesScheduleGroupingResponse
+  ReceivablesScheduleGroupingResponse,
 } from '@/root-store/prepayments-store/prepayments.models';
 import { AppState } from '@/root-store/state';
 import { MedalliaService } from '@/shared/services/medallia.service';
 import { NavigationService } from '@/shared/services/navigation.service';
 import { SharedModule } from '@/shared/shared.module';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,16 +34,12 @@ import { Store } from '@ngrx/store';
 import { isEmpty } from 'lodash';
 import { firstValueFrom, map, take, takeUntil } from 'rxjs';
 import { ConfirmationBottomSheetComponent } from 'src/app/features/mobile/components/confirmation-bottom-sheet/confirmation-bottom-sheet.component';
-import {
-  ExpansionPanelItemComponent
-} from '../../../../../../shared/components/expansion-panel/expansion-panel-item.component';
+import { ExpansionPanelItemComponent } from '../../../../../../shared/components/expansion-panel/expansion-panel-item.component';
 import { ExpansionPanelComponent } from '../../../../../../shared/components/expansion-panel/expansion-panel.component';
 import { StepperComponent } from '../../../../../../shared/components/stepper/stepper.component';
 import { MobileBasePage } from '../../../mobile-base.page';
 import { IScheduleValidationError } from '../scheduled/models/schedule-validation';
-import {
-  MfaTwoFactorAuthenticationBottomSheetComponent
-} from './../../../../components/mfa/mfa-two-factor-authentication-bottom-sheet/mfa-two-factor-authentication-bottom-sheet.component';
+import { MfaTwoFactorAuthenticationBottomSheetComponent } from './../../../../components/mfa/mfa-two-factor-authentication-bottom-sheet/mfa-two-factor-authentication-bottom-sheet.component';
 import { ToolbarBackgroundComponent } from './../../../../components/toolbar-background/toolbar-background.component';
 import { SidenavService } from './../../../../services/sidenav.service';
 import { ToolbarService } from './../../../../services/toolbar.service';
@@ -46,13 +53,12 @@ import { PunctualSuccessDialogComponent } from './components/punctual-success-di
     StepperComponent,
     ToolbarBackgroundComponent,
     ExpansionPanelComponent,
-    ExpansionPanelItemComponent
+    ExpansionPanelItemComponent,
   ],
   templateUrl: './punctual-page.component.html',
-  styleUrls: ['./punctual-page.component.scss']
+  styleUrls: ['./punctual-page.component.scss'],
 })
 export class PrepaymentsPunctualPageComponent extends MobileBasePage {
-
   receivablesSchedule: ReceivablesScheduleGroupingResponse[] = [];
   schedules: ReceivablesSchedule[] = [];
   documetNumberSelected = '';
@@ -69,29 +75,27 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
 
   get totalAmountPrepayment() {
     return !isEmpty(this.selection.selected)
-      ? this.selection.selected.sumBy(p => p.prepaymentValue ?? 0)
-      : 0
+      ? this.selection.selected.sumBy((p) => p.prepaymentValue ?? 0)
+      : 0;
   }
 
   get totalAmountPrepaymentRate() {
     return !isEmpty(this.selection.selected)
-      ? this.selection.selected
-        .map(s => s.prepaymentValue * s.rate)
-        .sum()
-      : 0
+      ? this.selection.selected.map((s) => s.prepaymentValue * s.rate).sum()
+      : 0;
   }
 
   get totalAmountSchedules() {
     return !isEmpty(this.schedules)
-      ? this.schedules.sumBy(p => p.prepaymentValue ?? 0)
-      : 0
+      ? this.schedules.sumBy((p) => p.prepaymentValue ?? 0)
+      : 0;
   }
 
   get selectedAccreditationsName() {
     return this.selection.selected
-      .map(p => p.documentNumberAccreditor)
+      .map((p) => p.documentNumberAccreditor)
       .uniq()
-      .map(p => getAccreditationName(p))
+      .map((p) => getAccreditationName(p))
       .join(', ');
   }
 
@@ -113,9 +117,18 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     medalliaService: MedalliaService,
-    router: Router) {
-
-    super(store$, bottomSheet, viewContainerRef, navigationService, sidenavService, toolbarService, medalliaService, router);
+    router: Router,
+  ) {
+    super(
+      store$,
+      bottomSheet,
+      viewContainerRef,
+      navigationService,
+      sidenavService,
+      toolbarService,
+      medalliaService,
+      router,
+    );
 
     const { uid } = this.route.snapshot.queryParams;
     this.documetNumberSelected = uid;
@@ -138,7 +151,7 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
     const scrollTop = event.target.scrollTop;
 
     // Defina a condição de rolagem aqui
-    this.isHidden = scrollTop > 70;  // Por exemplo, esconde quando o scroll passa de 50px
+    this.isHidden = scrollTop > 70; // Por exemplo, esconde quando o scroll passa de 50px
   }
 
   checkError() {
@@ -146,7 +159,7 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
 
     if (!this.selection.selected.length) {
       this.errors.push({
-        title: 'Selecione as transações abaixo que deseja antecipar.'
+        title: 'Selecione as transações abaixo que deseja antecipar.',
       });
     }
   }
@@ -190,8 +203,12 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
         this.receivablesSchedule = receivablesSchedule || [];
 
         if (!isEmpty(this.receivablesSchedule)) {
-          this.bankingAccount = this.receivablesSchedule.map(p => p.bankingAccount).firstOrDefault((x: any) => !!x);
-          this.receivablesSchedule.map(p => p.schedules.map(x => this.schedules.push(x)));
+          this.bankingAccount = this.receivablesSchedule
+            .map((p) => p.bankingAccount)
+            .firstOrDefault((x: any) => !!x);
+          this.receivablesSchedule.map((p) =>
+            p.schedules.map((x) => this.schedules.push(x)),
+          );
         }
       });
   }
@@ -202,7 +219,9 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
       .pipe(takeUntil(this.$unsub))
       .subscribe((error) => {
         if (!!error) {
-          this.store$.dispatch(new PrepaymentsStoreActions.SetNoErrorPunctualPrepaymentAction());
+          this.store$.dispatch(
+            new PrepaymentsStoreActions.SetNoErrorPunctualPrepaymentAction(),
+          );
           this.router.navigate(['/failure/mobile']);
         }
       });
@@ -214,7 +233,9 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
       .pipe(takeUntil(this.$unsub))
       .subscribe((error) => {
         if (!!error) {
-          this.store$.dispatch(new AdministrationStoreActions.SetNoErrorGetEconomicGroupPhoneAction());
+          this.store$.dispatch(
+            new AdministrationStoreActions.SetNoErrorGetEconomicGroupPhoneAction(),
+          );
           this.router.navigate(['/failure/mobile']);
         }
       });
@@ -238,7 +259,9 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
       .pipe(takeUntil(this.$unsub))
       .subscribe((error) => {
         if (!!error) {
-          this.store$.dispatch(new MfaStoreActions.SetNoErrorVerificationCompletedAction());
+          this.store$.dispatch(
+            new MfaStoreActions.SetNoErrorVerificationCompletedAction(),
+          );
           this.router.navigate(['/failure/mobile']);
         }
       });
@@ -256,38 +279,42 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
   private selectSaveLead(
     canceled: boolean,
     finished: boolean,
-    itStarted: boolean) {
-
+    itStarted: boolean,
+  ) {
     if (!!this.documetNumberSelected) {
-      this.store$.dispatch(new PrepaymentsStoreActions.SaveLeadAction(
-        {
+      this.store$.dispatch(
+        new PrepaymentsStoreActions.SaveLeadAction({
           canceled,
           uid: this.documetNumberSelected,
           finished,
           itStarted,
-          leadAction: LeadAction.punctualPrepayment
-        }));
+          leadAction: LeadAction.punctualPrepayment,
+        }),
+      );
     }
   }
 
   private selectGetEconomicGroupPhone() {
-    this.store$.dispatch(new AdministrationStoreActions.GetEconomicGroupPhoneAction());
+    this.store$.dispatch(
+      new AdministrationStoreActions.GetEconomicGroupPhoneAction(),
+    );
   }
 
   private selectFinalizedPunctualPrepayment() {
-    this.store$.dispatch(new PrepaymentsStoreActions.FinalizedPunctualPrepaymentAction());
+    this.store$.dispatch(
+      new PrepaymentsStoreActions.FinalizedPunctualPrepaymentAction(),
+    );
   }
 
   onToggleSelectAll() {
     this.isAllSelected = !this.isAllSelected;
 
     if (this.isAllSelected) {
-      this.schedules.forEach(schedule => {
+      this.schedules.forEach((schedule) => {
         this.selection.select(schedule);
       });
-
     } else {
-      this.schedules.forEach(schedule => {
+      this.schedules.forEach((schedule) => {
         this.selection.deselect(schedule);
       });
     }
@@ -299,22 +326,31 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
     event.stopPropagation();
     this.selection.toggle(schedule);
 
-    this.isAllSelected = !!this.schedules.length && this.schedules.length === this.selection.selected.length;
+    this.isAllSelected =
+      !!this.schedules.length &&
+      this.schedules.length === this.selection.selected.length;
     this.checkError();
   }
 
   async openMfaTwoFactorAuthenticationBottomSheet() {
-    this.store$.dispatch(new MfaStoreActions.SendPinSmsAction({ phoneNumber: this.economicGroupPhoneNumber }));
+    this.store$.dispatch(
+      new MfaStoreActions.SendPinSmsAction({
+        phoneNumber: this.economicGroupPhoneNumber,
+      }),
+    );
 
-    const dialogTwoFactorRef = this.bottomSheet.open(MfaTwoFactorAuthenticationBottomSheetComponent, {
-      panelClass: 'bottom-sheet-prepayment-panel',
-      hasBackdrop: true,
-      disableClose: true,
-      data: {
-        step: 3,
-        isMfa: false
-      }
-    });
+    const dialogTwoFactorRef = this.bottomSheet.open(
+      MfaTwoFactorAuthenticationBottomSheetComponent,
+      {
+        panelClass: 'bottom-sheet-prepayment-panel',
+        hasBackdrop: true,
+        disableClose: true,
+        data: {
+          step: 3,
+          isMfa: false,
+        },
+      },
+    );
 
     dialogTwoFactorRef
       .afterDismissed()
@@ -323,42 +359,50 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
         if (data === true) {
           const schedules: FinalizePunctualRequest[] = [];
 
-          this.selection.selected.map(x =>
-            schedules.push(
-              {
-                arScheduleId: x.arScheduleId,
-                uid: this.selectedEstablishments.filter(x => x.documentNumber == x.documentNumber)[0].uid
-              } as FinalizePunctualRequest
-            ))
+          this.selection.selected.map((x) =>
+            schedules.push({
+              arScheduleId: x.arScheduleId,
+              uid: this.selectedEstablishments.filter(
+                (x) => x.documentNumber == x.documentNumber,
+              )[0].uid,
+            } as FinalizePunctualRequest),
+          );
 
-          this.store$.dispatch(new PrepaymentsStoreActions.FinalizePunctualPrepaymentAction({ uid: this.documetNumberSelected, schedules }));
-
+          this.store$.dispatch(
+            new PrepaymentsStoreActions.FinalizePunctualPrepaymentAction({
+              uid: this.documetNumberSelected,
+              schedules,
+            }),
+          );
         } else if (data === false) {
-          await this.openMfaCancelDialog(() => this.openMfaTwoFactorAuthenticationBottomSheet());
+          // await this.openMfaCancelDialog(() => this.openMfaTwoFactorAuthenticationBottomSheet());
         }
       });
   }
 
   confirmCancelMfa() {
-    const dialogTwoFactorRef = this.bottomSheet.open(ConfirmationBottomSheetComponent, {
-      panelClass: 'bottom-sheet-prepayment-panel',
-      hasBackdrop: true,
-      disableClose: true,
-      data: {
-        title: 'Atenção! Você tem certeza que deseja cancelar a ativação da autenticação de 2 fatores?',
-        description: 'O cancelamento da autenticação de 2 fatores (MFA) impede que você conclua suas transações.',
-        okText: 'Sim, desejo cancelar',
-        cancelText: 'Voltar'
-      }
-    });
+    const dialogTwoFactorRef = this.bottomSheet.open(
+      ConfirmationBottomSheetComponent,
+      {
+        panelClass: 'bottom-sheet-prepayment-panel',
+        hasBackdrop: true,
+        disableClose: true,
+        data: {
+          title:
+            'Atenção! Você tem certeza que deseja cancelar a ativação da autenticação de 2 fatores?',
+          description:
+            'O cancelamento da autenticação de 2 fatores (MFA) impede que você conclua suas transações.',
+          okText: 'Sim, desejo cancelar',
+          cancelText: 'Voltar',
+        },
+      },
+    );
 
     return firstValueFrom(
-      dialogTwoFactorRef
-        .afterDismissed()
-        .pipe(
-          take(1),
-          map(confirm => !!confirm)
-        )
+      dialogTwoFactorRef.afterDismissed().pipe(
+        take(1),
+        map((confirm) => !!confirm),
+      ),
     );
   }
 
@@ -369,46 +413,44 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
   }
 
   async onOpenPunctualDetailsDialog() {
-    this.totalAmount = this.selection.selected.sumBy(p => p.totalFreeValue);
+    this.totalAmount = this.selection.selected.sumBy((p) => p.totalFreeValue);
 
-    this.store$.dispatch(new PrepaymentsStoreActions.GetPunctualRatePrepaymentAction(
-      {
+    this.store$.dispatch(
+      new PrepaymentsStoreActions.GetPunctualRatePrepaymentAction({
         uid: this.documetNumberSelected,
-        prepaymentTotalAmount: this.totalAmount
-      }));
+        prepaymentTotalAmount: this.totalAmount,
+      }),
+    );
   }
 
   async goActivate() {
-    await this.router.navigate(
-      ['/prepayments/mobile/scheduled'],
-      {
-        queryParams: {
-          uid: this.documetNumberSelected
-        }
-      });
+    await this.router.navigate(['/prepayments/mobile/scheduled'], {
+      queryParams: {
+        uid: this.documetNumberSelected,
+      },
+    });
   }
 
   async goToPrepayments() {
-    await this.router.navigate(
-      ['/prepayments/mobile'],
-      {
-        queryParams: {
-          uid: this.documetNumberSelected
-        }
-      });
-
+    await this.router.navigate(['/prepayments/mobile'], {
+      queryParams: {
+        uid: this.documetNumberSelected,
+      },
+    });
   }
 
   async openPunctualSuccessDialog() {
-
-    const bottomSheetRef = this.bottomSheet.open(PunctualSuccessDialogComponent, {
-      panelClass: 'bottom-sheet-panel',
-      hasBackdrop: true,
-      disableClose: true,
-      data: {
-        documentNumberSelected: this.documetNumberSelected
-      }
-    });
+    const bottomSheetRef = this.bottomSheet.open(
+      PunctualSuccessDialogComponent,
+      {
+        panelClass: 'bottom-sheet-panel',
+        hasBackdrop: true,
+        disableClose: true,
+        data: {
+          documentNumberSelected: this.documetNumberSelected,
+        },
+      },
+    );
 
     bottomSheetRef
       .afterDismissed()
@@ -426,14 +468,13 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
   }
 
   async onOpenPunctualDetail(schedule: ReceivablesSchedule) {
-
     this.punctualDetail = {
       bankingAccount: this.bankingAccount,
       rate: schedule.rate,
       prepaymentTotalAmount: schedule.prepaymentValue,
       schedule,
       totalAmount: schedule.totalFreeValue,
-      visibilityOn: this.visibilityOn
+      visibilityOn: this.visibilityOn,
     } as PunctualDetail;
 
     await this.sidenavService.open(this.punctualDetailRef);
@@ -444,13 +485,15 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
   }
 
   async onOpenPunctualCancelDialog() {
-
-    const bottomSheetRef = this.bottomSheet.open(PunctualCancelDialogComponent, {
-      panelClass: 'bottom-sheet-panel',
-      hasBackdrop: true,
-      disableClose: true,
-      data: {}
-    });
+    const bottomSheetRef = this.bottomSheet.open(
+      PunctualCancelDialogComponent,
+      {
+        panelClass: 'bottom-sheet-panel',
+        hasBackdrop: true,
+        disableClose: true,
+        data: {},
+      },
+    );
 
     bottomSheetRef
       .afterDismissed()
@@ -465,7 +508,6 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
-
     if (this.isAllSelected) {
       this.selection.clear();
       return;
@@ -476,7 +518,6 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
 
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: ReceivablesSchedule): string {
-
     if (!row) {
       return `${this.isAllSelected ? 'deselect' : 'select'} all`;
     }
@@ -484,5 +525,3 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row}`;
   }
 }
-
-

@@ -1,40 +1,73 @@
 <app-bottom-sheet-panel [hasHeader]="false">
   <div bottomSheetPanelBody class="d-flex flex-column gap-4 p-0 mt-3">
-
     <ng-container *ngIf="step === 0">
       <div class="d-flex flex-column justify-content-center gap-3 px-4">
         <div class="d-flex align-items-center justify-content-center w-100">
-          <img src="../../../../../../../../../assets/img/attention-icon.svg" alt="Attention">
+          <img
+            src="../../../../../../../../../assets/img/attention-icon.svg"
+            alt="Attention"
+          />
         </div>
-        <h2 class="m-0 text-center text-gray-700">Para continuar, você precisa ativar a autenticação de 2 fatores para
-          maior segurança nas transações financeira.</h2>
+        <h2 class="m-0 text-center text-gray-700">
+          Para continuar, você precisa ativar a autenticação de 2 fatores para
+          maior segurança nas transações financeira.
+        </h2>
       </div>
       <div class="p-4 bg-gray-200">
-        <p class="m-0 fs-6">Você vai precisar usar seu e-mail e celular para ativar a autenticação.</p>
+        <p class="m-0 fs-6">
+          Você vai precisar usar seu e-mail e celular para ativar a
+          autenticação.
+        </p>
       </div>
 
-      <div class="d-flex align-items-center justify-content-center gap-2 w-100 mb-4">
-        <button type="button" class="btn btn-outline-primary px-3 py-2 fs-5" (click)="onCancelClick()">
+      <div
+        class="d-flex align-items-center justify-content-center gap-2 w-100 mb-4"
+      >
+        <button
+          type="button"
+          class="btn btn-outline-primary px-3 py-2 fs-5"
+          (click)="onCancelClick()"
+        >
           Fechar
         </button>
-        <button type="button" class="btn btn-primary px-3 py-2 fs-5" (click)="onStartActivation()">
+        <button
+          type="button"
+          class="btn btn-primary px-3 py-2 fs-5"
+          (click)="onStartActivation()"
+        >
           Iniciar ativação
         </button>
       </div>
     </ng-container>
 
-    <app-mfa-two-factor-email *ngIf="step === 1" [emailSelected]="email" [isActivation]="isActivation"
-      (continue)="onContinueEmailClick($event)" (resendEmail)="onResendEmailClick()" (cancel)="onCancelClick()">
+    <app-mfa-two-factor-email
+      *ngIf="step === 1"
+      [emailSelected]="email"
+      [isActivation]="isActivation"
+      (continue)="onContinueEmailClick($event)"
+      (resendEmail)="onResendEmailClick()"
+      (cancel)="onCancelClick()"
+    >
     </app-mfa-two-factor-email>
 
-    <app-mfa-two-factor-phone-number *ngIf="step === 2" [isActivation]="isActivation"
-      (continue)="onContinuePhoneNumberClick($event)" (cancel)="onCancelClick()">
+    <app-mfa-two-factor-phone-number
+      *ngIf="step === 2"
+      [isActivation]="isActivation"
+      (continue)="onContinuePhoneNumberClick($event)"
+      (cancel)="onCancelClick()"
+    >
     </app-mfa-two-factor-phone-number>
 
-    <app-mfa-two-factor-sms *ngIf="step === 3" [phoneNumber]="phoneNumber" [isActivation]="isActivation"
-      [isVerify]="isVerify" [isScheduled]="isScheduled" (confirmSms)="onConfirmSmsClick($event)"
-      (resendSms)="onResendSmsClick()" (cancel)="onCancelClick()">
+    <app-mfa-two-factor-sms
+      *ngIf="step === 3"
+      [phoneNumber]="phoneNumber"
+      [isActivation]="isActivation"
+      [isVerify]="isVerify"
+      [isScheduled]="isScheduled"
+      (confirmSms)="onConfirmSmsClick($event)"
+      (resendSms)="onResendSmsClick()"
+      (cancel)="onCancelClick()"
+    >
     </app-mfa-two-factor-sms>
-
   </div>
 </app-bottom-sheet-panel>

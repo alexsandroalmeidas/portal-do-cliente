@@ -134,6 +134,8 @@ export class PrepaymentsPageComponent extends MobileBasePage {
   }
 
   get hasMfa() {
+    return true;
+
     if (env.debug) {
       return true;
     }
@@ -260,7 +262,7 @@ export class PrepaymentsPageComponent extends MobileBasePage {
             !isEmpty(this.selectedEstablishments) &&
             this.selectedEstablishments.some((x) => !x.activeMfa)
           ) {
-            this.openDialogUnauthorizedMfa();
+            // this.openDialogUnauthorizedMfa();
           }
         }
       });
@@ -631,7 +633,7 @@ export class PrepaymentsPageComponent extends MobileBasePage {
         if (data === true) {
           this.openMfaActivationCompletedDialog();
         } else if (data === false) {
-          await this.openMfaCancelDialog(() => this.openDialogTwoFactor());
+          // await this.openMfaCancelDialog(() => this.openDialogTwoFactor());
         }
       });
   }
@@ -652,7 +654,7 @@ export class PrepaymentsPageComponent extends MobileBasePage {
       .pipe(take(1))
       .subscribe(async (data) => {
         if (data) {
-          await this.openDialogTwoFactor();
+          // await this.openDialogTwoFactor();
         }
       });
   }
@@ -790,7 +792,7 @@ export class PrepaymentsPageComponent extends MobileBasePage {
       .pipe(take(1))
       .subscribe((confirm) => {
         if (confirm) {
-          this.openDialogTwoFactor();
+          // this.openDialogTwoFactor();
         }
       });
   }
