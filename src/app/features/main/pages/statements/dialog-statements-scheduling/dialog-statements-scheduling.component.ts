@@ -111,7 +111,10 @@ export class DialogStatementsSchedulingComponent implements OnInit, OnDestroy {
           this.customersOptions = [
             ...this.establishments.map(
               (establishment) =>
-                new SelectOption(establishment.companyName, establishment.uid),
+                new SelectOption(
+                  `${establishment.documentNumber} - ${establishment.companyName}`,
+                  establishment.uid,
+                ),
             ),
           ];
 

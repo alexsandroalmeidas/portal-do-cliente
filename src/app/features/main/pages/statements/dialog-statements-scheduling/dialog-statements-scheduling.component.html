@@ -2,27 +2,36 @@
   <div class="col card-group-row__col mb-3">
     <div class="card card-group-row__card">
       <div class="card-body">
-
         <form [formGroup]="form">
-
           <div class="row mt-6">
             <div class="col-sm-6">
               <label class="h5 filter-title" for="dateRange">Período</label>
-              <input type="text" placeholder="Selecione o intervalo" id="dateRange" class="form-control"
-                bsDaterangepicker formControlName="dateRange" [bsConfig]="{
-                         dateInputFormat: dateFormat || 'DD/MM/YYYY',
-                         containerClass: 'theme-dark-blue',
-                         showWeekNumbers:false,
-                         maxDate: maxDate
-                       }">
+              <input
+                type="text"
+                placeholder="Selecione o intervalo"
+                id="dateRange"
+                class="form-control"
+                bsDaterangepicker
+                formControlName="dateRange"
+                [bsConfig]="{
+                  dateInputFormat: dateFormat || 'DD/MM/YYYY',
+                  containerClass: 'theme-dark-blue',
+                  showWeekNumbers: false,
+                  maxDate: maxDate,
+                }"
+              />
             </div>
           </div>
 
           <div class="row mt-6">
             <div class="col-sm-6">
               <div class="d-flex justify-content-start mb-3 mr-3">
-                <span class="dateRange-error-message field-error"
-                  *ngIf="submitted && form.get('dateRange')?.hasError('required')">
+                <span
+                  class="dateRange-error-message field-error"
+                  *ngIf="
+                    submitted && form.get('dateRange')?.hasError('required')
+                  "
+                >
                   É obrigatório informar um período
                 </span>
               </div>
@@ -30,60 +39,103 @@
           </div>
 
           <div class="row mt-3">
-
             <div class="col" *ngIf="showAllEstablishments">
-
               <div class="col">
                 <label class="h5 filter-title" for="establishments">
                   Estabelecimentos
                 </label>
 
-                <div class="allEstablishments" *ngIf="showCheckAllEstablishments">
-                  <input class="form-check-input" type="checkbox" id="allEstablishments"
-                    formControlName="allEstablishments"> Selecionar Todos os Estabelecimentos
+                <div
+                  class="allEstablishments"
+                  *ngIf="showCheckAllEstablishments"
+                >
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="allEstablishments"
+                    formControlName="allEstablishments"
+                  />
+                  Selecionar Todos os Estabelecimentos
                 </div>
               </div>
 
-              <ng-select class="select" formControlName="establishments" aria-placeholder="Selecione..."
-                placeholder="Selecione..." [items]="customersOptions" id="establishments" name="establishments"
-                [attr.name]="'establishments'" bindLabel="label" bindValue="value"
-                notFoundText="Nenhum estabelecimento encontrado" [markFirst]="true" dropdownPosition="auto"
-                [multiple]="true" [closeOnSelect]="false" [clearSearchOnAdd]="false" [searchable]="true"
-                [clearable]="true" [virtualScroll]="true" [readonly]="!!form.get('allEstablishments')?.value"
-                [appendTo]="'body'">
+              <ng-select
+                class="select"
+                formControlName="establishments"
+                aria-placeholder="Selecione..."
+                placeholder="Selecione..."
+                [items]="customersOptions"
+                id="establishments"
+                name="establishments"
+                [attr.name]="'establishments'"
+                bindLabel="label"
+                bindValue="value"
+                notFoundText="Nenhum estabelecimento encontrado"
+                [markFirst]="true"
+                dropdownPosition="auto"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [clearSearchOnAdd]="false"
+                [searchable]="true"
+                [clearable]="true"
+                [virtualScroll]="true"
+                [readonly]="!!form.get('allEstablishments')?.value"
+                [appendTo]="'body'"
+              >
               </ng-select>
             </div>
 
             <div class="col" *ngIf="!showAllEstablishments">
-              <label class="h5 filter-title" for="txtAreaEstablishments">Estabelecimentos
-                <i class="material-icons info-ajuste text-secondary" data-toggle="tooltip" data-placement="top"
-                  title="informar os CNPJs separados por ponto e vírgula (;) e sem pontuação. Ex: 00000000000100;00000000000200">
+              <label class="h5 filter-title" for="txtAreaEstablishments"
+                >Estabelecimentos
+                <i
+                  class="material-icons info-ajuste text-secondary"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="informar os CNPJs separados por ponto e vírgula (;) e sem pontuação. Ex: 00000000000100;00000000000200"
+                >
                   info
                 </i>
               </label>
-              <textarea id="txtAreaestablishments" name="txtAreaestablishments" formControlName="txtAreaestablishments"
-                class="form-control custom-control-textarea" rows="5" cols="33"></textarea>
+              <textarea
+                id="txtAreaestablishments"
+                name="txtAreaestablishments"
+                formControlName="txtAreaestablishments"
+                class="form-control custom-control-textarea"
+                rows="5"
+                cols="33"
+              ></textarea>
             </div>
-
           </div>
 
           <div class="row mt-3">
             <div class="col-sm-8">
               <div class="d-flex justify-content-start mb-3 mr-3">
-                <span class="establishment-error-message field-error" *ngIf="submitted && showEstablishmentRequired">
+                <span
+                  class="establishment-error-message field-error"
+                  *ngIf="submitted && showEstablishmentRequired"
+                >
                   É obrigatório informar um ou mais estabelecimentos.
                 </span>
               </div>
             </div>
 
             <div class="col d-flex justify-content-end">
-              <button class="btn btn-secondary" (click)="onCancellClick()">Cancelar</button>
-              <button class="btn btn-secondary mr-1" (click)="onSchedulingClick()">Agendar</button>
+              <button
+                class="btn btn-outline-primary mr-05"
+                (click)="onCancellClick()"
+              >
+                Cancelar
+              </button>
+              <button
+                class="btn btn-primary mr-1"
+                (click)="onSchedulingClick()"
+              >
+                Agendar
+              </button>
             </div>
           </div>
-
         </form>
-
       </div>
     </div>
   </div>
@@ -93,48 +145,57 @@
   <div class="col card-group-row__col">
     <div class="card card-group-row__card">
       <div class="card-body">
-
         <div class="table-responsive">
-
           <table cdk-table [dataSource]="dataSource" class="table table-hover">
-
             <ng-container cdkColumnDef="createdDate">
-              <th cdk-header-cell *cdkHeaderCellDef> Data Agendamento</th>
+              <th cdk-header-cell *cdkHeaderCellDef>Data Agendamento</th>
               <td cdk-cell *cdkCellDef="let row" class="fw-bolder">
-                {{row.createdDate | date:'dd/MM/yyyy HH:mm:ss'}}
+                {{ row.createdDate | date: "dd/MM/yyyy HH:mm:ss" }}
               </td>
             </ng-container>
 
             <ng-container cdkColumnDef="period">
-              <th cdk-header-cell *cdkHeaderCellDef> Período</th>
+              <th cdk-header-cell *cdkHeaderCellDef>Período</th>
               <td cdk-cell *cdkCellDef="let row" class="fw-bolder">
-                {{row.initialDate | date:'dd/MM/yyyy'}} - {{row.finalDate | date:'dd/MM/yyyy'}}
+                {{ row.initialDate | date: "dd/MM/yyyy" }} -
+                {{ row.finalDate | date: "dd/MM/yyyy" }}
               </td>
             </ng-container>
 
             <ng-container cdkColumnDef="documentNumber">
-              <th cdk-header-cell *cdkHeaderCellDef> Número do Documento </th>
+              <th cdk-header-cell *cdkHeaderCellDef>Número do Documento</th>
               <td cdk-cell *cdkCellDef="let row">
-                {{row.documentNumber}}
+                {{ row.documentNumber }}
               </td>
             </ng-container>
 
             <tr cdk-header-row *cdkHeaderRowDef="columnsToDisplay"></tr>
-            <tr cdk-row *cdkRowDef="let element; columns: columnsToDisplay;" class="element-row"> </tr>
+            <tr
+              cdk-row
+              *cdkRowDef="let element; columns: columnsToDisplay"
+              class="element-row"
+            ></tr>
           </table>
 
-          <pagination class="pagination pagination-secondary d-flex justify-content-end"
-            [totalItems]="schedulings.length" [boundaryLinks]="true" [maxSize]="5" [itemsPerPage]="itemsPerPage"
-            [(ngModel)]="tablePage" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
-            (pageChanged)="onPaginate($event)">
+          <pagination
+            class="pagination pagination-secondary d-flex justify-content-end"
+            [totalItems]="schedulings.length"
+            [boundaryLinks]="true"
+            [maxSize]="5"
+            [itemsPerPage]="itemsPerPage"
+            [(ngModel)]="tablePage"
+            previousText="&lsaquo;"
+            nextText="&rsaquo;"
+            firstText="&laquo;"
+            lastText="&raquo;"
+            (pageChanged)="onPaginate($event)"
+          >
           </pagination>
-
         </div>
 
         <ng-template #no_scheduling>
-          <h5>Nenhum agendamento encontrado </h5>
+          <h5>Nenhum agendamento encontrado</h5>
         </ng-template>
-
       </div>
     </div>
   </div>

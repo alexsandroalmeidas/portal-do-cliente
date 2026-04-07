@@ -28,7 +28,7 @@ export class StatementsPageComponent
 {
   bsModalRef!: BsModalRef;
 
-  enabledStatement = false;
+  enabledStatement = true;
   fileNameToDownload = '';
   tablePage = 1;
   itemsPerPage = 10;
@@ -44,9 +44,9 @@ export class StatementsPageComponent
   ) {
     super(store$, navigationService);
 
-    this.enabledStatement =
-      this.selectedEstablishments?.some((x) => x.enableElectronicStatement) ||
-      false;
+    // this.enabledStatement =
+    //   this.selectedEstablishments?.some((x) => x.enableElectronicStatement) ||
+    //   false;
 
     if (this.enabledStatement) {
       this.selectStatements();
