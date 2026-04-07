@@ -5,8 +5,10 @@
 <ng-template #establishments_found>
   <section class="heading">
     <div class="page-title">
-      <h3>{{ 'app.statements.title' | translate }}</h3>
-      <span class="page-subtitle">{{ 'app.statements.subtitle' | translate }}</span>
+      <h3>{{ "app.statements.title" | translate }}</h3>
+      <span class="page-subtitle">{{
+        "app.statements.subtitle" | translate
+      }}</span>
     </div>
 
     <div class="page-actions">
@@ -22,9 +24,15 @@
         <div class="card card-group-row__card">
           <div
             class="card-body"
-            style="display: flex; justify-content: flex-end; align-items: center"
+            style="
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
+            "
           >
-            <button class="btn btn-primary mr-1" (click)="onSchedulingClick()">Agendamento</button>
+            <button class="btn btn-primary mr-1" (click)="onSchedulingClick()">
+              Agendamento
+            </button>
           </div>
         </div>
       </div>
@@ -37,19 +45,23 @@
         <div class="card-body">
           <ng-container *ngIf="!!statements; else no_statement">
             <div class="table-responsive">
-              <table cdk-table [dataSource]="dataSource" class="table table-hover">
+              <table
+                cdk-table
+                [dataSource]="dataSource"
+                class="table table-hover"
+              >
                 <ng-container cdkColumnDef="createdDate">
                   <th cdk-header-cell *cdkHeaderCellDef>Data Geração</th>
                   <td cdk-cell *cdkCellDef="let row" class="fw-bolder">
-                    {{ row.createdDate | date : 'dd/MM/yyyy HH:mm:ss' }}
+                    {{ row.createdDate | date: "dd/MM/yyyy HH:mm:ss" }}
                   </td>
                 </ng-container>
 
                 <ng-container cdkColumnDef="period">
                   <th cdk-header-cell *cdkHeaderCellDef>Período</th>
                   <td cdk-cell *cdkCellDef="let row" class="fw-bolder">
-                    {{ row.initialDate | date : 'dd/MM/yyyy' }} -
-                    {{ row.finalDate | date : 'dd/MM/yyyy' }}
+                    {{ row.initialDate | date: "dd/MM/yyyy" }} -
+                    {{ row.finalDate | date: "dd/MM/yyyy" }}
                   </td>
                 </ng-container>
 
@@ -123,7 +135,7 @@
             <h6 class="card-title fw-bolder text-secondary">
               Estabelecimento não está habilitado para o extrato.
             </h6>
-            <span>Caso haja interesse, entre em contato com a Punto.</span>
+            <span>Caso haja interesse, entre em contato com a Petlove.</span>
           </div>
         </div>
       </div>

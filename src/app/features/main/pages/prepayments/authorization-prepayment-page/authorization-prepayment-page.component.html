@@ -1,28 +1,37 @@
 <div class="row pt-1">
   <div class="col-12">
     <mat-accordion class="mt-3">
-      <mat-expansion-panel [expanded]="!hasAuthorization" (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false">
+      <mat-expansion-panel
+        [expanded]="!hasAuthorization"
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
         <mat-expansion-panel-header>
           <mat-panel-title>
             <section class="heading">
               <div class="page-title">
                 <h3>{{ "app.prepayments-authorization.title" | translate }}</h3>
-                <span class="page-subtitle" *ngIf="panelOpenState">{{ "app.prepayments-authorization.subtitle" |
-                  translate }}</span>
+                <span class="page-subtitle" *ngIf="panelOpenState">{{
+                  "app.prepayments-authorization.subtitle" | translate
+                }}</span>
               </div>
             </section>
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <ng-container *ngIf="!hasAuthorizationPermission; else permission_found">
+        <ng-container
+          *ngIf="!hasAuthorizationPermission; else permission_found"
+        >
           <div class="row card-group-row mb-lg-8pt">
             <div class="col card-group-row__col">
               <div class="card card-group-row__card">
                 <div class="card-body">
-                  <h6 class="card-title fw-bolder text-secondary">Estabelecimento não está habilitado para o
-                    consentimento.</h6>
-                  <span>Caso haja interesse, entre em contato com a Punto.</span>
+                  <h6 class="card-title fw-bolder text-secondary">
+                    Estabelecimento não está habilitado para o consentimento.
+                  </h6>
+                  <span
+                    >Caso haja interesse, entre em contato com a Petlove.</span
+                  >
                 </div>
               </div>
             </div>
@@ -30,26 +39,31 @@
         </ng-container>
 
         <ng-template #permission_found>
-
           <div class="content">
-
             <div class="row card-group-row mb-lg-8pt mt-1">
               <div class="col card-group-row__col mb-3">
                 <div class="card card-group-row__card">
-                  <div class="card-body p-0" style="align-items: center;">
-
+                  <div class="card-body p-0" style="align-items: center">
                     <p>
-                      <mat-slide-toggle color="primary" name="authorizeSearch" [checked]="hasAuthorization"
-                        (change)="onChangeAuthorize($event)">
-                        Autorizo a consulta de agendas de outras instituições financeiras
+                      <mat-slide-toggle
+                        color="primary"
+                        name="authorizeSearch"
+                        [checked]="hasAuthorization"
+                        (change)="onChangeAuthorize($event)"
+                      >
+                        Autorizo a consulta de agendas de outras instituições
+                        financeiras
                       </mat-slide-toggle>
                     </p>
 
                     <div class="p-1" *ngIf="!hasAuthorization">
                       <p>
-                        A autorização para consulta de valores de outras instituições financeiras te da mais
-                        oportunidade de aproveitar
-                        <br /> condições especiais, ampliando suas possibilidades além da Punto.
+                        A autorização para consulta de valores de outras
+                        instituições financeiras te da mais oportunidade de
+                        aproveitar
+                        <br />
+                        condições especiais, ampliando suas possibilidades além
+                        da Petlove.
                       </p>
 
                       <ul>
@@ -60,19 +74,19 @@
                           <b>Tenha uma visão abrangente das suas finanças.</b>
                         </li>
                         <li>
-                          <b>Maximize seu potencial de crescimento financeiro.</b>
+                          <b
+                            >Maximize seu potencial de crescimento
+                            financeiro.</b
+                          >
                         </li>
                       </ul>
                     </div>
-
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
         </ng-template>
-
       </mat-expansion-panel>
     </mat-accordion>
   </div>

@@ -39,10 +39,16 @@
                         "
                       >
                         <p class="card-text mb-0">
-                          <label class="fw-bolder lbl-receivables"> Banco: {{ slide.bank }}</label>
+                          <label class="fw-bolder lbl-receivables">
+                            Banco: {{ slide.bank }}</label
+                          >
                         </p>
-                        <div class="d-flex align-items-center justify-content-between">
-                          <p class="card-text mb-0">Agência: {{ slide.agency }}</p>
+                        <div
+                          class="d-flex align-items-center justify-content-between"
+                        >
+                          <p class="card-text mb-0">
+                            Agência: {{ slide.agency }}
+                          </p>
                           <app-tooltip
                             icon="info"
                             position="bottom right"
@@ -76,8 +82,10 @@
                   <span *ngIf="slide.originPix === 'FixPay'">
                     Recebido de {{ slide.originPix}} Ltda
                   </span>
-                  <span *ngIf="slide.originPix !== 'FixPay' && slide.originPix !== 'EntrePay'">
-                    Recebido de Punto Instituição de Pagamento
+                  <span
+                    *ngIf="slide.originPix !== 'FixPay' && slide.originPix !== 'EntrePay'"
+                  >
+                    Recebido de Petlove Instituição de Pagamento
                   </span>
                 </div>
                 <div class="col-12 text-center fw-bolder fs-5">
@@ -125,7 +133,9 @@
       </div>
 
       <div class="row">
-        <div class="col-12 text-center fw-bolder fs-2">{{ 0 | currency: "BRL" }}</div>
+        <div class="col-12 text-center fw-bolder fs-2">
+          {{ 0 | currency: "BRL" }}
+        </div>
       </div>
     </div>
   </div>

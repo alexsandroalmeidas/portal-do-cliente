@@ -1,25 +1,39 @@
 <div class="d-flex flex-column gap-4 p-0 mt-4">
   <div class="d-flex flex-column justify-content-center gap-3 px-4">
     <div class="d-flex align-items-center justify-content-center w-100">
-      <img src="../../../../../../../../../assets/img/attention-icon.svg" alt="Attention">
+      <img
+        src="../../../../../../../../../assets/img/attention-icon.svg"
+        alt="Attention"
+      />
     </div>
     <h2 class="m-0 text-center text-gray-700">
-      Atenção! Você tem certeza que deseja cancelar a ativação da autenticação de 2 fatores?
+      Atenção! Você tem certeza que deseja cancelar a ativação da autenticação
+      de 2 fatores?
     </h2>
   </div>
   <div class="p-4 bg-gray-200">
     <p class="m-0 fs-6">
-      O cancelamento da ativação da autenticação de 2 fatores (MFA) impede que você faça a
-      antecipação das suas vendas pelo Portal ou APP da Punto, já que esse procedimento é para
-      tornar sua experiência mais segura.
+      O cancelamento da ativação da autenticação de 2 fatores (MFA) impede que
+      você faça a antecipação das suas vendas pelo Portal ou APP da Petlove, já
+      que esse procedimento é para tornar sua experiência mais segura.
     </p>
   </div>
 
-  <div class="d-flex align-items-center justify-content-center gap-2 w-100 mb-4 mt-2">
-    <button type="button" class="btn btn-outline-primary px-3 py-2 fs-5" (click)="onCancelClick()">
+  <div
+    class="d-flex align-items-center justify-content-center gap-2 w-100 mb-4 mt-2"
+  >
+    <button
+      type="button"
+      class="btn btn-outline-primary px-3 py-2 fs-5"
+      (click)="onCancelClick()"
+    >
       Voltar
     </button>
-    <button type="button" class="btn btn-primary px-3 py-2 fs-5" (click)="onActivateClick()">
+    <button
+      type="button"
+      class="btn btn-primary px-3 py-2 fs-5"
+      (click)="onActivateClick()"
+    >
       Sim, desejo cancelar
     </button>
   </div>

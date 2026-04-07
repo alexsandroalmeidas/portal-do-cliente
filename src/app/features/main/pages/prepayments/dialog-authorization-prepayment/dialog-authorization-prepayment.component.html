@@ -16,52 +16,73 @@
     </div>
   </div>
   <div class="row sub-title">
-    <span class="info-label fs-13 ">Autorizações de permissão para:</span>
+    <span class="info-label fs-13">Autorizações de permissão para:</span>
   </div>
 </div>
 
 <div class="row pb-01 pl-18">
   <div class="card-establishment">
-    {{establishmentSelected.label}}
+    {{ establishmentSelected.label }}
   </div>
 </div>
 
 <div class="row pb-01 pl-18 pt-1">
-  <mat-slide-toggle color="primary" class="fw-bolder" name="authorizeSearch" [checked]="hasAuthorization"
-    (change)="onChangeAuthorize($event)">
+  <mat-slide-toggle
+    color="primary"
+    class="fw-bolder"
+    name="authorizeSearch"
+    [checked]="hasAuthorization"
+    (change)="onChangeAuthorize($event)"
+  >
     Autorizo a consulta de agendas de outras instituições financeiras
   </mat-slide-toggle>
 </div>
 
 <div class="row pb-01 pl-18 pt-1" *ngIf="!hasAuthorization">
   <p>
-    A autorização para consulta de valores de outras instituições financeiras te da mais oportunidade de aproveitar
-    condições especiais, ampliando suas possibilidades além da Punto.
+    A autorização para consulta de valores de outras instituições financeiras te
+    da mais oportunidade de aproveitar condições especiais, ampliando suas
+    possibilidades além da Petlove.
   </p>
 
   <div class="list-prepayments">
     <ul class="list-group list-group-flush">
       <li class="list-group-item p-0">
-        <div style=" display: inline-flex;vertical-align: middle;">
-          <app-check-marked [checkboxId]="'checkbox8'" [backgroundColor]="'gray'" />
+        <div style="display: inline-flex; vertical-align: middle">
+          <app-check-marked
+            [checkboxId]="'checkbox8'"
+            [backgroundColor]="'gray'"
+          />
           <div class="info-label text-gray fs-bullet pl-05 v-align-middle">
-            <p class="mb-0 fw-bolder">Aproveite taxas competitivas para antecipar.</p>
+            <p class="mb-0 fw-bolder">
+              Aproveite taxas competitivas para antecipar.
+            </p>
           </div>
         </div>
       </li>
       <li class="list-group-item p-0">
-        <div style=" display: inline-flex;vertical-align: middle;">
-          <app-check-marked [checkboxId]="'checkbox9'" [backgroundColor]="'gray'" />
+        <div style="display: inline-flex; vertical-align: middle">
+          <app-check-marked
+            [checkboxId]="'checkbox9'"
+            [backgroundColor]="'gray'"
+          />
           <div class="info-label text-gray fs-bullet pl-05 v-align-middle">
-            <p class="mb-0 fw-bolder">Tenha uma visão abrangente das suas finanças.</p>
+            <p class="mb-0 fw-bolder">
+              Tenha uma visão abrangente das suas finanças.
+            </p>
           </div>
         </div>
       </li>
       <li class="list-group-item p-0">
-        <div style=" display: inline-flex;vertical-align: middle;">
-          <app-check-marked [checkboxId]="'checkbox10'" [backgroundColor]="'gray'" />
+        <div style="display: inline-flex; vertical-align: middle">
+          <app-check-marked
+            [checkboxId]="'checkbox10'"
+            [backgroundColor]="'gray'"
+          />
           <div class="info-label text-gray fs-bullet pl-05 v-align-middle">
-            <p class="mb-0 fw-bolder">Maximize seu potencial de crescimento financeiro.</p>
+            <p class="mb-0 fw-bolder">
+              Maximize seu potencial de crescimento financeiro.
+            </p>
           </div>
         </div>
       </li>
@@ -91,7 +112,7 @@
                 <div class="card-body">
                   <h6 class="card-title fw-bolder text-secondary">Estabelecimento não está habilitado para o
                     consentimento.</h6>
-                  <span>Caso haja interesse, entre em contato com a Punto.</span>
+                  <span>Caso haja interesse, entre em contato com a Petlove.</span>
                 </div>
               </div>
             </div>
@@ -118,7 +139,7 @@
                       <p>
                         A autorização para consulta de valores de outras instituições financeiras não apenas abre portas
                         para antecipar recursos de diversas fontes,
-                        <br /> ampliando suas possibilidades além da sua conta Punto, mas também oferece a flexibilidade
+                        <br /> ampliando suas possibilidades além da sua conta Petlove, mas também oferece a flexibilidade
                         de:
                       </p>
 
