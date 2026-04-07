@@ -2,361 +2,327 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+import * as ReportsStoreActions from './reports.actions';
 import * as AuthStoreSelectors from '../auth-store/auth.selectors';
 import { AppState } from '../state';
-import * as ReportsStoreActions from './reports.actions';
-import { ReportsService } from './reports.service';
+
+import {
+  filterReports,
+  buildSalesExcel,
+  buildReceivablesExcel,
+  buildAllCardsExcel,
+  mockReportsDatabase,
+} from './reports.mock';
+
+import { ReportRequest } from './reports.models';
 
 @Injectable()
 export class ReportsStoreEffects {
   constructor(
-    private reportsService: ReportsService,
     private store$: Store<AppState>,
     private actions$: Actions,
   ) {}
 
-  loadRequestReportsEffect$ = createEffect(
-    () => () =>
-      this.actions$.pipe(
-        ofType<ReportsStoreActions.SelectRequestsReportsAction>(
-          ReportsStoreActions.ActionTypes.SELECT_REQUESTS_REPORTS,
-        ),
-        withLatestFrom(
-          this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
-        ),
-        switchMap(([, auth]) => {
-          return this.reportsService
-            .getRequestsReports('') // auth.authData?.user?.id
-            .pipe(
-              map(
-                (result) =>
-                  new ReportsStoreActions.LoadRequestsReportsAction({ result }),
-              ),
-            );
-        }),
-      ),
-  );
+  /* =========================
+     HELPERS
+  ========================= */
 
-  loadLastRequestReportsEffect$ = createEffect(
-    () => () =>
-      this.actions$.pipe(
-        ofType<ReportsStoreActions.SelectLastRequestAction>(
-          ReportsStoreActions.ActionTypes.SELECT_LAST_REQUEST_REPORTS,
-        ),
-        withLatestFrom(
-          this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
-        ),
-        switchMap(([, auth]) => {
-          return this.reportsService
-            .getLastRequestReports('') // auth.authData?.user?.id
-            .pipe(
-              map(
-                (result) =>
-                  new ReportsStoreActions.LoadLastRequestAction({ result }),
-              ),
-            );
-        }),
-      ),
-  );
+  private createRequest(request: any): ReportRequest {
+    return {
+      id: Date.now(),
 
-  requestSalesReportsEffect$ = createEffect(
-    () => () =>
-      this.actions$.pipe(
-        ofType<ReportsStoreActions.RequestSalesReportsAction>(
-          ReportsStoreActions.ActionTypes.REQUEST_REPORTS_SALES,
-        ),
-        withLatestFrom(
-          this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
-        ),
-        switchMap(([action, auth]) => {
-          return this.reportsService
-            .postRequestSalesReports(
-              action.payload.request,
-              '', // auth.authData?.user?.id,
-            )
-            .pipe(
-              map((result) => {
-                return new ReportsStoreActions.LoadRequestReportsAction({
-                  result,
-                });
-              }),
-            );
-        }),
-      ),
-  );
+      requested: new Date(),
+      executed: new Date(),
+      requestedBy: 'mock@user.com',
 
-  requestAllCardsReportsEffect$ = createEffect(
-    () => () =>
-      this.actions$.pipe(
-        ofType<ReportsStoreActions.RequestAllCardsReportsAction>(
-          ReportsStoreActions.ActionTypes.REQUEST_REPORTS_ALL_CARDS,
-        ),
-        withLatestFrom(
-          this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
-        ),
-        switchMap(([action, auth]) => {
-          return this.reportsService
-            .postRequestAllCardsReports(
-              action.payload.request,
-              '', // auth.authData?.user?.id,
-            )
-            .pipe(
-              map((result) => {
-                return new ReportsStoreActions.LoadRequestReportsAction({
-                  result,
-                });
-              }),
-            );
-        }),
-      ),
-  );
+      status: 1,
+      progressStatus: 'Processando',
+      progressValue: 50,
 
-  requestReportsReceivablesEffect$ = createEffect(
-    () => () =>
-      this.actions$.pipe(
-        ofType<ReportsStoreActions.RequestReceivablesReportsAction>(
-          ReportsStoreActions.ActionTypes.REQUEST_REPORTS_RECEIVABLES,
-        ),
-        withLatestFrom(
-          this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
-        ),
-        switchMap(([action, auth]) => {
-          return this.reportsService
-            .postRequestReceivablesReports(action.payload.request, '') // auth.authData?.user?.id
-            .pipe(
-              map((result) => {
-                return new ReportsStoreActions.LoadRequestReportsAction({
-                  result,
-                });
-              }),
-            );
-        }),
-      ),
-  );
+      movementType: 1,
+      movementTypeDescription: 'Vendas',
 
-  selectMovementsSalesReportsExcelEffect$ = createEffect(
-    () => () =>
-      this.actions$.pipe(
-        ofType<ReportsStoreActions.SelectMovementsSalesReportsExcelAction>(
-          ReportsStoreActions.ActionTypes.SELECT_MOVEMENTS_SALES_REPORTS_EXCEL,
-        ),
-        withLatestFrom(
-          this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
-        ),
-        switchMap(([action, auth]) => {
-          return this.reportsService
-            .downloadSalesReportExcel(action.payload.id)
-            .pipe(
-              map((response) => {
-                const fileName =
-                  this.extractFilename(
-                    response.headers.get('Content-Disposition'),
-                  ) ?? '';
+      initialDate: new Date(request.initialDate),
+      finalDate: new Date(request.finalDate),
 
-                return new ReportsStoreActions.LoadMovementsSalesReportsExcelAction(
-                  {
-                    id: action.payload.id,
-                    result: response.body,
-                    fileName,
-                  },
-                );
-              }),
-            );
-        }),
-      ),
-  );
+      documents: request.uids?.[0] ?? '',
+      equipments: 'POS',
 
-  selectMovementsAllCardsReportsExcelEffect$ = createEffect(
-    () => () =>
-      this.actions$.pipe(
-        ofType<ReportsStoreActions.SelectMovementsAllCardsReportsExcelAction>(
-          ReportsStoreActions.ActionTypes
-            .SELECT_MOVEMENTS_ALL_CARDS_REPORTS_EXCEL,
-        ),
-        withLatestFrom(
-          this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
-        ),
-        switchMap(([action, auth]) => {
-          return this.reportsService
-            .downloadAllCardsReportExcel(action.payload.id)
-            .pipe(
-              map((response) => {
-                const fileName =
-                  this.extractFilename(
-                    response.headers.get('Content-Disposition'),
-                  ) ?? '';
-
-                return new ReportsStoreActions.LoadMovementsAllCardsReportsExcelAction(
-                  {
-                    id: action.payload.id,
-                    result: response.body,
-                    fileName,
-                  },
-                );
-              }),
-            );
-        }),
-      ),
-  );
-
-  private extractFilename(contentDisposition: string | null): string | null {
-    if (!contentDisposition) {
-      console.warn('Content-Disposition não encontrado!');
-      return null;
-    }
-
-    // Tente primeiro extrair o "filename*=" (UTF-8)
-    let matches = /filename\*\s*=\s*UTF-8''(.+?)(?:;|$)/.exec(
-      contentDisposition,
-    );
-    if (matches && matches[1]) {
-      return decodeURIComponent(matches[1]); // Decodifica caracteres UTF-8
-    }
-
-    // Se falhar, tente extrair o "filename="
-    matches = /filename="(.+?)"/.exec(contentDisposition);
-    if (matches && matches[1]) {
-      return matches[1];
-    }
-
-    // Se ainda falhar, extraia o "filename=" sem aspas
-    matches = /filename=([^;]+)/.exec(contentDisposition);
-    if (matches && matches[1]) {
-      return matches[1].trim();
-    }
-
-    console.warn('Nome do arquivo não encontrado no Content-Disposition!');
-    return null;
+      grossValue: 5000 + Math.random() * 5000,
+      netValue: 4000 + Math.random() * 4000,
+      qtdSales: Math.floor(Math.random() * 50),
+    };
   }
 
-  selectMovementsReceivablesReportsExcelEffect$ = createEffect(
-    () => () =>
-      this.actions$.pipe(
-        ofType<ReportsStoreActions.SelectMovementsReceivablesReportsExcelAction>(
-          ReportsStoreActions.ActionTypes
-            .SELECT_MOVEMENTS_RECEIVABLES_REPORTS_EXCEL,
-        ),
-        withLatestFrom(
-          this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
-        ),
-        switchMap(([action, auth]) => {
-          return this.reportsService
-            .downloadReceivablesReportExcel(action.payload.id)
-            .pipe(
-              map((response) => {
-                const fileName =
-                  this.extractFilename(
-                    response.headers.get('Content-Disposition'),
-                  ) ?? '';
+  /* =========================
+     LOAD REQUESTS
+  ========================= */
 
-                return new ReportsStoreActions.LoadMovementsReceivablesReportsExcelAction(
-                  {
-                    id: action.payload.id,
-                    result: response.body,
-                    fileName,
-                  },
-                );
-              }),
-            );
-        }),
+  loadRequestReportsEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReportsStoreActions.ActionTypes.SELECT_REQUESTS_REPORTS),
+      withLatestFrom(
+        this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
       ),
+      switchMap(([_, auth]) => {
+        const result = filterReports([]);
+
+        return of(result).pipe(
+          map(
+            (result) =>
+              new ReportsStoreActions.LoadRequestsReportsAction({ result }),
+          ),
+        );
+      }),
+    ),
   );
 
-  selectHistoricSalesReportsExcelEffect$ = createEffect(
-    () => () =>
-      this.actions$.pipe(
-        ofType<ReportsStoreActions.SelectHistoricSalesReportsExcelAction>(
-          ReportsStoreActions.ActionTypes.SELECT_HISTORIC_SALES_REPORTS_EXCEL,
-        ),
-        withLatestFrom(
-          this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
-        ),
-        switchMap(([action, auth]) => {
-          return this.reportsService
-            .downloadSalesReportExcel(action.payload.id)
-            .pipe(
-              map((response) => {
-                const fileName =
-                  this.extractFilename(
-                    response.headers.get('Content-Disposition'),
-                  ) ?? '';
+  /* =========================
+     LAST REQUEST
+  ========================= */
 
-                return new ReportsStoreActions.LoadHistoricSalesReportsExcelAction(
-                  {
-                    id: action.payload.id,
-                    result: response.body,
-                    fileName,
-                  },
-                );
-              }),
-            );
-        }),
+  loadLastRequestReportsEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReportsStoreActions.ActionTypes.SELECT_LAST_REQUEST_REPORTS),
+      withLatestFrom(
+        this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
       ),
+      switchMap(([_, auth]) => {
+        const list = filterReports([]);
+        const result = list[0];
+
+        return of(result).pipe(
+          map(
+            (result) =>
+              new ReportsStoreActions.LoadLastRequestAction({ result }),
+          ),
+        );
+      }),
+    ),
   );
 
-  selectHistoricAllCardsReportsExcelEffect$ = createEffect(
-    () => () =>
-      this.actions$.pipe(
-        ofType<ReportsStoreActions.SelectHistoricAllCardsReportsExcelAction>(
-          ReportsStoreActions.ActionTypes
-            .SELECT_HISTORIC_ALL_CARDS_REPORTS_EXCEL,
-        ),
-        withLatestFrom(
-          this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
-        ),
-        switchMap(([action, auth]) => {
-          return this.reportsService
-            .downloadAllCardsReportExcel(action.payload.id)
-            .pipe(
-              map((response) => {
-                const fileName =
-                  this.extractFilename(
-                    response.headers.get('Content-Disposition'),
-                  ) ?? '';
+  /* =========================
+     REQUEST SALES
+  ========================= */
 
-                return new ReportsStoreActions.LoadHistoricAllCardsReportsExcelAction(
-                  {
-                    id: action.payload.id,
-                    result: response.body,
-                    fileName,
-                  },
-                );
-              }),
-            );
-        }),
-      ),
+  requestSalesReportsEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReportsStoreActions.ActionTypes.REQUEST_REPORTS_SALES),
+      switchMap((action: any) => {
+        const result = this.createRequest(action.payload.request);
+
+        return of(result).pipe(
+          map(
+            (result) =>
+              new ReportsStoreActions.LoadRequestReportsAction({ result }),
+          ),
+        );
+      }),
+    ),
   );
 
-  selectHistoricReceivablesReportsExcelEffect$ = createEffect(
-    () => () =>
-      this.actions$.pipe(
-        ofType<ReportsStoreActions.SelectHistoricReceivablesReportsExcelAction>(
-          ReportsStoreActions.ActionTypes
-            .SELECT_HISTORIC_RECEIVABLES_REPORTS_EXCEL,
-        ),
-        withLatestFrom(
-          this.store$.pipe(select(AuthStoreSelectors.selectAuthState)),
-        ),
-        switchMap(([action, auth]) => {
-          return this.reportsService
-            .downloadReceivablesReportExcel(action.payload.id)
-            .pipe(
-              map((response) => {
-                const fileName =
-                  this.extractFilename(
-                    response.headers.get('Content-Disposition'),
-                  ) ?? '';
+  /* =========================
+     REQUEST RECEIVABLES
+  ========================= */
 
-                return new ReportsStoreActions.LoadHistoricReceivablesReportsExcelAction(
-                  {
-                    id: action.payload.id,
-                    result: response.body,
-                    fileName,
-                  },
-                );
-              }),
-            );
-        }),
+  requestReportsReceivablesEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReportsStoreActions.ActionTypes.REQUEST_REPORTS_RECEIVABLES),
+      switchMap((action: any) => {
+        const result = this.createRequest(action.payload.request);
+
+        return of(result).pipe(
+          map(
+            (result) =>
+              new ReportsStoreActions.LoadRequestReportsAction({ result }),
+          ),
+        );
+      }),
+    ),
+  );
+
+  /* =========================
+     REQUEST ALL CARDS
+  ========================= */
+
+  requestAllCardsReportsEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReportsStoreActions.ActionTypes.REQUEST_REPORTS_ALL_CARDS),
+      switchMap((action: any) => {
+        const result = this.createRequest(action.payload.request);
+
+        return of(result).pipe(
+          map(
+            (result) =>
+              new ReportsStoreActions.LoadRequestReportsAction({ result }),
+          ),
+        );
+      }),
+    ),
+  );
+
+  /* =========================
+     SALES EXCEL
+  ========================= */
+
+  selectMovementsSalesReportsExcelEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ReportsStoreActions.ActionTypes.SELECT_MOVEMENTS_SALES_REPORTS_EXCEL,
       ),
+      switchMap((action: any) => {
+        const blob = buildSalesExcel(action.payload.id);
+
+        return of(blob).pipe(
+          map(
+            (result) =>
+              new ReportsStoreActions.LoadMovementsSalesReportsExcelAction({
+                id: action.payload.id,
+                result,
+                fileName: `sales_${action.payload.id}.xlsx`,
+              }),
+          ),
+        );
+      }),
+    ),
+  );
+
+  /* =========================
+     RECEIVABLES EXCEL
+  ========================= */
+
+  selectMovementsReceivablesReportsExcelEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ReportsStoreActions.ActionTypes
+          .SELECT_MOVEMENTS_RECEIVABLES_REPORTS_EXCEL,
+      ),
+      switchMap((action: any) => {
+        const blob = buildReceivablesExcel(action.payload.id);
+
+        return of(blob).pipe(
+          map(
+            (result) =>
+              new ReportsStoreActions.LoadMovementsReceivablesReportsExcelAction(
+                {
+                  id: action.payload.id,
+                  result,
+                  fileName: `receivables_${action.payload.id}.xlsx`,
+                },
+              ),
+          ),
+        );
+      }),
+    ),
+  );
+
+  /* =========================
+     ALL CARDS EXCEL
+  ========================= */
+
+  selectMovementsAllCardsReportsExcelEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ReportsStoreActions.ActionTypes
+          .SELECT_MOVEMENTS_ALL_CARDS_REPORTS_EXCEL,
+      ),
+      switchMap((action: any) => {
+        const blob = buildAllCardsExcel(action.payload.id);
+
+        return of(blob).pipe(
+          map(
+            (result) =>
+              new ReportsStoreActions.LoadMovementsAllCardsReportsExcelAction({
+                id: action.payload.id,
+                result,
+                fileName: `allcards_${action.payload.id}.xlsx`,
+              }),
+          ),
+        );
+      }),
+    ),
+  );
+
+  /* =========================
+     HISTORIC SALES
+  ========================= */
+
+  selectHistoricSalesReportsExcelEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ReportsStoreActions.ActionTypes.SELECT_HISTORIC_SALES_REPORTS_EXCEL,
+      ),
+      switchMap((action: any) => {
+        const blob = buildSalesExcel(action.payload.id);
+
+        return of(blob).pipe(
+          map(
+            (result) =>
+              new ReportsStoreActions.LoadHistoricSalesReportsExcelAction({
+                id: action.payload.id,
+                result,
+                fileName: `sales_historic_${action.payload.id}.xlsx`,
+              }),
+          ),
+        );
+      }),
+    ),
+  );
+
+  /* =========================
+     HISTORIC RECEIVABLES
+  ========================= */
+
+  selectHistoricReceivablesReportsExcelEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ReportsStoreActions.ActionTypes
+          .SELECT_HISTORIC_RECEIVABLES_REPORTS_EXCEL,
+      ),
+      switchMap((action: any) => {
+        const blob = buildReceivablesExcel(action.payload.id);
+
+        return of(blob).pipe(
+          map(
+            (result) =>
+              new ReportsStoreActions.LoadHistoricReceivablesReportsExcelAction(
+                {
+                  id: action.payload.id,
+                  result,
+                  fileName: `receivables_historic_${action.payload.id}.xlsx`,
+                },
+              ),
+          ),
+        );
+      }),
+    ),
+  );
+
+  /* =========================
+     HISTORIC ALL CARDS
+  ========================= */
+
+  selectHistoricAllCardsReportsExcelEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ReportsStoreActions.ActionTypes.SELECT_HISTORIC_ALL_CARDS_REPORTS_EXCEL,
+      ),
+      switchMap((action: any) => {
+        const blob = buildAllCardsExcel(action.payload.id);
+
+        return of(blob).pipe(
+          map(
+            (result) =>
+              new ReportsStoreActions.LoadHistoricAllCardsReportsExcelAction({
+                id: action.payload.id,
+                result,
+                fileName: `allcards_historic_${action.payload.id}.xlsx`,
+              }),
+          ),
+        );
+      }),
+    ),
   );
 }
