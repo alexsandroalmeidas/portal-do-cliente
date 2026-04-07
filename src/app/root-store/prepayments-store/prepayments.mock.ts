@@ -256,7 +256,7 @@ export function buildFinalizePunctual(
 
 export function buildFinalizeScheduled(uid: string): FinalizeScheduledResponse {
   const est = getEst(uid)!;
-
+  debugger;
   return {
     timestamp: new Date(),
     error: '',

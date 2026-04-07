@@ -170,7 +170,7 @@ export class PrepaymentsStoreEffects {
     this.actions$.pipe(
       ofType(PrepaymentsStoreActions.ActionTypes.FINALIZE_SCHEDULED_PREPAYMENT),
       switchMap((action: any) =>
-        of(buildFinalizeScheduled(action.payload.uid)).pipe(
+        of(buildFinalizeScheduled(action.payload.request.uid)).pipe(
           map(
             (response) =>
               new PrepaymentsStoreActions.FinalizeScheduledPrepaymentSuccessAction(

@@ -951,6 +951,7 @@ export class ScheduledPrepaymentPageComponent
       (x) => x,
     );
 
+    debugger;
     const request = {
       uid: this.prepaymentEstablishmentsSelected,
       rate: this.rate,
