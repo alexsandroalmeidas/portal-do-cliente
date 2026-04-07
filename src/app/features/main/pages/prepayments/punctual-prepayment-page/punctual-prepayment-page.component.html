@@ -3,11 +3,12 @@
 </ng-container>
 
 <ng-template #establishment_found>
-
   <section class="heading">
     <div class="page-title">
       <h3>{{ "app.prepayments-punctual.title" | translate }}</h3>
-      <span class="page-subtitle">{{ "app.prepayments-punctual.subtitle" | translate }}</span>
+      <span class="page-subtitle">{{
+        "app.prepayments-punctual.subtitle" | translate
+      }}</span>
     </div>
   </section>
 
@@ -16,7 +17,9 @@
       <div class="col card-group-row__col">
         <div class="card card-group-row__card">
           <div class="card-body">
-            <h6 class="card-title fw-bolder text-secondary">Não existem agendas disponíveis para antecipação.</h6>
+            <h6 class="card-title fw-bolder text-secondary">
+              Não existem agendas disponíveis para antecipação.
+            </h6>
           </div>
         </div>
       </div>
@@ -24,54 +27,75 @@
   </ng-container>
 
   <ng-template #prepayments_found>
-
     <div class="row card-group-row mb-lg-8pt">
       <div class="col-10">
         <div class="breadcrumb pt-01">
           <ul class="menu">
             <li>
-              <div class="circle circle-actived"> </div>
+              <div class="circle circle-actived"></div>
             </li>
-            <li style="vertical-align: middle;">
-              <div class="line {{(step === 2 || step === 3)? 'line-actived' : 'line-not-actived'}}"> </div>
+            <li style="vertical-align: middle">
+              <div
+                class="line {{
+                  step === 2 || step === 3 ? 'line-actived' : 'line-not-actived'
+                }}"
+              ></div>
             </li>
             <li>
-              <div class="circle {{(step === 2 || step === 3) ? 'circle-actived' : 'circle-not-actived'}}"> </div>
+              <div
+                class="circle {{
+                  step === 2 || step === 3
+                    ? 'circle-actived'
+                    : 'circle-not-actived'
+                }}"
+              ></div>
             </li>
           </ul>
         </div>
       </div>
-      <div class="col-2 pl-0" style="padding-left: 0px !important;">
-        <div class="card-prepayment w-100 d-flex align-items-center justify-content-center gap-2">
+      <div class="col-2 pl-0" style="padding-left: 0px !important">
+        <div
+          class="card-prepayment w-100 d-flex align-items-center justify-content-center gap-2"
+        >
           <div class="prepayment-icon-verified d-flex align-items-center">
-            <span class="material-symbols-outlined fs-icon-verified">verified</span>
-            <span class="info-label fw-bolder pl-05" (click)="openAuthorizationDialog()">Autorização para
-              consulta</span>
+            <span class="material-symbols-outlined fs-icon-verified"
+              >verified</span
+            >
+            <span
+              class="info-label fw-bolder pl-05"
+              (click)="openAuthorizationDialog()"
+              >Autorização para consulta</span
+            >
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row card-group-row mb-lg-8pt" *ngIf="step === 1 && !!filteredItems && filteredItems.length > 0">
-
+    <div
+      class="row card-group-row mb-lg-8pt"
+      *ngIf="step === 1 && !!filteredItems && filteredItems.length > 0"
+    >
       <div class="col card-group-row__col mb-3">
         <div class="card card-group-row__card">
           <div class="card-body">
-
             <div class="container">
-
               <div class="row">
                 <div class="col-2">
                   <div class="row">
                     <div class="col-7 pr-2">
-                      <span class="info-label fs-14">Disponível para antecipar</span>
+                      <span class="info-label fs-14"
+                        >Disponível para antecipar</span
+                      >
                     </div>
                   </div>
                   <div class="row">
                     <div class="col">
                       <span class="info-label mr-2"><small>R$</small></span>
-                      <span class="info-currency-qtd-1" style="font-size: 30px !important;">
-                        {{ totalAmountAvailable || 0 | number:'1.2-2' }}
+                      <span
+                        class="info-currency-qtd-1"
+                        style="font-size: 30px !important"
+                      >
+                        {{ totalAmountAvailable || 0 | number: "1.2-2" }}
                       </span>
                     </div>
                   </div>
@@ -79,111 +103,177 @@
                 <div class="col-2 text-green">
                   <div class="row">
                     <div class="col-7 pr-2">
-                      <span class="info-label fs-14 fw-bolder">Valor que deseja antecipar</span>
+                      <span class="info-label fs-14 fw-bolder"
+                        >Valor que deseja antecipar</span
+                      >
                     </div>
                   </div>
                   <div class="row">
                     <div class="col">
                       <span class="info-label mr-2"><small>R$</small></span>
-                      <span class="info-currency-qtd-1" style="font-size: 31px !important;">
-                        {{ totalAmountPrepayment || 0 | number:'1.2-2' }}
+                      <span
+                        class="info-currency-qtd-1"
+                        style="font-size: 31px !important"
+                      >
+                        {{ totalAmountPrepayment || 0 | number: "1.2-2" }}
                       </span>
                     </div>
                   </div>
                 </div>
                 <div class="col-4 dv-btn-forward pop">
                   <div class="card-forward w-100 pd-1">
-                    <button type="button" class="btn btn-primary btn-forward" (click)="onContinueClick()">
-                      <span class="material-symbols-outlined text-white icon-forward">arrow_forward</span>
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-forward"
+                      (click)="onContinueClick()"
+                    >
+                      <span
+                        class="material-symbols-outlined text-white icon-forward"
+                        >arrow_forward</span
+                      >
                       Continuar
                     </button>
 
-                    <span style="background:transparent; border:none; color:transparent; float:left" #pop="bs-popover"
-                      [popover]="popTemplateRequired" placement="right top" [outsideClick]="true">
+                    <span
+                      style="
+                        background: transparent;
+                        border: none;
+                        color: transparent;
+                        float: left;
+                      "
+                      #pop="bs-popover"
+                      [popover]="popTemplateRequired"
+                      placement="right top"
+                      [outsideClick]="true"
+                    >
                     </span>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
 
-    <div class="row card-group-row mb-lg-8pt" *ngIf="step === 1 && !!filteredItems && filteredItems.length > 0">
-
+    <div
+      class="row card-group-row mb-lg-8pt"
+      *ngIf="step === 1 && !!filteredItems && filteredItems.length > 0"
+    >
       <div class="col card-group-row__col mb-3">
         <div class="card card-group-row__card">
           <div class="card-body">
-
             <h6 class="card-title">
-              <label class="fw-bolder text-primary fs-20 ">
+              <label class="fw-bolder text-primary fs-20">
                 Selecione a transação que deseja antecipar
               </label>
             </h6>
 
             <section class="table-schedules-container" tabindex="0">
               <table mat-table [dataSource]="dataSource" matSort>
-
                 <!-- Checkbox Column -->
                 <ng-container matColumnDef="select">
                   <th mat-header-cell *matHeaderCellDef>
-                    <input id="select-all" class="form-check-input" type="checkbox"
-                      (change)="$event ? toggleAllRows() : null" [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+                    <input
+                      id="select-all"
+                      class="form-check-input"
+                      type="checkbox"
+                      (change)="$event ? toggleAllRows() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    />
                   </th>
                   <td mat-cell *matCellDef="let row">
-                    <input id="select-all" class="form-check-input" type="checkbox" (click)="$event.stopPropagation()"
-                      (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                    <input
+                      id="select-all"
+                      class="form-check-input"
+                      type="checkbox"
+                      (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                    />
                   </td>
                 </ng-container>
 
                 <!-- Cnpj Column -->
                 <ng-container matColumnDef="documentNumberAccreditor">
-                  <th mat-header-cell *matHeaderCellDef sortable="documentNumberAccreditor" (sort)="onSort($event)">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    sortable="documentNumberAccreditor"
+                    (sort)="onSort($event)"
+                  >
                     Credenciadora
                   </th>
                   <td mat-cell *matCellDef="let element">
-                    <img class="w-4"
-                      src="./../../../../../../../../../assets/img/{{element.documentNumberAccreditor}}.png">
+                    <img
+                      class="w-4"
+                      src="./../../../../../../../../../assets/img/{{
+                        element.documentNumberAccreditor
+                      }}.png"
+                    />
                   </td>
                 </ng-container>
 
                 <!-- TotalFreeValue  Column -->
                 <ng-container matColumnDef="totalFreeValue">
-                  <th mat-header-cell *matHeaderCellDef sortable="totalFreeValue" (sort)="onSort($event)">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    sortable="totalFreeValue"
+                    (sort)="onSort($event)"
+                  >
                     Valor total
                   </th>
                   <td mat-cell *matCellDef="let element">
-                    {{ element.totalFreeValue || 0 | currency: "BRL":"symbol":"1.2-2" }}
+                    {{
+                      element.totalFreeValue || 0
+                        | currency: "BRL" : "symbol" : "1.2-2"
+                    }}
                   </td>
                 </ng-container>
 
                 <!-- PrepaymentValue  Column -->
                 <ng-container matColumnDef="prepaymentValue">
-                  <th mat-header-cell *matHeaderCellDef sortable="prepaymentValue" (sort)="onSort($event)">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    sortable="prepaymentValue"
+                    (sort)="onSort($event)"
+                  >
                     Valor disponível
                   </th>
                   <td mat-cell *matCellDef="let element">
-                    {{ element.prepaymentValue || 0 | currency: "BRL":"symbol":"1.2-2" }}
+                    {{
+                      element.prepaymentValue || 0
+                        | currency: "BRL" : "symbol" : "1.2-2"
+                    }}
                   </td>
                 </ng-container>
 
                 <!-- Rate  Column -->
                 <ng-container matColumnDef="rate">
-                  <th mat-header-cell *matHeaderCellDef sortable="rate" (sort)="onSort($event)">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    sortable="rate"
+                    (sort)="onSort($event)"
+                  >
                     Taxa
                   </th>
                   <td mat-cell *matCellDef="let element">
-                    {{ element.rate || 0 | number:'1.3-5' | slice:0:5}} %
+                    {{ element.rate || 0 | number: "1.3-5" | slice: 0 : 5 }} %
                   </td>
                 </ng-container>
 
                 <!-- ArScheduleId Column -->
                 <ng-container matColumnDef="arScheduleId">
-                  <th mat-header-cell *matHeaderCellDef sortable="arScheduleId" (sort)="onSort($event)">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    sortable="arScheduleId"
+                    (sort)="onSort($event)"
+                  >
                     Código
                   </th>
                   <td mat-cell *matCellDef="let element">
@@ -193,17 +283,27 @@
 
                 <!-- DocumentNumber Column -->
                 <ng-container matColumnDef="documentNumber">
-                  <th mat-header-cell *matHeaderCellDef sortable="documentNumber" (sort)="onSort($event)">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    sortable="documentNumber"
+                    (sort)="onSort($event)"
+                  >
                     Cnpj
                   </th>
                   <td mat-cell *matCellDef="let element">
-                    {{ element.documentNumber | mask:'CPF_CNPJ'}}
+                    {{ element.documentNumber | mask: "CPF_CNPJ" }}
                   </td>
                 </ng-container>
 
                 <!-- ExpectedDettlementDate Column -->
                 <ng-container matColumnDef="expectedDettlementDate">
-                  <th mat-header-cell *matHeaderCellDef sortable="expectedDettlementDate" (sort)="onSort($event)">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    sortable="expectedDettlementDate"
+                    (sort)="onSort($event)"
+                  >
                     Liquidação
                   </th>
                   <td mat-cell *matCellDef="let element">
@@ -211,29 +311,38 @@
                   </td>
                 </ng-container>
 
-                <tr mat-header-row *cdkHeaderRowDef="columnsToDisplay sticky: true"></tr>
-                <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="element-row"> </tr>
+                <tr
+                  mat-header-row
+                  *cdkHeaderRowDef="columnsToDisplay; sticky: true"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let element; columns: columnsToDisplay"
+                  class="element-row"
+                ></tr>
               </table>
-
             </section>
           </div>
         </div>
       </div>
-
     </div>
 
-    <div *ngIf="step ===2">
+    <div *ngIf="step === 2">
       <div class="card card-check">
-        <div class="pt-1" style="padding-left: 1rem;">
+        <div class="pt-1" style="padding-left: 1rem">
           <div class="row">
             <div class="col-9" align="start">
-              <span class="title-label pb-1 pt-1"> Confira sua antecipação</span>
+              <span class="title-label pb-1 pt-1">
+                Confira sua antecipação</span
+              >
             </div>
           </div>
 
           <div class="row pb-01">
             <div class="col" align="start">
-              <span class="info-label fs-13 ">Confirme os dados da sua antecipação pontual</span>
+              <span class="info-label fs-13"
+                >Confirme os dados da sua antecipação pontual</span
+              >
             </div>
           </div>
 
@@ -241,60 +350,96 @@
             <div class="list">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                  <div class="d-flex justify-content-between align-items-center">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
                     <span class="fw-bolder text-gray-label">Valor Total</span>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <span class="fw-bolder info-label mr-2"><small>R$ </small></span>
+                    <div
+                      class="d-flex align-items-center justify-content-between"
+                    >
+                      <span class="fw-bolder info-label mr-2"
+                        ><small>R$ </small></span
+                      >
                       <span class="fw-bolder info-label mr-2">
-                        {{totalAmount | number:'1.2-2'}}
+                        {{ totalAmount | number: "1.2-2" }}
                       </span>
                     </div>
                   </div>
                 </li>
                 <li class="list-group-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="fw-bolder text-gray-label">Taxa Aplicada ao dia</span>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <span class="fw-bolder info-label mr-2" *ngIf="visibilityOn; else hidden_rate">
-                        {{rate | number:'1.3-5' | slice:0:5}} %
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <span class="fw-bolder text-gray-label"
+                      >Taxa Aplicada ao dia</span
+                    >
+                    <div
+                      class="d-flex align-items-center justify-content-between"
+                    >
+                      <span
+                        class="fw-bolder info-label mr-2"
+                        *ngIf="visibilityOn; else hidden_rate"
+                      >
+                        {{ rate | number: "1.3-5" | slice: 0 : 5 }} %
                       </span>
 
                       <ng-template #hidden_rate>
-                        <span class="lh-1">{{rate || 0 | hiddenValue:'&lowast;':5 }}</span>
+                        <span class="lh-1">{{
+                          rate || 0 | hiddenValue: "&lowast;" : 5
+                        }}</span>
                       </ng-template>
                     </div>
                   </div>
                 </li>
                 <li class="list-group-item" *ngIf="!!selectedAccreditations">
-                  <div class="d-flex justify-content-between align-items-center">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
                     <span class="fw-bolder text-gray-label">Adquirente(s)</span>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <span class="fw-bolder info-label mr-2" *ngIf="visibilityOn; else hidden_checked_accreditations">
-
+                    <div
+                      class="d-flex align-items-center justify-content-between"
+                    >
+                      <span
+                        class="fw-bolder info-label mr-2"
+                        *ngIf="visibilityOn; else hidden_checked_accreditations"
+                      >
                         <div class="div-accreditations">
                           <ul class="ul-accreditations">
-                            <li class="li-accreditations"
-                              *ngFor="let check of selectedAccreditations; let isLast = last;">
-                              {{getAccreditationName(check)}}<ng-container *ngIf="!isLast">,</ng-container>
+                            <li
+                              class="li-accreditations"
+                              *ngFor="
+                                let check of selectedAccreditations;
+                                let isLast = last
+                              "
+                            >
+                              {{ getAccreditationName(check)
+                              }}<ng-container *ngIf="!isLast">,</ng-container>
                             </li>
                           </ul>
                         </div>
-
                       </span>
 
                       <ng-template #hidden_checked_accreditations>
-                        <span class="lh-1">{{0 | hiddenValue:'&lowast;':5 }}</span>
+                        <span class="lh-1">{{
+                          0 | hiddenValue: "&lowast;" : 5
+                        }}</span>
                       </ng-template>
                     </div>
                   </div>
                 </li>
                 <li class="list-group-item">
-                  <div class="d-flex justify-content-between align-items-center text-green">
-                    <span class="fw-bolder text-gray-label">Valor total da antecipação</span>
-                    <div class="d-flex align-items-center justify-content-between">
+                  <div
+                    class="d-flex justify-content-between align-items-center text-green"
+                  >
+                    <span class="fw-bolder text-gray-label"
+                      >Valor total da antecipação</span
+                    >
+                    <div
+                      class="d-flex align-items-center justify-content-between"
+                    >
                       <span class="info-label mr-2"><small>R$ </small></span>
                       <span class="info-currency-qtd-1">
-                        {{totalAmountPrepayment | number:'1.2-2'}}
+                        {{ totalAmountPrepayment | number: "1.2-2" }}
                       </span>
                     </div>
                   </div>
@@ -306,56 +451,74 @@
           </div>
 
           <div class="content-info pt-1">
-
             <div class="row">
               <div class="col-9" align="start">
-                <span class="title-label pb-1 pt-1">Conta em que você irá receber</span>
+                <span class="title-label pb-1 pt-1"
+                  >Conta em que você irá receber</span
+                >
               </div>
             </div>
 
             <div class="container pt-1">
               <div class="row">
                 <div class="col">
-                  <span class="fw-bolder text-gray-label">Banco: <b>{{bankingAccount.bank}}</b></span>
+                  <span class="fw-bolder text-gray-label"
+                    >Banco: <b>{{ bankingAccount.bank }}</b></span
+                  >
                 </div>
                 <div class="col">
-                  <span class="fw-bolder text-gray-label">Agência: <b>{{bankingAccount.agency}}</b></span>
+                  <span class="fw-bolder text-gray-label"
+                    >Agência: <b>{{ bankingAccount.agency }}</b></span
+                  >
                 </div>
                 <div class="col">
-                  <span class="fw-bolder text-gray-label">Conta Corrente: <b>{{bankingAccount.accountNumber}}</b></span>
+                  <span class="fw-bolder text-gray-label"
+                    >Conta Corrente:
+                    <b>{{ bankingAccount.accountNumber }}</b></span
+                  >
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
 
-        <hr class="hr-position">
+        <hr class="hr-position" />
 
         <div class="buttons-actions" align="start">
-          <button type="button" class="btn btn-outline-primary mr-05" (click)="onBackClick()">
+          <button
+            type="button"
+            class="btn btn-outline-primary mr-05"
+            (click)="onBackClick()"
+          >
             Voltar
           </button>
-          <button type="button" class="btn btn-primary btn-green" (click)="onConfirmClick()">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="onConfirmClick()"
+          >
             Confirmar antecipação
           </button>
         </div>
       </div>
     </div>
-
   </ng-template>
-
 </ng-template>
 
 <ng-template #popTemplateRequired>
   <div class="container">
     <div class="row">
       <div class="col-3">
-        <span class="material-symbols-outlined icon-alert-popover" style="padding: 9px;padding-top: 0px;">error</span>
+        <span
+          class="material-symbols-outlined icon-alert-popover"
+          style="padding: 9px; padding-top: 0px"
+          >error</span
+        >
       </div>
       <div class="col-9">
-        <p class="text-red fw-bolder">Selecione as transações abaixo que deseja antecipar.</p>
+        <p class="text-red fw-bolder">
+          Selecione as transações abaixo que deseja antecipar.
+        </p>
       </div>
     </div>
   </div>

@@ -382,48 +382,66 @@ export class PunctualPrepaymentPageComponent
   }
 
   openMfaTwoFactorAuthenticationDialog() {
+    const schedules: FinalizePunctualRequest[] = [];
+
+    this.selection.selected.map((x) =>
+      schedules.push({
+        arScheduleId: x.arScheduleId,
+        uid: this.selectedEstablishments.filter(
+          (x) => x.documentNumber == x.documentNumber,
+        )[0].uid,
+      } as FinalizePunctualRequest),
+    );
+
     this.store$.dispatch(
-      new MfaStoreActions.SendPinSmsAction({
-        phoneNumber: this.economicGroupPhoneNumber,
+      new PrepaymentsStoreActions.FinalizePunctualPrepaymentAction({
+        uid: this.prepaymentEstablishmentsSelected,
+        schedules,
       }),
     );
 
-    this.dialog
-      .open(DialogTwoFactorAuthenticationComponent, {
-        width: '392px',
-        hasBackdrop: true,
-        disableClose: true,
-        data: {
-          step: 3,
-          isMfa: false,
-          isVerify: true,
-          phoneNumber: this.economicGroupPhoneNumber,
-        },
-      })
-      .afterClosed()
-      .subscribe((data) => {
-        if (data === true) {
-          const schedules: FinalizePunctualRequest[] = [];
+    // this.store$.dispatch(
+    //   new MfaStoreActions.SendPinSmsAction({
+    //     phoneNumber: this.economicGroupPhoneNumber,
+    //   }),
+    // );
 
-          this.selection.selected.map((x) =>
-            schedules.push({
-              arScheduleId: x.arScheduleId,
-              uid: this.selectedEstablishments.filter(
-                (x) => x.documentNumber == x.documentNumber,
-              )[0].uid,
-            } as FinalizePunctualRequest),
-          );
+    // this.dialog
+    //   .open(DialogTwoFactorAuthenticationComponent, {
+    //     width: '392px',
+    //     hasBackdrop: true,
+    //     disableClose: true,
+    //     data: {
+    //       step: 3,
+    //       isMfa: false,
+    //       isVerify: true,
+    //       phoneNumber: this.economicGroupPhoneNumber,
+    //     },
+    //   })
+    //   .afterClosed()
+    //   .subscribe((data) => {
+    //     if (data === true) {
+    //       const schedules: FinalizePunctualRequest[] = [];
 
-          this.store$.dispatch(
-            new PrepaymentsStoreActions.FinalizePunctualPrepaymentAction({
-              uid: this.prepaymentEstablishmentsSelected,
-              schedules,
-            }),
-          );
-        } else if (data === false) {
-          this.openMfaCancelDialog();
-        }
-      });
+    //       this.selection.selected.map((x) =>
+    //         schedules.push({
+    //           arScheduleId: x.arScheduleId,
+    //           uid: this.selectedEstablishments.filter(
+    //             (x) => x.documentNumber == x.documentNumber,
+    //           )[0].uid,
+    //         } as FinalizePunctualRequest),
+    //       );
+
+    //       this.store$.dispatch(
+    //         new PrepaymentsStoreActions.FinalizePunctualPrepaymentAction({
+    //           uid: this.prepaymentEstablishmentsSelected,
+    //           schedules,
+    //         }),
+    //       );
+    //     } else if (data === false) {
+    //       this.openMfaCancelDialog();
+    //     }
+    //   });
   }
 
   async getBankingAccount() {
