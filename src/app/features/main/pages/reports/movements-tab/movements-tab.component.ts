@@ -221,7 +221,10 @@ export class MovementsTabComponent implements OnInit, OnDestroy, OnChanges {
           this.customersOptions = [
             ...this.establishments.map(
               (establishment) =>
-                new SelectOption(establishment.companyName, establishment.uid),
+                new SelectOption(
+                  `${establishment.documentNumber} - ${establishment.companyName}`,
+                  establishment.uid,
+                ),
             ),
           ];
 
@@ -413,14 +416,15 @@ export class MovementsTabComponent implements OnInit, OnDestroy, OnChanges {
 
   showValues(): boolean {
     if (!!this.lastRequest) {
+      debugger;
       const statusLastRequest = this.lastRequest.status;
 
       switch (statusLastRequest) {
         case 1:
         case 2: {
-          this.ngxService.startLoader('loader_net_value');
-          this.ngxService.startLoader('loader_gross_value');
-          this.ngxService.startLoader('loader_qtd_sales');
+          // this.ngxService.startLoader('loader_net_value');
+          // this.ngxService.startLoader('loader_gross_value');
+          // this.ngxService.startLoader('loader_qtd_sales');
           return false;
         }
         default:

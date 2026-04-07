@@ -46,7 +46,7 @@ function createRequest(documentNumber: string): ReportRequest {
     executed: new Date(),
     requestedBy: 'user@test.com',
 
-    status: 1,
+    status: 3,
     progressStatus: 'Concluído',
     progressValue: 100,
 
