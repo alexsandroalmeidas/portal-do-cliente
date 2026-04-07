@@ -19,7 +19,7 @@ export class CommunicationHubService extends SignalRService {
     const token$ = this.store$.pipe(
       select(AuthStoreSelectors.selectAuthData),
       first((auth) => !!auth),
-      map((auth) => auth!.authToken!.access_token)
+      map((auth) => auth!.authToken!.accessToken),
     );
 
     return lastValueFrom(token$);
