@@ -416,7 +416,6 @@ export class MovementsTabComponent implements OnInit, OnDestroy, OnChanges {
 
   showValues(): boolean {
     if (!!this.lastRequest) {
-      debugger;
       const statusLastRequest = this.lastRequest.status;
 
       switch (statusLastRequest) {

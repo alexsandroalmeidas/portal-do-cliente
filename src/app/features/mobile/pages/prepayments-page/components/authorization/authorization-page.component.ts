@@ -5,38 +5,36 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { firstValueFrom, map, take, takeUntil } from 'rxjs';
-import {
-  MfaTwoFactorAuthenticationBottomSheetComponent
-} from 'src/app/features/mobile/components/mfa/mfa-two-factor-authentication-bottom-sheet/mfa-two-factor-authentication-bottom-sheet.component';
+import { MfaTwoFactorAuthenticationBottomSheetComponent } from 'src/app/features/mobile/components/mfa/mfa-two-factor-authentication-bottom-sheet/mfa-two-factor-authentication-bottom-sheet.component';
 import { SidenavService } from 'src/app/features/mobile/services/sidenav.service';
 import { ToolbarService } from 'src/app/features/mobile/services/toolbar.service';
-import { AdministrationStoreActions, AdministrationStoreSelectors } from 'src/app/root-store/administration-store';
-import { MfaStoreActions, MfaStoreSelectors } from 'src/app/root-store/mfa-store';
-import { PrepaymentsStoreActions, PrepaymentsStoreSelectors } from 'src/app/root-store/prepayments-store';
+import {
+  AdministrationStoreActions,
+  AdministrationStoreSelectors,
+} from 'src/app/root-store/administration-store';
+import {
+  MfaStoreActions,
+  MfaStoreSelectors,
+} from 'src/app/root-store/mfa-store';
+import {
+  PrepaymentsStoreActions,
+  PrepaymentsStoreSelectors,
+} from 'src/app/root-store/prepayments-store';
 import { AppState } from 'src/app/root-store/state';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MobileBasePage } from '../../../mobile-base.page';
-import {
-  ConfirmationBottomSheetComponent
-} from './../../../../components/confirmation-bottom-sheet/confirmation-bottom-sheet.component';
-import {
-  AuthorizationCancelDialogComponent
-} from './components/authorization-cancel-dialog/authorization-cancel-dialog.component';
-import {
-  AuthorizationSuccessDialogComponent
-} from './components/authorization-success-dialog/authorization-success-dialog.component';
+import { ConfirmationBottomSheetComponent } from './../../../../components/confirmation-bottom-sheet/confirmation-bottom-sheet.component';
+import { AuthorizationCancelDialogComponent } from './components/authorization-cancel-dialog/authorization-cancel-dialog.component';
+import { AuthorizationSuccessDialogComponent } from './components/authorization-success-dialog/authorization-success-dialog.component';
 
 @Component({
   standalone: true,
-  imports: [
-    SharedModule
-  ],
+  imports: [SharedModule],
   templateUrl: './authorization-page.component.html',
-  styleUrls: ['./authorization-page.component.scss']
+  styleUrls: ['./authorization-page.component.scss'],
 })
 export class PrepaymentsAuthorizationPageComponent extends MobileBasePage {
-
   documentNumberSelected = '';
   economicGroupPhoneNumber = '';
   hasAuthorization = false;
@@ -52,9 +50,18 @@ export class PrepaymentsAuthorizationPageComponent extends MobileBasePage {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     medalliaService: MedalliaService,
-    router: Router) {
-
-    super(store$, bottomSheet, viewContainerRef, navigationService, sidenavService, toolbarService, medalliaService, router);
+    router: Router,
+  ) {
+    super(
+      store$,
+      bottomSheet,
+      viewContainerRef,
+      navigationService,
+      sidenavService,
+      toolbarService,
+      medalliaService,
+      router,
+    );
 
     const { uid } = this.route.snapshot.queryParams;
     this.documentNumberSelected = uid;
@@ -77,7 +84,9 @@ export class PrepaymentsAuthorizationPageComponent extends MobileBasePage {
       .pipe(takeUntil(this.$unsub))
       .subscribe((error) => {
         if (!!error) {
-          this.store$.dispatch(new AdministrationStoreActions.SetNoErrorGetEconomicGroupPhoneAction());
+          this.store$.dispatch(
+            new AdministrationStoreActions.SetNoErrorGetEconomicGroupPhoneAction(),
+          );
           this.router.navigate(['/failure/mobile']);
         }
       });
@@ -101,14 +110,18 @@ export class PrepaymentsAuthorizationPageComponent extends MobileBasePage {
       .pipe(takeUntil(this.$unsub))
       .subscribe((error) => {
         if (!!error) {
-          this.store$.dispatch(new MfaStoreActions.SetNoErrorVerificationCompletedAction());
+          this.store$.dispatch(
+            new MfaStoreActions.SetNoErrorVerificationCompletedAction(),
+          );
           this.router.navigate(['/failure/mobile']);
         }
       });
   }
 
   private selectGetEconomicGroupPhone() {
-    this.store$.dispatch(new AdministrationStoreActions.GetEconomicGroupPhoneAction());
+    this.store$.dispatch(
+      new AdministrationStoreActions.GetEconomicGroupPhoneAction(),
+    );
   }
 
   private subscribeEconomicGroupPhone() {
@@ -136,7 +149,6 @@ export class PrepaymentsAuthorizationPageComponent extends MobileBasePage {
       .select(PrepaymentsStoreSelectors.selectAuthorized)
       .pipe(takeUntil(this.$unsub))
       .subscribe((authorized) => {
-
         if (this.sentAuthorization) {
           if (authorized) {
             this.openAuthorizationSuccessDialog();
@@ -147,59 +159,73 @@ export class PrepaymentsAuthorizationPageComponent extends MobileBasePage {
 
   private selectGetAuthorization() {
     this.store$.dispatch(
-      new PrepaymentsStoreActions.GetAuthorizationAction(
-        {
-          uid: this.documentNumberSelected
-        }));
+      new PrepaymentsStoreActions.GetAuthorizationAction({
+        uid: this.documentNumberSelected,
+      }),
+    );
   }
 
   async openMfaTwoFactorAuthenticationBottomSheet() {
-    this.store$.dispatch(new MfaStoreActions.SendPinSmsAction({ phoneNumber: this.economicGroupPhoneNumber }));
+    this.store$.dispatch(
+      new MfaStoreActions.SendPinSmsAction({
+        phoneNumber: this.economicGroupPhoneNumber,
+      }),
+    );
 
-    const dialogTwoFactorRef = this.bottomSheet.open(MfaTwoFactorAuthenticationBottomSheetComponent, {
-      panelClass: 'bottom-sheet-prepayment-panel',
-      hasBackdrop: true,
-      disableClose: true,
-      data: {
-        step: 3,
-        isMfa: false
-      }
-    });
+    const dialogTwoFactorRef = this.bottomSheet.open(
+      MfaTwoFactorAuthenticationBottomSheetComponent,
+      {
+        panelClass: 'bottom-sheet-prepayment-panel',
+        hasBackdrop: true,
+        disableClose: true,
+        data: {
+          step: 3,
+          isMfa: false,
+        },
+      },
+    );
 
     dialogTwoFactorRef
       .afterDismissed()
       .pipe(take(1))
-      .subscribe(async data => {
+      .subscribe(async (data) => {
         if (data === true) {
           if (this.sentAuthorization) {
-            this.store$.dispatch(new PrepaymentsStoreActions.AuthorizeAction({ uid: this.documentNumberSelected }));
+            this.store$.dispatch(
+              new PrepaymentsStoreActions.AuthorizeAction({
+                uid: this.documentNumberSelected,
+              }),
+            );
           }
         } else if (data === false) {
-          await this.openMfaCancelDialog(() => this.openMfaTwoFactorAuthenticationBottomSheet());
+          // await this.openMfaCancelDialog(() => this.openMfaTwoFactorAuthenticationBottomSheet());
         }
       });
   }
 
   confirmCancelMfa() {
-    const dialogTwoFactorRef = this.bottomSheet.open(ConfirmationBottomSheetComponent, {
-      panelClass: 'bottom-sheet-prepayment-panel',
-      hasBackdrop: true,
-      disableClose: true,
-      data: {
-        title: 'Atenção! Você tem certeza que deseja cancelar a ativação da autenticação de 2 fatores?',
-        description: 'O cancelamento da autenticação de 2 fatores (MFA) impede que você conclua suas transações.',
-        okText: 'Sim, desejo cancelar',
-        cancelText: 'Voltar'
-      }
-    });
+    const dialogTwoFactorRef = this.bottomSheet.open(
+      ConfirmationBottomSheetComponent,
+      {
+        panelClass: 'bottom-sheet-prepayment-panel',
+        hasBackdrop: true,
+        disableClose: true,
+        data: {
+          title:
+            'Atenção! Você tem certeza que deseja cancelar a ativação da autenticação de 2 fatores?',
+          description:
+            'O cancelamento da autenticação de 2 fatores (MFA) impede que você conclua suas transações.',
+          okText: 'Sim, desejo cancelar',
+          cancelText: 'Voltar',
+        },
+      },
+    );
 
     return firstValueFrom(
-      dialogTwoFactorRef
-        .afterDismissed()
-        .pipe(
-          take(1),
-          map(confirm => !!confirm)
-        )
+      dialogTwoFactorRef.afterDismissed().pipe(
+        take(1),
+        map((confirm) => !!confirm),
+      ),
     );
   }
 
@@ -210,23 +236,24 @@ export class PrepaymentsAuthorizationPageComponent extends MobileBasePage {
   }
 
   async onChangeAuthorize(event: any) {
-
     if (event.checked) {
       this.sentAuthorization = true;
-      this.openMfaTwoFactorAuthenticationBottomSheet();
+      // this.openMfaTwoFactorAuthenticationBottomSheet();
     } else {
       this.openAuthorizationCancelDialog();
     }
   }
 
   async openAuthorizationCancelDialog() {
-
-    const bottomSheetRef = this.bottomSheet.open(AuthorizationCancelDialogComponent, {
-      panelClass: 'bottom-sheet-panel',
-      hasBackdrop: true,
-      disableClose: true,
-      data: {}
-    });
+    const bottomSheetRef = this.bottomSheet.open(
+      AuthorizationCancelDialogComponent,
+      {
+        panelClass: 'bottom-sheet-panel',
+        hasBackdrop: true,
+        disableClose: true,
+        data: {},
+      },
+    );
 
     bottomSheetRef
       .afterDismissed()
@@ -235,26 +262,30 @@ export class PrepaymentsAuthorizationPageComponent extends MobileBasePage {
         if (keep === true) {
           this.hasAuthorization = true;
         } else if (keep === false) {
-          this.openMfaTwoFactorAuthenticationBottomSheet();
+          // this.openMfaTwoFactorAuthenticationBottomSheet();
         }
       });
   }
 
   async openAuthorizationSuccessDialog() {
-
-    const bottomSheetRef = this.bottomSheet.open(AuthorizationSuccessDialogComponent, {
-      panelClass: 'bottom-sheet-panel',
-      hasBackdrop: true,
-      disableClose: true,
-      data: {}
-    });
+    const bottomSheetRef = this.bottomSheet.open(
+      AuthorizationSuccessDialogComponent,
+      {
+        panelClass: 'bottom-sheet-panel',
+        hasBackdrop: true,
+        disableClose: true,
+        data: {},
+      },
+    );
 
     bottomSheetRef
       .afterDismissed()
       .pipe(take(1))
       .subscribe((concluido) => {
         if (concluido) {
-          this.store$.dispatch(new PrepaymentsStoreActions.SetAuthorizedAction());
+          this.store$.dispatch(
+            new PrepaymentsStoreActions.SetAuthorizedAction(),
+          );
           this.hasAuthorization = true;
           this.onNavigateBack();
         }

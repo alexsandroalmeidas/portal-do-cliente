@@ -608,34 +608,36 @@ export class PrepaymentsPageComponent extends MobileBasePage {
   }
 
   async openDialogTwoFactor() {
+    this.openMfaActivationCompletedDialog();
+
     // enviar pin por email
-    this.store$.dispatch(new MfaStoreActions.SendPinEmailAction());
+    // this.store$.dispatch(new MfaStoreActions.SendPinEmailAction());
 
-    const bottomSheetRef = this.bottomSheet.open(
-      MfaTwoFactorAuthenticationBottomSheetComponent,
-      {
-        panelClass: 'bottom-sheet-prepayment-panel',
-        hasBackdrop: true,
-        disableClose: true,
-        data: {
-          step: 1,
-          emailSelected: this.userEmail,
-          isMfa: true,
-          isActivation: true,
-        },
-      },
-    );
+    // const bottomSheetRef = this.bottomSheet.open(
+    //   MfaTwoFactorAuthenticationBottomSheetComponent,
+    //   {
+    //     panelClass: 'bottom-sheet-prepayment-panel',
+    //     hasBackdrop: true,
+    //     disableClose: true,
+    //     data: {
+    //       step: 1,
+    //       emailSelected: this.userEmail,
+    //       isMfa: true,
+    //       isActivation: true,
+    //     },
+    //   },
+    // );
 
-    bottomSheetRef
-      .afterDismissed()
-      .pipe(take(1))
-      .subscribe(async (data) => {
-        if (data === true) {
-          this.openMfaActivationCompletedDialog();
-        } else if (data === false) {
-          // await this.openMfaCancelDialog(() => this.openDialogTwoFactor());
-        }
-      });
+    // bottomSheetRef
+    //   .afterDismissed()
+    //   .pipe(take(1))
+    //   .subscribe(async (data) => {
+    //     if (data === true) {
+
+    //     } else if (data === false) {
+    //       // await this.openMfaCancelDialog(() => this.openDialogTwoFactor());
+    //     }
+    //   });
   }
 
   async openMfaActivationCompletedDialog() {
@@ -654,7 +656,7 @@ export class PrepaymentsPageComponent extends MobileBasePage {
       .pipe(take(1))
       .subscribe(async (data) => {
         if (data) {
-          // await this.openDialogTwoFactor();
+          await this.openDialogTwoFactor();
         }
       });
   }
@@ -712,37 +714,39 @@ export class PrepaymentsPageComponent extends MobileBasePage {
   }
 
   async openMfaTwoFactorAuthenticationBottomSheet() {
-    this.store$.dispatch(
-      new MfaStoreActions.SendPinSmsAction({
-        phoneNumber: this.economicGroupPhoneNumber,
-      }),
-    );
+    this.selectCancelScheduledPrepayment();
 
-    const dialogTwoFactorRef = this.bottomSheet.open(
-      MfaTwoFactorAuthenticationBottomSheetComponent,
-      {
-        panelClass: 'bottom-sheet-prepayment-panel',
-        hasBackdrop: true,
-        disableClose: true,
-        data: {
-          step: 3,
-          isMfa: false,
-        },
-      },
-    );
+    // this.store$.dispatch(
+    //   new MfaStoreActions.SendPinSmsAction({
+    //     phoneNumber: this.economicGroupPhoneNumber,
+    //   }),
+    // );
 
-    dialogTwoFactorRef
-      .afterDismissed()
-      .pipe(take(1))
-      .subscribe(async (data) => {
-        if (data === true) {
-          this.selectCancelScheduledPrepayment();
-        } else if (data === false) {
-          await this.openMfaCancelDialog(() =>
-            this.openMfaTwoFactorAuthenticationBottomSheet(),
-          );
-        }
-      });
+    // const dialogTwoFactorRef = this.bottomSheet.open(
+    //   MfaTwoFactorAuthenticationBottomSheetComponent,
+    //   {
+    //     panelClass: 'bottom-sheet-prepayment-panel',
+    //     hasBackdrop: true,
+    //     disableClose: true,
+    //     data: {
+    //       step: 3,
+    //       isMfa: false,
+    //     },
+    //   },
+    // );
+
+    // dialogTwoFactorRef
+    //   .afterDismissed()
+    //   .pipe(take(1))
+    //   .subscribe(async (data) => {
+    //     if (data === true) {
+    //       this.selectCancelScheduledPrepayment();
+    //     } else if (data === false) {
+    //       // await this.openMfaCancelDialog(() =>
+    //       //   this.openMfaTwoFactorAuthenticationBottomSheet(),
+    //       // );
+    //     }
+    //   });
   }
 
   async openMfaCancelDialog(callback: () => Promise<void>) {
@@ -792,7 +796,7 @@ export class PrepaymentsPageComponent extends MobileBasePage {
       .pipe(take(1))
       .subscribe((confirm) => {
         if (confirm) {
-          // this.openDialogTwoFactor();
+          this.openDialogTwoFactor();
         }
       });
   }

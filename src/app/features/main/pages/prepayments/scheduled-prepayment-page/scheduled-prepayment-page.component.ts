@@ -427,7 +427,6 @@ export class ScheduledPrepaymentPageComponent
       .pipe(takeUntil(this.$unsub))
       .subscribe((bankingAccounts) => {
         this.bankingAccounts = bankingAccounts || [];
-        debugger;
       });
   }
 

@@ -333,51 +333,53 @@ export class PrepaymentsPunctualPageComponent extends MobileBasePage {
   }
 
   async openMfaTwoFactorAuthenticationBottomSheet() {
+    const schedules: FinalizePunctualRequest[] = [];
+
+    this.selection.selected.map((x) =>
+      schedules.push({
+        arScheduleId: x.arScheduleId,
+        uid: this.selectedEstablishments.filter(
+          (x) => x.documentNumber == x.documentNumber,
+        )[0].uid,
+      } as FinalizePunctualRequest),
+    );
+
     this.store$.dispatch(
-      new MfaStoreActions.SendPinSmsAction({
-        phoneNumber: this.economicGroupPhoneNumber,
+      new PrepaymentsStoreActions.FinalizePunctualPrepaymentAction({
+        uid: this.documetNumberSelected,
+        schedules,
       }),
     );
 
-    const dialogTwoFactorRef = this.bottomSheet.open(
-      MfaTwoFactorAuthenticationBottomSheetComponent,
-      {
-        panelClass: 'bottom-sheet-prepayment-panel',
-        hasBackdrop: true,
-        disableClose: true,
-        data: {
-          step: 3,
-          isMfa: false,
-        },
-      },
-    );
+    // this.store$.dispatch(
+    //   new MfaStoreActions.SendPinSmsAction({
+    //     phoneNumber: this.economicGroupPhoneNumber,
+    //   }),
+    // );
 
-    dialogTwoFactorRef
-      .afterDismissed()
-      .pipe(take(1))
-      .subscribe(async (data) => {
-        if (data === true) {
-          const schedules: FinalizePunctualRequest[] = [];
+    // const dialogTwoFactorRef = this.bottomSheet.open(
+    //   MfaTwoFactorAuthenticationBottomSheetComponent,
+    //   {
+    //     panelClass: 'bottom-sheet-prepayment-panel',
+    //     hasBackdrop: true,
+    //     disableClose: true,
+    //     data: {
+    //       step: 3,
+    //       isMfa: false,
+    //     },
+    //   },
+    // );
 
-          this.selection.selected.map((x) =>
-            schedules.push({
-              arScheduleId: x.arScheduleId,
-              uid: this.selectedEstablishments.filter(
-                (x) => x.documentNumber == x.documentNumber,
-              )[0].uid,
-            } as FinalizePunctualRequest),
-          );
+    // dialogTwoFactorRef
+    //   .afterDismissed()
+    //   .pipe(take(1))
+    //   .subscribe(async (data) => {
+    //     if (data === true) {
 
-          this.store$.dispatch(
-            new PrepaymentsStoreActions.FinalizePunctualPrepaymentAction({
-              uid: this.documetNumberSelected,
-              schedules,
-            }),
-          );
-        } else if (data === false) {
-          // await this.openMfaCancelDialog(() => this.openMfaTwoFactorAuthenticationBottomSheet());
-        }
-      });
+    //     } else if (data === false) {
+    //       // await this.openMfaCancelDialog(() => this.openMfaTwoFactorAuthenticationBottomSheet());
+    //     }
+    //   });
   }
 
   confirmCancelMfa() {

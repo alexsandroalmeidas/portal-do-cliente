@@ -328,10 +328,14 @@ export class PrepaymentsScheduledPageComponent extends MobileBasePage {
         const bankAccounts = bankingAccounts || [];
 
         if (!isEmpty(bankAccounts)) {
+          var selectedDoc = this.selectedEstablishments.filter(
+            (x) => x.uid == this.documetNumberSelected,
+          );
+
           this.bankingAccount = bankAccounts
             .filter(
               (b: BankingAccount) =>
-                b.documentNumber === this.documetNumberSelected,
+                b.documentNumber === selectedDoc[0].documentNumber,
             )
             .firstOrDefault((x: BankingAccount) => !!x);
         }
@@ -416,7 +420,6 @@ export class PrepaymentsScheduledPageComponent extends MobileBasePage {
             new PrepaymentsStoreActions.SetCanceledScheduledPrepaymentAction(),
           );
 
-          debugger;
           if (this.isEdit) {
             this.selectFinalizeScheduledPrepayment();
           } else {
@@ -455,42 +458,43 @@ export class PrepaymentsScheduledPageComponent extends MobileBasePage {
   }
 
   async openMfaTwoFactorAuthenticationBottomSheet() {
-    this.store$.dispatch(
-      new MfaStoreActions.SendPinSmsAction({
-        phoneNumber: this.economicGroupPhoneNumber,
-      }),
-    );
+    if (this.isEdit) {
+      this.selectCancelScheduledPrepayment();
+    } else {
+      this.selectFinalizeScheduledPrepayment();
+    }
 
-    const bottomSheetRef = this.bottomSheet.open(
-      MfaTwoFactorAuthenticationBottomSheetComponent,
-      {
-        panelClass: 'bottom-sheet-prepayment-panel',
-        hasBackdrop: true,
-        disableClose: true,
-        data: {
-          step: 3,
-          isMfa: false,
-          isActivation: true,
-          isScheduled: true,
-        },
-      },
-    );
+    // this.store$.dispatch(
+    //   new MfaStoreActions.SendPinSmsAction({
+    //     phoneNumber: this.economicGroupPhoneNumber,
+    //   }),
+    // );
 
-    bottomSheetRef
-      .afterDismissed()
-      .pipe(take(1))
-      .subscribe(async (data) => {
-        debugger;
-        if (data === true) {
-          if (this.isEdit) {
-            this.selectCancelScheduledPrepayment();
-          } else {
-            this.selectFinalizeScheduledPrepayment();
-          }
-        } else if (data === false) {
-          // await this.openMfaCancelDialog(() => this.openMfaTwoFactorAuthenticationBottomSheet());
-        }
-      });
+    // const bottomSheetRef = this.bottomSheet.open(
+    //   MfaTwoFactorAuthenticationBottomSheetComponent,
+    //   {
+    //     panelClass: 'bottom-sheet-prepayment-panel',
+    //     hasBackdrop: true,
+    //     disableClose: true,
+    //     data: {
+    //       step: 3,
+    //       isMfa: false,
+    //       isActivation: true,
+    //       isScheduled: true,
+    //     },
+    //   },
+    // );
+
+    // bottomSheetRef
+    //   .afterDismissed()
+    //   .pipe(take(1))
+    //   .subscribe(async (data) => {
+    //     if (data === true) {
+
+    //     } else if (data === false) {
+    //       // await this.openMfaCancelDialog(() => this.openMfaTwoFactorAuthenticationBottomSheet());
+    //     }
+    //   });
   }
 
   confirmCancelMfa() {
@@ -577,8 +581,6 @@ export class PrepaymentsScheduledPageComponent extends MobileBasePage {
       : this.isWeeklyAccreditations
         ? 'weekday'
         : 'daily';
-
-    debugger;
 
     this.finalCheck = {
       selectionDescription: selection,
@@ -828,7 +830,6 @@ export class PrepaymentsScheduledPageComponent extends MobileBasePage {
   }
 
   private setInitialState() {
-    debugger;
     if (this.viewMode === 'initial') {
       this.goToPrepayments();
     } else {
