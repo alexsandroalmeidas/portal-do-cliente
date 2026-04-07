@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
 
-const APP_PREFIX = 'punto-';
+const APP_PREFIX = 'petlove-';
 
 @Injectable()
 export class LocalStorageService {
-
   static loadInitialState() {
     return Object.keys(localStorage)
-      .filter(key => key.includes(APP_PREFIX))
+      .filter((key) => key.includes(APP_PREFIX))
       .reduce((state: any, storageKey) => {
         const stateKeys = storageKey
           .replace(APP_PREFIX, '')
           .toLowerCase()
           .split('.')
-          .map(key =>
+          .map((key) =>
             key
               .split('-')
               .map((token, index) =>
                 index === 0
                   ? token
-                  : token.charAt(0).toUpperCase() + token.slice(1)
+                  : token.charAt(0).toUpperCase() + token.slice(1),
               )
-              .join('')
+              .join(''),
           );
 
         let currentStateRef = state;
@@ -30,7 +29,7 @@ export class LocalStorageService {
           if (index === stateKeys.length - 1) {
             const storageItem = localStorage.getItem(storageKey);
 
-            if (!!storageItem && storageItem !== "undefined") {
+            if (!!storageItem && storageItem !== 'undefined') {
               currentStateRef[key] = JSON.parse(storageItem);
               return;
             }
@@ -47,9 +46,11 @@ export class LocalStorageService {
   setItem(key: string, value: any) {
     if (value === null || value === undefined) {
       this.removeItem(key);
-
     } else {
-      localStorage.setItem(`${APP_PREFIX}${key.toLowerCase()}`, JSON.stringify(value));
+      localStorage.setItem(
+        `${APP_PREFIX}${key.toLowerCase()}`,
+        JSON.stringify(value),
+      );
     }
   }
 

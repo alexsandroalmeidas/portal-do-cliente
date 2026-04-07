@@ -102,7 +102,6 @@ export class MyDataPageComponent
   }
 
   private verifyEstablishmentSelected() {
-    debugger;
     if (!this.establishmentsSelected) {
       this.establishmentsSelected =
         this.selectedEstablishmentsUids.firstOrDefault((x) => !!x);

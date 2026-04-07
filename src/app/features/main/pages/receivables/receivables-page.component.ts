@@ -71,7 +71,6 @@ export class ReceivablesPageComponent
   }
 
   ngAfterContentInit(): void {
-    debugger;
     if (!isEmpty(this.route.snapshot.queryParams)) {
       this.route.queryParams.subscribe((params) => {
         const paramInitialDate = params['initialDate'];

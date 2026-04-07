@@ -260,3 +260,20 @@ export const mockEstablishments = [
     isManager: false,
   },
 ];
+
+export const mockEconomicGroupPhonesDatabase = [
+  {
+    email: 'teste@empresa.com',
+    phoneNumber: '51999999999',
+    successMessage: 'Telefone encontrado com sucesso',
+    failureMessage: '',
+    isSuccessful: true,
+  },
+  {
+    email: 'filial@empresa.com',
+    phoneNumber: '51988888888',
+    successMessage: 'Telefone encontrado com sucesso',
+    failureMessage: '',
+    isSuccessful: true,
+  },
+];

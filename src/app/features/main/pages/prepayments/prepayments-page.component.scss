@@ -1,8 +1,7 @@
+@import "./../../../../../assets/scss/variables";
+$icons-path: "./../../../../../assets/icons";
+
 :host {
-  @import "./../../../../../assets/scss/variables";
-
-
-
   .whats-img {
     width: 10%;
   }
@@ -17,7 +16,6 @@
   }
 
   .content {
-
     .title-label {
       font-size: 1rem;
       color: #162056;
@@ -93,29 +91,6 @@
 
     .pt-1 {
       padding-top: 1rem !important;
-    }
-
-    ::ng-deep .ng-select .ng-select-container {
-      background-color: #F8F8F8 !important;
-      border: 1px solid #444559 !important;
-    }
-
-    ::ng-deep .ng-select.ng-select-single .ng-select-container .ng-value-container {
-      background-color: #F8F8F8 !important;
-      color: #444559 !important;
-    }
-
-    ::ng-deep ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {
-      background-color: #F8F8F8 !important;
-      color: #444559 !important;
-    }
-
-    ::ng-deep .ng-select .ng-arrow-wrapper .ng-arrow {
-      border-color: var(--bs-primary) transparent transparent !important;
-    }
-
-    ::ng-deep .ng-select .ng-clear-wrapper {
-      color: var(--bs-primary) !important;
     }
   }
 }

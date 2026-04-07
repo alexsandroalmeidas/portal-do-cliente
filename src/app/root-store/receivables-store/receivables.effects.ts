@@ -178,8 +178,6 @@ export class ReceivablesStoreEffects {
           uids,
         );
 
-        debugger;
-
         return of(filtered).pipe(
           map(
             (result) =>
@@ -201,7 +199,6 @@ export class ReceivablesStoreEffects {
       switchMap((action: any) => {
         const { initialDate, finalDate, documentNumber, uids } = action.payload;
 
-        debugger;
         const filteredReceivables = this.applyFilters(
           mockReceivables,
           (d) => d.paymentDate,

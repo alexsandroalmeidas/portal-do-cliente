@@ -81,11 +81,11 @@ export interface SummaryCardSales {
   debitAmount: number;
   debitAmountPercent: string;
   debitCount: number;
-  debitPercent: string;
+  debitCountPercent: string;
   creditAmount: number;
   creditAmountPercent: string;
   creditCount: number;
-  creditPercent: string;
+  creditCountPercent: string;
   voucherAmount: number;
   voucherAmountPercent: string;
   voucherCount: number;

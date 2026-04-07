@@ -1,16 +1,24 @@
-import { AdministrationStoreActions, AdministrationStoreSelectors } from '@/root-store/administration-store';
+import {
+  AdministrationStoreActions,
+  AdministrationStoreSelectors,
+} from '@/root-store/administration-store';
 import { MfaStoreActions, MfaStoreSelectors } from '@/root-store/mfa-store';
-import { PrepaymentsStoreActions, PrepaymentsStoreSelectors } from '@/root-store/prepayments-store';
+import {
+  PrepaymentsStoreActions,
+  PrepaymentsStoreSelectors,
+} from '@/root-store/prepayments-store';
 import {
   BankingAccount,
   FinalCheck,
-  FinalizeScheduledRequest, getAccreditationName, GetAccreditationsItemResponse,
+  FinalizeScheduledRequest,
+  getAccreditationName,
+  GetAccreditationsItemResponse,
   GetScheduledFinalizedResponse,
   LeadAction,
   PrepaymentsViewMode,
   ReceivablesSchedule,
   ReceivablesScheduleGroupingResponse,
-  SelectionModelDay
+  SelectionModelDay,
 } from '@/root-store/prepayments-store/prepayments.models';
 import { AppState } from '@/root-store/state';
 import { SelectOption } from '@/shared/models/select-options';
@@ -18,7 +26,14 @@ import { NavigationService } from '@/shared/services/navigation.service';
 import { SharedModule } from '@/shared/shared.module';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  UntypedFormControl,
+  Validators,
+} from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -41,11 +56,13 @@ import { DialogScheduledSuccessComponent } from '../dialog-scheduled-success/dia
   imports: [
     SharedModule,
     CardPrepaymentsAccreditationsComponent,
-    CheckMarkedComponent
+    CheckMarkedComponent,
   ],
 })
-export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit {
-
+export class ScheduledPrepaymentPageComponent
+  extends BasePage
+  implements OnInit
+{
   economicGroupPhoneNumber = '';
   finalCheck: FinalCheck = {} as FinalCheck;
   viewMode: PrepaymentsViewMode = 'initial';
@@ -56,7 +73,9 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
   selectionDaysWeek: SelectionModelDay[] = [];
   selectedDaysMonth: number[] = [];
   filteredReceivablesSchedule: ReceivablesScheduleGroupingResponse[] = [];
-  scheduledFinalized: GetScheduledFinalizedResponse = { id: null as any } as GetScheduledFinalizedResponse;
+  scheduledFinalized: GetScheduledFinalizedResponse = {
+    id: null as any,
+  } as GetScheduledFinalizedResponse;
   firstWeek = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   secondWeek = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
   visibilityOn: boolean = true;
@@ -83,11 +102,11 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       benefits: [
         'Fluxo de caixa sempre disponível',
         'Receba sempre no dia seguinte',
-        'Contratação simples e fácil'
+        'Contratação simples e fácil',
       ],
       isDaily: true,
       isWeekly: false,
-      isMonthly: false
+      isMonthly: false,
     },
     {
       title: 'Semanalmente',
@@ -95,11 +114,11 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       benefits: [
         'Programe os recebíveis para semana',
         'Utilize para pagamentos estratégicos',
-        'Não espere 30 dias para receber vendas de crédito'
+        'Não espere 30 dias para receber vendas de crédito',
       ],
       isDaily: false,
       isWeekly: true,
-      isMonthly: false
+      isMonthly: false,
     },
     {
       title: 'Mensalmente',
@@ -107,21 +126,46 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       benefits: [
         'Pague suas contas mensais com seus recebíveis',
         'Traga previsibilidade para as suas finanças',
-        'Tenha mais praticidade e tranquilidade'
+        'Tenha mais praticidade e tranquilidade',
       ],
       isDaily: false,
       isWeekly: false,
-      isMonthly: true
+      isMonthly: true,
     },
   ];
 
   daysOfWeek = [
-    { day: 1, descriptionDay: 'Segunda', description: 'Segunda-feira', selected: false } as SelectionModelDay,
-    { day: 2, descriptionDay: 'Terça', description: 'Terça-feira', selected: false } as SelectionModelDay,
-    { day: 3, descriptionDay: 'Quarta', description: 'Quarta-feira', selected: false } as SelectionModelDay,
-    { day: 4, descriptionDay: 'Quinta', description: 'Quinta-feira', selected: false } as SelectionModelDay,
-    { day: 5, descriptionDay: 'Sexta', description: 'Sexta-feira', selected: false } as SelectionModelDay,
-  ]
+    {
+      day: 1,
+      descriptionDay: 'Segunda',
+      description: 'Segunda-feira',
+      selected: false,
+    } as SelectionModelDay,
+    {
+      day: 2,
+      descriptionDay: 'Terça',
+      description: 'Terça-feira',
+      selected: false,
+    } as SelectionModelDay,
+    {
+      day: 3,
+      descriptionDay: 'Quarta',
+      description: 'Quarta-feira',
+      selected: false,
+    } as SelectionModelDay,
+    {
+      day: 4,
+      descriptionDay: 'Quinta',
+      description: 'Quinta-feira',
+      selected: false,
+    } as SelectionModelDay,
+    {
+      day: 5,
+      descriptionDay: 'Sexta',
+      description: 'Sexta-feira',
+      selected: false,
+    } as SelectionModelDay,
+  ];
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
@@ -138,15 +182,17 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
   daysOfMonthError: number[] = [];
 
   get getScheduledMode() {
-
     let scheduleModeReturn = 'Diariamente';
 
     if (!!this.viewMode) {
-      scheduleModeReturn = (this.viewMode === 'monthly-accreditations' || this.viewMode === 'monthly-check')
-        ? 'Mensalmente'
-        : (this.viewMode === 'weekly-accreditations' || this.viewMode === 'weekly-check')
-          ? 'Semanalmente'
-          : 'Diariamente';
+      scheduleModeReturn =
+        this.viewMode === 'monthly-accreditations' ||
+        this.viewMode === 'monthly-check'
+          ? 'Mensalmente'
+          : this.viewMode === 'weekly-accreditations' ||
+              this.viewMode === 'weekly-check'
+            ? 'Semanalmente'
+            : 'Diariamente';
     }
 
     return scheduleModeReturn;
@@ -154,38 +200,54 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
 
   get totalAvailableAmountPrepayment() {
     if (!isEmpty(this.filteredReceivablesSchedule)) {
+      console.log('Array:', this.filteredReceivablesSchedule);
+      console.log('Tipo:', typeof this.filteredReceivablesSchedule);
+      console.log('É Array?', Array.isArray(this.filteredReceivablesSchedule));
 
-      console.log("Array:", this.filteredReceivablesSchedule);
-      console.log("Tipo:", typeof this.filteredReceivablesSchedule);
-      console.log("É Array?", Array.isArray(this.filteredReceivablesSchedule));
+      var selectedDoc = this.selectedEstablishments.filter(
+        (x) => x.uid == this.prepaymentEstablishmentsSelected,
+      );
+      const resultado = this.filteredReceivablesSchedule.some(
+        (b: any) => b.documentNumber === selectedDoc[0].documentNumber,
+      );
+      console.log('Resultado:', resultado);
 
-      var selectedDoc = this.selectedEstablishments.filter(x => x.uid == this.prepaymentEstablishmentsSelected);
-      const resultado = this.filteredReceivablesSchedule.some((b: any) => b.documentNumber === selectedDoc[0].documentNumber);
-      console.log("Resultado:", resultado);
-
-      return (this.filteredReceivablesSchedule
-        .filter(p => p.documentNumber === this.selectedEstablishments.firstOrDefault((x: any) => x.documentNumber === p.documentNumber))
-        ?.sumBy(p => p.availableValue ?? 0) ?? 0);
+      return (
+        this.filteredReceivablesSchedule
+          .filter(
+            (p) =>
+              p.documentNumber ===
+              this.selectedEstablishments.firstOrDefault(
+                (x: any) => x.documentNumber === p.documentNumber,
+              ),
+          )
+          ?.sumBy((p) => p.availableValue ?? 0) ?? 0
+      );
     }
 
     return 0;
   }
 
   get getBankingAccount() {
-
     if (!isEmpty(this.bankingAccounts)) {
+      console.log('Array:', this.bankingAccounts);
+      console.log('Tipo:', typeof this.bankingAccounts);
+      console.log('É Array?', Array.isArray(this.bankingAccounts));
 
-      console.log("Array:", this.bankingAccounts);
-      console.log("Tipo:", typeof this.bankingAccounts);
-      console.log("É Array?", Array.isArray(this.bankingAccounts));
+      var selectedDoc = this.selectedEstablishments.filter(
+        (x) => x.uid == this.prepaymentEstablishmentsSelected,
+      );
 
-      var selectedDoc = this.selectedEstablishments.filter(x => x.uid == this.prepaymentEstablishmentsSelected);
-
-      const resultado = this.bankingAccounts.some((b: any) => b.documentNumber === selectedDoc[0].documentNumber);
-      console.log("Resultado:", resultado);
+      const resultado = this.bankingAccounts.some(
+        (b: any) => b.documentNumber === selectedDoc[0].documentNumber,
+      );
+      console.log('Resultado:', resultado);
 
       return this.bankingAccounts
-        .filter((b: any) => b.documentNumber === this.selectedEstablishments[0].documentNumber)
+        .filter(
+          (b: any) =>
+            b.documentNumber === this.selectedEstablishments[0].documentNumber,
+        )
         .firstOrDefault((x: BankingAccount) => !!x);
     }
 
@@ -193,11 +255,17 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
   }
 
   get isMonthlyAccreditations() {
-    return this.viewMode === 'monthly-accreditations' || this.viewMode === 'monthly-check';
+    return (
+      this.viewMode === 'monthly-accreditations' ||
+      this.viewMode === 'monthly-check'
+    );
   }
 
   get isWeeklyAccreditations() {
-    return this.viewMode === 'weekly-accreditations' || this.viewMode === 'weekly-check';
+    return (
+      this.viewMode === 'weekly-accreditations' ||
+      this.viewMode === 'weekly-check'
+    );
   }
 
   @ViewChild('popWeekly', { static: false }) popWeekly: any;
@@ -217,22 +285,29 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
     private route: ActivatedRoute,
     navigationService: NavigationService,
     public dialog: MatDialog,
-    protected router: Router) {
-
+    protected router: Router,
+  ) {
     super(store$, navigationService);
 
     const { uid } = this.route.snapshot.queryParams;
     this.prepaymentEstablishmentsSelected = uid;
 
     this.daysOfWeekForm = new FormGroup({
-      dayOfWeekSelection: this.createDaysOfWeek(this.daysOfWeek)
+      dayOfWeekSelection: this.createDaysOfWeek(this.daysOfWeek),
     });
   }
 
   // Create form array
-  createDaysOfWeek(daysOfWeek: { day: number, descriptionDay: string, description: string, selected: boolean }[]): FormArray {
-    const arr = daysOfWeek.map(exercise => {
-      return new FormControl(exercise.selected)
+  createDaysOfWeek(
+    daysOfWeek: {
+      day: number;
+      descriptionDay: string;
+      description: string;
+      selected: boolean;
+    }[],
+  ): FormArray {
+    const arr = daysOfWeek.map((exercise) => {
+      return new FormControl(exercise.selected);
     });
     return new FormArray(arr);
   }
@@ -287,14 +362,22 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
             this.viewMode = 'weekly-accreditations';
             this.viewModeControl.setValue(this.viewMode);
 
-            this.daysOfWeek.map(x => x.selected = this.scheduledFinalized.daysOfWeek.some(p => p === x.day));
-            this.selection = new SelectionModel<SelectionModelDay>(true, [...this.daysOfWeek.filter(x => x.selected)]);
-
+            this.daysOfWeek.map(
+              (x) =>
+                (x.selected = this.scheduledFinalized.daysOfWeek.some(
+                  (p) => p === x.day,
+                )),
+            );
+            this.selection = new SelectionModel<SelectionModelDay>(true, [
+              ...this.daysOfWeek.filter((x) => x.selected),
+            ]);
           } else if (!isEmpty(this.scheduledFinalized.daysOfMonth)) {
             this.viewMode = 'monthly-accreditations';
             this.viewModeControl.setValue(this.viewMode);
 
-            this.selectionDaysMonth = new SelectionModel<number>(true, [...this.scheduledFinalized.daysOfMonth]);
+            this.selectionDaysMonth = new SelectionModel<number>(true, [
+              ...this.scheduledFinalized.daysOfMonth,
+            ]);
           }
         }
       });
@@ -314,10 +397,12 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       .select(PrepaymentsStoreSelectors.selectReceivablesScheduleGrouping)
       .pipe(takeUntil(this.$unsub))
       .subscribe((receivablesScheduleGrouping) => {
-        const receivablesSchedule = (receivablesScheduleGrouping || []);
+        const receivablesSchedule = receivablesScheduleGrouping || [];
 
         const schedules: ReceivablesSchedule[] = [];
-        receivablesSchedule.map(x => x.schedules.map(p => schedules.push(p)));
+        receivablesSchedule.map((x) =>
+          x.schedules.map((p) => schedules.push(p)),
+        );
 
         if (!isEmpty(receivablesSchedule)) {
           this.filteredReceivablesSchedule = [...receivablesSchedule];
@@ -341,7 +426,7 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       .select(PrepaymentsStoreSelectors.selectBankingAccounts)
       .pipe(takeUntil(this.$unsub))
       .subscribe((bankingAccounts) => {
-        this.bankingAccounts = (bankingAccounts || []);
+        this.bankingAccounts = bankingAccounts || [];
       });
   }
 
@@ -351,7 +436,9 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       .pipe(takeUntil(this.$unsub))
       .subscribe((error) => {
         if (!!error) {
-          this.store$.dispatch(new AdministrationStoreActions.SetNoErrorGetEconomicGroupPhoneAction());
+          this.store$.dispatch(
+            new AdministrationStoreActions.SetNoErrorGetEconomicGroupPhoneAction(),
+          );
         }
       });
   }
@@ -373,7 +460,9 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       .pipe(takeUntil(this.$unsub))
       .subscribe((error) => {
         if (!!error) {
-          this.store$.dispatch(new MfaStoreActions.SetNoErrorVerificationCompletedAction());
+          this.store$.dispatch(
+            new MfaStoreActions.SetNoErrorVerificationCompletedAction(),
+          );
         }
       });
   }
@@ -395,7 +484,9 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
         this.canceledScheduled = canceledScheduled;
 
         if (canceledScheduled) {
-          this.store$.dispatch(new PrepaymentsStoreActions.SetCanceledScheduledPrepaymentAction());
+          this.store$.dispatch(
+            new PrepaymentsStoreActions.SetCanceledScheduledPrepaymentAction(),
+          );
 
           if (this.isEdit) {
             this.isEdit = false;
@@ -414,14 +505,19 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       .pipe(takeUntil(this.$unsub))
       .subscribe((establishments) => {
         if (!!establishments) {
-
           const establishmentsToSelect = [
             ...establishments.map(
               (establishment) =>
-                new SelectOption(`${establishment.companyName} - ${establishment.documentNumber}`, establishment.uid)),
+                new SelectOption(
+                  `${establishment.companyName} - ${establishment.documentNumber}`,
+                  establishment.uid,
+                ),
+            ),
           ];
 
-          const establish = establishmentsToSelect.filter((p) => p.value === this.prepaymentEstablishmentsSelected);
+          const establish = establishmentsToSelect.filter(
+            (p) => p.value === this.prepaymentEstablishmentsSelected,
+          );
 
           if (!!establish) {
             this.establishmentSelected = establish[0];
@@ -433,22 +529,25 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
   private selectSaveLead(
     canceled: boolean,
     finished: boolean,
-    itStarted: boolean) {
-
+    itStarted: boolean,
+  ) {
     if (!!this.prepaymentEstablishmentsSelected) {
-      this.store$.dispatch(new PrepaymentsStoreActions.SaveLeadAction(
-        {
+      this.store$.dispatch(
+        new PrepaymentsStoreActions.SaveLeadAction({
           canceled,
           uid: this.prepaymentEstablishmentsSelected,
           finished,
           itStarted,
-          leadAction: LeadAction.scheduledPrepayment
-        }));
+          leadAction: LeadAction.scheduledPrepayment,
+        }),
+      );
     }
   }
 
   private selectGetEconomicGroupPhone() {
-    this.store$.dispatch(new AdministrationStoreActions.GetEconomicGroupPhoneAction());
+    this.store$.dispatch(
+      new AdministrationStoreActions.GetEconomicGroupPhoneAction(),
+    );
   }
 
   private selectGetScheduledRate() {
@@ -456,8 +555,8 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       this.store$.dispatch(
         new PrepaymentsStoreActions.GetScheduledRatePrepaymentAction({
           uid: this.prepaymentEstablishmentsSelected,
-          prepaymentTotalAmount: this.totalAvailableAmountPrepayment
-        })
+          prepaymentTotalAmount: this.totalAvailableAmountPrepayment,
+        }),
       );
     }
   }
@@ -466,8 +565,8 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
     if (!!this.prepaymentEstablishmentsSelected) {
       this.store$.dispatch(
         new PrepaymentsStoreActions.GetBankingAccountPrepaymentAction({
-          uid: this.selectedEstablishmentsUids,
-        })
+          uid: this.selectedEstablishmentsUids.firstOrDefault((x) => !!!x),
+        }),
       );
     }
   }
@@ -476,16 +575,17 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
     this.store$.dispatch(
       new PrepaymentsStoreActions.GetScheduledAccreditationsAction({
         uid: this.prepaymentEstablishmentsSelected,
-      })
+      }),
     );
   }
 
   private selectGetScheduledFinalized() {
     if (!!this.prepaymentEstablishmentsSelected) {
-      this.store$.dispatch(new PrepaymentsStoreActions.GetScheduledFinalizedAction(
-        {
-          uid: this.prepaymentEstablishmentsSelected
-        }));
+      this.store$.dispatch(
+        new PrepaymentsStoreActions.GetScheduledFinalizedAction({
+          uid: this.prepaymentEstablishmentsSelected,
+        }),
+      );
     }
   }
 
@@ -494,7 +594,6 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
   }
 
   onOpenContinue(schedule: any) {
-
     this.loadFinalCheck();
 
     if (schedule.isDaily) {
@@ -513,35 +612,36 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
   }
 
   async openScheduledSuccessDialog() {
-
     const config: MatDialogConfig = {
       width: '26%',
       hasBackdrop: true,
       disableClose: true,
     };
 
-    const dialogSuccessRef = this.dialog.open(DialogScheduledSuccessComponent, config);
+    const dialogSuccessRef = this.dialog.open(
+      DialogScheduledSuccessComponent,
+      config,
+    );
 
-    dialogSuccessRef
-      .afterClosed()
-      .subscribe((concluido) => {
-        if (concluido) {
-          this.store$.dispatch(new PrepaymentsStoreActions.FinalizedScheduledPrepaymentAction());
-          this.goToPrepayments();
-        }
-      });
+    dialogSuccessRef.afterClosed().subscribe((concluido) => {
+      if (concluido) {
+        this.store$.dispatch(
+          new PrepaymentsStoreActions.FinalizedScheduledPrepaymentAction(),
+        );
+        this.goToPrepayments();
+      }
+    });
   }
 
   private loadFinalCheck() {
     let selection = null as any;
-
 
     if (this.isWeeklyAccreditations) {
       if (this.selection.hasValue()) {
         if (this.selection.selected.length === 1) {
           selection = this.selection.selected[0].descriptionDay;
         } else {
-          const listOrdered = this.selection.selected.sortBy(x => x.day);
+          const listOrdered = this.selection.selected.sortBy((x) => x.day);
           selection = `${listOrdered[0].descriptionDay} e ${listOrdered[1].descriptionDay}`;
         }
       }
@@ -550,7 +650,7 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
         if (this.selectionDaysMonth.selected.length === 1) {
           selection = this.selectionDaysMonth.selected[0];
         } else {
-          const listOrdered = this.selectionDaysMonth.selected.sortBy(x => x);
+          const listOrdered = this.selectionDaysMonth.selected.sortBy((x) => x);
           selection = `${listOrdered[0]} e ${listOrdered[1]}`;
         }
       }
@@ -571,15 +671,14 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       isCancel: false,
       isEdit: this.isEdit,
       isContinue: false,
-      daysOfWeek: this.selection?.selected.map(x => x.day),
-      daysOfMonth: this.selectionDaysMonth?.selected.map(x => x),
+      daysOfWeek: this.selection?.selected.map((x) => x.day),
+      daysOfMonth: this.selectionDaysMonth?.selected.map((x) => x),
       frequency,
-      bankingAccount: this.bankingAccount
+      bankingAccount: this.bankingAccount,
     } as FinalCheck;
   }
 
   onBackClick(viewMode: any) {
-
     this.selectedAccreditations = [];
 
     switch (viewMode) {
@@ -624,7 +723,9 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
   verifyRequiredSelection() {
     switch (this.viewMode) {
       case 'daily-accreditations': {
-        this.selectedAccreditationsHasError = !(!isEmpty(this.selectedAccreditations) ?? true);
+        this.selectedAccreditationsHasError = isEmpty(
+          this.selectedAccreditations,
+        );
 
         if (this.selectedAccreditationsHasError) {
           this.popDay.hide();
@@ -636,7 +737,11 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
         return this.selectedAccreditationsHasError;
       }
       case 'weekly': {
-        this.selectedWeeksHasError = !((this.selection?.hasValue() && this.selection?.selected?.length <= 2) ?? true);
+        this.selectedWeeksHasError = !(
+          (this.selection?.hasValue() &&
+            this.selection?.selected?.length <= 2) ??
+          true
+        );
 
         if (this.selectedWeeksHasError) {
           this.popWeekly.hide();
@@ -648,10 +753,18 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
         return this.selectedWeeksHasError;
       }
       case 'weekly-accreditations': {
-        this.selectedAccreditationsHasError = !(!isEmpty(this.selectedAccreditations) ?? true);
-        this.selectedWeeksHasError = !((this.selection?.hasValue() && this.selection?.selected?.length <= 2) ?? true);
+        this.selectedAccreditationsHasError = isEmpty(
+          this.selectedAccreditations,
+        );
 
-        const hasError = this.selectedAccreditationsHasError || this.selectedWeeksHasError;
+        this.selectedWeeksHasError = !(
+          (this.selection?.hasValue() &&
+            this.selection?.selected?.length <= 2) ??
+          true
+        );
+
+        const hasError =
+          this.selectedAccreditationsHasError || this.selectedWeeksHasError;
 
         if (hasError) {
           this.popWeekly.hide();
@@ -663,7 +776,9 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
         return hasError;
       }
       case 'monthly': {
-        this.selectedDaysHasError = !(this.selectionDaysMonth?.hasValue() ?? true);
+        this.selectedDaysHasError = !(
+          this.selectionDaysMonth?.hasValue() ?? true
+        );
 
         if (this.selectedDaysHasError) {
           this.popMonthly.hide();
@@ -675,10 +790,18 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
         return this.selectedDaysHasError;
       }
       case 'monthly-accreditations': {
-        this.selectedDaysHasError = !((this.selectionDaysMonth?.hasValue() && this.selectionDaysMonth?.selected?.length <= 2) ?? true);
-        this.selectedAccreditationsHasError = !(!isEmpty(this.selectedAccreditations) ?? true);
+        this.selectedDaysHasError = !(
+          (this.selectionDaysMonth?.hasValue() &&
+            this.selectionDaysMonth?.selected?.length <= 2) ??
+          true
+        );
 
-        const hasError = this.selectedAccreditationsHasError || this.selectedDaysHasError;
+        this.selectedAccreditationsHasError = !isEmpty(
+          this.selectedAccreditations,
+        );
+
+        const hasError =
+          this.selectedAccreditationsHasError || this.selectedDaysHasError;
 
         if (hasError) {
           this.popMonthly.hide();
@@ -695,7 +818,6 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
   }
 
   onContinueClick(viewMode: any) {
-
     if (this.verifyRequiredSelection()) {
       return;
     }
@@ -737,7 +859,6 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
         this.step = 3;
         break;
       }
-
     }
 
     this.viewModeControl.setValue(this.viewMode);
@@ -749,7 +870,11 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
   }
 
   openMfaTwoFactorAuthenticationDialog() {
-    this.store$.dispatch(new MfaStoreActions.SendPinSmsAction({ phoneNumber: this.economicGroupPhoneNumber }));
+    this.store$.dispatch(
+      new MfaStoreActions.SendPinSmsAction({
+        phoneNumber: this.economicGroupPhoneNumber,
+      }),
+    );
 
     this.dialog
       .open(DialogTwoFactorAuthenticationComponent, {
@@ -761,11 +886,11 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
           isMfa: false,
           isVerify: true,
           isScheduled: true,
-          phoneNumber: this.economicGroupPhoneNumber
-        }
+          phoneNumber: this.economicGroupPhoneNumber,
+        },
       })
       .afterClosed()
-      .subscribe(data => {
+      .subscribe((data) => {
         if (data === true) {
           if (this.isEdit || this.editCanceled) {
             this.selectCancelScheduledPrepayment();
@@ -783,7 +908,6 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
   }
 
   openMfaCancelDialog() {
-
     this.dialog
       .open(DialogCancelComponent, {
         width: '392px',
@@ -791,7 +915,7 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
         disableClose: true,
       })
       .afterClosed()
-      .subscribe(data => {
+      .subscribe((data) => {
         if (!data) {
           this.openMfaTwoFactorAuthenticationDialog();
         }
@@ -800,11 +924,12 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
 
   private selectCancelScheduledPrepayment() {
     if (!!this.prepaymentEstablishmentsSelected) {
-      this.store$.dispatch(new PrepaymentsStoreActions.CancelScheduledPrepaymentAction(
-        {
+      this.store$.dispatch(
+        new PrepaymentsStoreActions.CancelScheduledPrepaymentAction({
           id: this.scheduledFinalized.id,
-          uid: this.prepaymentEstablishmentsSelected
-        }));
+          uid: this.prepaymentEstablishmentsSelected,
+        }),
+      );
     }
   }
 
@@ -815,8 +940,10 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
         ? 'weekday'
         : 'daily';
 
-    const daysOfWeek: number[] = this.selection.selected.map(x => x.day);
-    const daysOfMonth: number[] = this.selectionDaysMonth.selected.map(x => x);
+    const daysOfWeek: number[] = this.selection.selected.map((x) => x.day);
+    const daysOfMonth: number[] = this.selectionDaysMonth.selected.map(
+      (x) => x,
+    );
 
     const request = {
       uid: this.prepaymentEstablishmentsSelected,
@@ -826,40 +953,42 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       frequency,
       daysOfWeek,
       daysOfMonth,
-      accreditations: this.selectedAccreditations
+      accreditations: this.selectedAccreditations,
     } as FinalizeScheduledRequest;
 
-    this.store$.dispatch(new PrepaymentsStoreActions.FinalizeScheduledPrepaymentAction({ request }));
+    this.store$.dispatch(
+      new PrepaymentsStoreActions.FinalizeScheduledPrepaymentAction({
+        request,
+      }),
+    );
   }
 
   async onOpenScheduledCancelDialog() {
-
     const config: MatDialogConfig = {
       width: '22%',
       hasBackdrop: true,
       disableClose: true,
     };
 
-    const dialogScheduleCancelRef = this.dialog.open(DialogScheduledCancelComponent, config);
+    const dialogScheduleCancelRef = this.dialog.open(
+      DialogScheduledCancelComponent,
+      config,
+    );
 
-    dialogScheduleCancelRef
-      .afterClosed()
-      .subscribe((confirm) => {
-        if (!confirm) {
-          this.selectSaveLead(false, true, false);
-          this.goToPrepayments();
-        }
-      });
+    dialogScheduleCancelRef.afterClosed().subscribe((confirm) => {
+      if (!confirm) {
+        this.selectSaveLead(false, true, false);
+        this.goToPrepayments();
+      }
+    });
   }
 
   async goToPrepayments() {
-    await this.router.navigate(
-      ['/prepayments'],
-      {
-        queryParams: {
-          uid: this.prepaymentEstablishmentsSelected,
-        }
-      });
+    await this.router.navigate(['/prepayments'], {
+      queryParams: {
+        uid: this.prepaymentEstablishmentsSelected,
+      },
+    });
   }
 
   async onSelectedAccreditations(event: any) {
@@ -873,15 +1002,21 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       hasBackdrop: true,
       disableClose: false,
       data: {
-        establishmentSelected: this.establishmentSelected
-      }
+        establishmentSelected: this.establishmentSelected,
+      },
     };
 
-    const dialogCancelRef = this.dialog.open(DialogAuthorizationPrepaymentComponent, config);
+    const dialogCancelRef = this.dialog.open(
+      DialogAuthorizationPrepaymentComponent,
+      config,
+    );
   }
 
-  async clickChecked(event: any, dayOfWeek: SelectionModelDay, selectionDaysWeek: any) {
-
+  async clickChecked(
+    event: any,
+    dayOfWeek: SelectionModelDay,
+    selectionDaysWeek: any,
+  ) {
     if (event) {
       this.selection.toggle(dayOfWeek);
     }
@@ -889,7 +1024,6 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
     if (dayOfWeek.selected && !selectionDaysWeek.includes(dayOfWeek)) {
       selectionDaysWeek.push(dayOfWeek);
     } else {
-
       if (selectionDaysWeek.includes(dayOfWeek)) {
         const idx = selectionDaysWeek.indexOf(dayOfWeek);
 
@@ -921,7 +1055,6 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
     if (!selectedDaysMonth.includes(day)) {
       selectedDaysMonth.push(day);
     } else {
-
       if (selectedDaysMonth.includes(day)) {
         const idx = selectedDaysMonth.indexOf(day);
 
@@ -935,7 +1068,6 @@ export class ScheduledPrepaymentPageComponent extends BasePage implements OnInit
       this.popDays.show();
       this.daysOfMonthError.push(day);
       this.selectedDaysHasError = true;
-
     } else {
       this.popDays.hide();
       this.daysOfMonthError = [];

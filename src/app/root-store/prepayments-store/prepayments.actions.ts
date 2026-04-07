@@ -1,8 +1,20 @@
 import { Action } from '@ngrx/store';
 import {
-  BankingAccountResponse, CancelScheduledPrepaymentResponse, FinalizePunctualRequest, FinalizePunctualResponse, FinalizeScheduledRequest,
-  FinalizeScheduledResponse, GetAccreditationsResponse, GetAuthorizationResponse,
-  GetAuthorizeResponse, GetHistoricResponse, GetRateResponse, GetScheduledFinalizedResponse, LeadAction, ReceivablesScheduleGroupingResponse, SaveLeadResponse
+  BankingAccountResponse,
+  CancelScheduledPrepaymentResponse,
+  FinalizePunctualRequest,
+  FinalizePunctualResponse,
+  FinalizeScheduledRequest,
+  FinalizeScheduledResponse,
+  GetAccreditationsResponse,
+  GetAuthorizationResponse,
+  GetAuthorizeResponse,
+  GetHistoricResponse,
+  GetRateResponse,
+  GetScheduledFinalizedResponse,
+  LeadAction,
+  ReceivablesScheduleGroupingResponse,
+  SaveLeadResponse,
 } from './prepayments.models';
 
 export enum ActionTypes {
@@ -51,27 +63,26 @@ export enum ActionTypes {
   SAVE_LEAD = '@app/prepayments/save-lead',
   SAVE_LEAD_SUCCESS = '@app/prepayments/save-lead-success',
   SAVE_LEAD_FAILURE = '@app/prepayments/save-lead-failure',
-
 }
 
 export class GetAuthorizationAction implements Action {
   readonly type = ActionTypes.GET_AUTHORIZATION;
-  constructor(public payload: { uid: string }) { }
+  constructor(public payload: { uid: string }) {}
 }
 
 export class GetAuthorizationSuccessAction implements Action {
   readonly type = ActionTypes.GET_AUTHORIZATION_SUCCESS;
-  constructor(public payload: { response: GetAuthorizationResponse }) { }
+  constructor(public payload: { response: GetAuthorizationResponse }) {}
 }
 
 export class AuthorizeAction implements Action {
   readonly type = ActionTypes.AUTHORIZE;
-  constructor(public payload: { uid: string }) { }
+  constructor(public payload: { uid: string }) {}
 }
 
 export class AuthorizeSuccessAction implements Action {
   readonly type = ActionTypes.AUTHORIZE_SUCCESS;
-  constructor(public payload: { response: GetAuthorizeResponse }) { }
+  constructor(public payload: { response: GetAuthorizeResponse }) {}
 }
 
 export class SetAuthorizedAction implements Action {
@@ -84,30 +95,40 @@ export class SetCanceledScheduledPrepaymentAction implements Action {
 
 export class GetFilteredReceivablesScheduleAction implements Action {
   readonly type = ActionTypes.GET_FILTERED_RECEIVABLES_SCHEDULE_GROUPING;
-  constructor(public payload: {
-    documentNumber: string;
-    receivablesScheduleGrouping: ReceivablesScheduleGroupingResponse[]
-  }) { }
+  constructor(
+    public payload: {
+      documentNumber: string;
+      receivablesScheduleGrouping: ReceivablesScheduleGroupingResponse[];
+    },
+  ) {}
 }
 
 export class GetReceivablesScheduleSuccessAction implements Action {
   readonly type = ActionTypes.GET_RECEIVABLES_SCHEDULE_SUCCESS;
-  constructor(public payload: { receivablesScheduleGrouping: ReceivablesScheduleGroupingResponse[] }) { }
+  constructor(
+    public payload: {
+      receivablesScheduleGrouping: ReceivablesScheduleGroupingResponse[];
+    },
+  ) {}
 }
 
 export class GetReceivablesScheduleGroupingAction implements Action {
   readonly type = ActionTypes.GET_RECEIVABLES_SCHEDULE_GROUPING;
-  constructor(public payload: { uid: string[] }) { }
+  constructor(public payload: { uid: string }) {}
 }
 
 export class GetReceivablesScheduleGroupingSuccessAction implements Action {
   readonly type = ActionTypes.GET_RECEIVABLES_SCHEDULE_GROUPING_SUCCESS;
-  constructor(public payload: { receivablesScheduleGrouping: ReceivablesScheduleGroupingResponse[] }) { }
+  constructor(
+    public payload: {
+      receivablesScheduleGrouping: ReceivablesScheduleGroupingResponse[];
+    },
+  ) {}
 }
 
 export class RequestReceivablesScheduleAction implements Action {
   readonly type = ActionTypes.REQUEST_RECEIVABLES_SCHEDULE;
-  constructor(public payload: { uid: string; }) { }
+  constructor(public payload: { uid: string }) {}
 }
 
 export class RequestReceivablesScheduleSuccessAction implements Action {
@@ -116,12 +137,14 @@ export class RequestReceivablesScheduleSuccessAction implements Action {
 
 export class FinalizePunctualPrepaymentAction implements Action {
   readonly type = ActionTypes.FINALIZE_PUNCTUAL_PREPAYMENT;
-  constructor(public payload: { uid: string, schedules: FinalizePunctualRequest[] }) { }
+  constructor(
+    public payload: { uid: string; schedules: FinalizePunctualRequest[] },
+  ) {}
 }
 
 export class FinalizePunctualPrepaymentSuccessAction implements Action {
   readonly type = ActionTypes.FINALIZE_PUNCTUAL_PREPAYMENT_SUCCESS;
-  constructor(public payload: { response: FinalizePunctualResponse }) { }
+  constructor(public payload: { response: FinalizePunctualResponse }) {}
 }
 
 export class FinalizedPunctualPrepaymentAction implements Action {
@@ -130,22 +153,22 @@ export class FinalizedPunctualPrepaymentAction implements Action {
 
 export class GetBankingAccountPrepaymentAction implements Action {
   readonly type = ActionTypes.GET_BANKING_ACCOUNT_PREPAYMENT;
-  constructor(public payload: { uid: string[] }) { }
+  constructor(public payload: { uid: string }) {}
 }
 
 export class GetBankingAccountPrepaymentSuccessAction implements Action {
   readonly type = ActionTypes.GET_BANKING_ACCOUNT_PREPAYMENT_SUCCESS;
-  constructor(public payload: { response: BankingAccountResponse }) { }
+  constructor(public payload: { response: BankingAccountResponse }) {}
 }
 
 export class FinalizeScheduledPrepaymentAction implements Action {
   readonly type = ActionTypes.FINALIZE_SCHEDULED_PREPAYMENT;
-  constructor(public payload: { request: FinalizeScheduledRequest }) { }
+  constructor(public payload: { request: FinalizeScheduledRequest }) {}
 }
 
 export class FinalizeScheduledPrepaymentSuccessAction implements Action {
   readonly type = ActionTypes.FINALIZE_SCHEDULED_PREPAYMENT_SUCCESS;
-  constructor(public payload: { response: FinalizeScheduledResponse }) { }
+  constructor(public payload: { response: FinalizeScheduledResponse }) {}
 }
 
 export class FinalizedScheduledPrepaymentAction implements Action {
@@ -154,22 +177,22 @@ export class FinalizedScheduledPrepaymentAction implements Action {
 
 export class GetPunctualRatePrepaymentAction implements Action {
   readonly type = ActionTypes.GET_PUNCTUAL_RATE_PREPAYMENT;
-  constructor(public payload: { uid: string; prepaymentTotalAmount: number }) { }
+  constructor(public payload: { uid: string; prepaymentTotalAmount: number }) {}
 }
 
 export class GetPunctualRatePrepaymentSuccessAction implements Action {
   readonly type = ActionTypes.GET_PUNCTUAL_RATE_PREPAYMENT_SUCCESS;
-  constructor(public payload: { response: GetRateResponse }) { }
+  constructor(public payload: { response: GetRateResponse }) {}
 }
 
 export class GetScheduledRatePrepaymentAction implements Action {
   readonly type = ActionTypes.GET_SCHEDULED_RATE_PREPAYMENT;
-  constructor(public payload: { uid: string; prepaymentTotalAmount: number }) { }
+  constructor(public payload: { uid: string; prepaymentTotalAmount: number }) {}
 }
 
 export class GetScheduledRatePrepaymentSuccessAction implements Action {
   readonly type = ActionTypes.GET_SCHEDULED_RATE_PREPAYMENT_SUCCESS;
-  constructor(public payload: { response: GetRateResponse }) { }
+  constructor(public payload: { response: GetRateResponse }) {}
 }
 
 export class SetNoErrorScheduledPrepaymentAction implements Action {
@@ -186,98 +209,104 @@ export class SetNoErrorAuthorizationPrepaymentAction implements Action {
 
 export class GetScheduledFinalizedAction implements Action {
   readonly type = ActionTypes.GET_SCHEDULED_FINALIZED;
-  constructor(public payload: { uid: string }) { }
+  constructor(public payload: { uid: string }) {}
 }
 
 export class GetScheduledFinalizedSuccessAction implements Action {
   readonly type = ActionTypes.GET_SCHEDULED_FINALIZED_SUCCESS;
-  constructor(public payload: { response: GetScheduledFinalizedResponse }) { }
+  constructor(public payload: { response: GetScheduledFinalizedResponse }) {}
 }
 
 export class GetScheduledFinalizedFailureAction implements Action {
   readonly type = ActionTypes.GET_SCHEDULED_FINALIZED_FAILURE;
-  constructor(public payload: { error: any }) { }
+  constructor(public payload: { error: any }) {}
 }
 
 export class CancelScheduledPrepaymentAction implements Action {
   readonly type = ActionTypes.CANCEL_SCHEDULED_PREPAYMENT;
-  constructor(public payload: { id: string, uid: string }) { }
+  constructor(public payload: { id: string; uid: string }) {}
 }
 
 export class CancelScheduledPrepaymentSuccessAction implements Action {
   readonly type = ActionTypes.CANCEL_SCHEDULED_PREPAYMENT_SUCCESS;
-  constructor(public payload: { response: CancelScheduledPrepaymentResponse }) { }
+  constructor(
+    public payload: { response: CancelScheduledPrepaymentResponse },
+  ) {}
 }
 
 export class CancelScheduledPrepaymentFailureAction implements Action {
   readonly type = ActionTypes.CANCEL_SCHEDULED_PREPAYMENT_FAILURE;
-  constructor(public payload: { error: any }) { }
+  constructor(public payload: { error: any }) {}
 }
 
 export class GetHistoricAction implements Action {
   readonly type = ActionTypes.GET_HISTORIC;
-  constructor(public payload: { uid: string, initialDate: string, finalDate: string }) { }
+  constructor(
+    public payload: { uid: string; initialDate: string; finalDate: string },
+  ) {}
 }
 
 export class GetHistoricSuccessAction implements Action {
   readonly type = ActionTypes.GET_HISTORIC_SUCCESS;
-  constructor(public payload: { response: GetHistoricResponse }) { }
+  constructor(public payload: { response: GetHistoricResponse }) {}
 }
 
 export class GetHistoricFailureAction implements Action {
   readonly type = ActionTypes.GET_HISTORIC_FAILURE;
-  constructor(public payload: { error: any }) { }
+  constructor(public payload: { error: any }) {}
 }
 
 export class GetPunctualAccreditationsAction implements Action {
   readonly type = ActionTypes.GET_PUNCTUAL_ACCREDITATIONS;
-  constructor(public payload: { uid: string }) { }
+  constructor(public payload: { uid: string }) {}
 }
 
 export class GetPunctualAccreditationsSuccessAction implements Action {
   readonly type = ActionTypes.GET_PUNCTUAL_ACCREDITATIONS_SUCCESS;
-  constructor(public payload: { response: GetAccreditationsResponse }) { }
+  constructor(public payload: { response: GetAccreditationsResponse }) {}
 }
 
 export class GetPunctualAccreditationsFailureAction implements Action {
   readonly type = ActionTypes.GET_PUNCTUAL_ACCREDITATIONS_FAILURE;
-  constructor(public payload: { error: any }) { }
+  constructor(public payload: { error: any }) {}
 }
 
 export class GetScheduledAccreditationsAction implements Action {
   readonly type = ActionTypes.GET_SCHEDULED_ACCREDITATIONS;
-  constructor(public payload: { uid: string }) { }
+  constructor(public payload: { uid: string }) {}
 }
 
 export class GetScheduledAccreditationsSuccessAction implements Action {
   readonly type = ActionTypes.GET_SCHEDULED_ACCREDITATIONS_SUCCESS;
-  constructor(public payload: { response: GetAccreditationsResponse }) { }
+  constructor(public payload: { response: GetAccreditationsResponse }) {}
 }
 
 export class GetScheduledAccreditationsFailureAction implements Action {
   readonly type = ActionTypes.GET_SCHEDULED_ACCREDITATIONS_FAILURE;
-  constructor(public payload: { error: any }) { }
+  constructor(public payload: { error: any }) {}
 }
 
 export class SaveLeadAction implements Action {
   readonly type = ActionTypes.SAVE_LEAD;
-  constructor(public payload: {
-    uid: string,
-    leadAction: LeadAction,
-    itStarted: boolean,
-    finished: boolean,
-    canceled: boolean
-  }) { }
+  constructor(
+    public payload: {
+      uid: string;
+      leadAction: LeadAction;
+      itStarted: boolean;
+      finished: boolean;
+      canceled: boolean;
+    },
+  ) {}
 }
 
 export class SaveLeadSuccessAction implements Action {
   readonly type = ActionTypes.SAVE_LEAD_SUCCESS;
-  constructor(public payload: { response: SaveLeadResponse }) { }
+  constructor(public payload: { response: SaveLeadResponse }) {}
 }
 
 export class SaveLeadFailureAction implements Action {
   readonly type = ActionTypes.SAVE_LEAD_FAILURE;
-  constructor(public payload: { error: any }) { }
+  constructor(public payload: { error: any }) {}
 }
 
 export type Actions =

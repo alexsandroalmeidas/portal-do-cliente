@@ -238,7 +238,6 @@ export class CalendarVisionComponent
     const initialDate = `${firstDay}` || '';
     const finalDate = `${lastDay}` || '';
 
-    debugger;
     this.store$.dispatch(
       new ReceivablesStoreActions.SelectReceivablesCalendarAction({
         initialDate,

@@ -2,5 +2,7 @@
     "appService.zipIgnorePattern": [
         "node_modules{,/**}",
         ".vscode{,/**}"
-    ]
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/85a81b69-2763-4c19-83f7-21081461e43a/resourceGroups/PetLoveRG/providers/Microsoft.Web/sites/portal-petlove",
+    "appService.deploySubpath": "dist\\portal-do-cliente"
 }

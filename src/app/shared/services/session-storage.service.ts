@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-const APP_PREFIX = 'punto-';
+const APP_PREFIX = 'petlove-';
 
 @Injectable()
 export class SessionStorageService {
@@ -18,9 +18,11 @@ export class SessionStorageService {
             key
               .split('-')
               .map((token, index) =>
-                index === 0 ? token : token.charAt(0).toUpperCase() + token.slice(1)
+                index === 0
+                  ? token
+                  : token.charAt(0).toUpperCase() + token.slice(1),
               )
-              .join('')
+              .join(''),
           );
 
         let currentStateRef = state;
@@ -44,7 +46,10 @@ export class SessionStorageService {
   }
 
   setItem(key: string, value: any) {
-    sessionStorage.setItem(`${APP_PREFIX}${key.toLowerCase()}`, JSON.stringify(value));
+    sessionStorage.setItem(
+      `${APP_PREFIX}${key.toLowerCase()}`,
+      JSON.stringify(value),
+    );
   }
 
   getItem(key: string) {
@@ -77,7 +82,7 @@ export class SessionStorageService {
       'mfa.verifiy-show-mfa',
       'administration.selected-establishments',
       'administration.economic-group-phone',
-      'identity.user-permissions'
+      'identity.user-permissions',
     ].forEach((key) => this.removeItem(key));
   }
 }

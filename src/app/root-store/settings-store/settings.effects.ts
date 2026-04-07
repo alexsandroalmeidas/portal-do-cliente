@@ -11,7 +11,7 @@ import { TitleService } from './../../shared/services/title.service';
 import * as featureActions from './settings.actions';
 import * as selectors from './settings.selectors';
 
-const INIT = of('punto-init-effect-trigger');
+const INIT = of('petlove-init-effect-trigger');
 
 @Injectable()
 export class SettingsStoreEffects {
@@ -21,41 +21,53 @@ export class SettingsStoreEffects {
     private titleService: TitleService,
     private router: Router,
     private store$: Store<RootStoreState.AppState>,
-    private actions$: Actions
-  ) { }
+    private actions$: Actions,
+  ) {}
 
-  persistSettingsEffect$ = createEffect(() =>
-    this.store$.pipe(
-      select(selectors.selectSettings),
-      distinctUntilChanged(),
-      tap(settings => {
-        this.sessionStorageService.setItem('settings.language', settings.language);
-      })
-    ),
-    { dispatch: false }
+  persistSettingsEffect$ = createEffect(
+    () =>
+      this.store$.pipe(
+        select(selectors.selectSettings),
+        distinctUntilChanged(),
+        tap((settings) => {
+          this.sessionStorageService.setItem(
+            'settings.language',
+            settings.language,
+          );
+        }),
+      ),
+    { dispatch: false },
   );
 
-  setLanguageEffect$ = createEffect(() =>
-    this.store$.pipe(
-      select(selectors.selectLanguage),
-      distinctUntilChanged(),
-      tap(language => this.translateService.use(language))
-    ),
-    { dispatch: false }
+  setLanguageEffect$ = createEffect(
+    () =>
+      this.store$.pipe(
+        select(selectors.selectLanguage),
+        distinctUntilChanged(),
+        tap((language) => this.translateService.use(language)),
+      ),
+    { dispatch: false },
   );
 
-  setTitleEffect$ = createEffect(() =>
-    merge(
-      this.actions$.pipe(ofType<featureActions.ChangeLanguageAction>(featureActions.ActionTypes.CHANGE_LANGUAGE)),
-      this.router.events.pipe(filter(event => event instanceof ActivationEnd))
-    ).pipe(
-      tap(() => {
-        this.titleService.setTitle(
-          this.router.routerState.snapshot.root,
-          this.translateService
-        );
-      })
-    ),
-    { dispatch: false }
+  setTitleEffect$ = createEffect(
+    () =>
+      merge(
+        this.actions$.pipe(
+          ofType<featureActions.ChangeLanguageAction>(
+            featureActions.ActionTypes.CHANGE_LANGUAGE,
+          ),
+        ),
+        this.router.events.pipe(
+          filter((event) => event instanceof ActivationEnd),
+        ),
+      ).pipe(
+        tap(() => {
+          this.titleService.setTitle(
+            this.router.routerState.snapshot.root,
+            this.translateService,
+          );
+        }),
+      ),
+    { dispatch: false },
   );
 }

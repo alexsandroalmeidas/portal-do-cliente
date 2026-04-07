@@ -6,10 +6,16 @@ import { Subject, takeUntil } from 'rxjs';
 import { AuthStoreSelectors, CoreStoreSelectors } from 'src/app/root-store';
 import {
   AdministrationStoreActions,
-  AdministrationStoreSelectors
+  AdministrationStoreSelectors,
 } from 'src/app/root-store/administration-store';
-import { IdentityStoreActions, IdentityStoreSelectors } from 'src/app/root-store/identity-store';
-import { MfaStoreActions, MfaStoreSelectors } from 'src/app/root-store/mfa-store';
+import {
+  IdentityStoreActions,
+  IdentityStoreSelectors,
+} from 'src/app/root-store/identity-store';
+import {
+  MfaStoreActions,
+  MfaStoreSelectors,
+} from 'src/app/root-store/mfa-store';
 import { AppState } from 'src/app/root-store/state';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -22,7 +28,7 @@ import { DialogVerificationCompletedComponent } from '../mfa/dialog-verification
   templateUrl: './dialog-change-password.component.html',
   styleUrls: ['./dialog-change-password.component.scss'],
   standalone: true,
-  imports: [SharedModule]
+  imports: [SharedModule],
 })
 export class DialogChangePasswordComponent implements OnInit, OnDestroy {
   private $unsub = new Subject();
@@ -50,7 +56,7 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>,
     private dialogRef: MatDialogRef<DialogChangePasswordComponent>,
     private notificationService: NotificationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {}
 
   hide = true;
@@ -79,21 +85,39 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
       {
         currentPassword: [
           '',
-          [Validators.required, Validators.minLength(6), Validators.maxLength(20)]
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20),
+          ],
         ],
-        newPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+        newPassword: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20),
+          ],
+        ],
         confirmNewPassword: [
           '',
-          [Validators.required, Validators.minLength(6), Validators.maxLength(20)]
-        ]
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20),
+          ],
+        ],
       },
       {
-        validator: this.checkPassword('newPassword', 'confirmNewPassword')
-      }
+        validator: this.checkPassword('newPassword', 'confirmNewPassword'),
+      },
     );
 
     this.store$
-      .pipe(select(CoreStoreSelectors.selectOverscrolling), takeUntil(this.$unsub))
+      .pipe(
+        select(CoreStoreSelectors.selectOverscrolling),
+        takeUntil(this.$unsub),
+      )
       .subscribe((overscrolling) => {
         if (overscrolling) {
           this.onCancelClick();
@@ -171,11 +195,11 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
       .subscribe((error) => {
         if (!!error) {
           this.store$.dispatch(
-            new AdministrationStoreActions.SetNoErrorGetEconomicGroupPhoneAction()
+            new AdministrationStoreActions.SetNoErrorGetEconomicGroupPhoneAction(),
           );
           this.notificationService.showError(
             'Por favor, tente novamente mais tarde ou entre em contato com nossa equipe de suporte.',
-            'Algo deu errado nesta ação'
+            'Algo deu errado nesta ação',
           );
         }
       });
@@ -190,7 +214,7 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
           this.store$.dispatch(new MfaStoreActions.SetNoErrorPinSmsAction());
           this.notificationService.showError(
             'Por favor, tente novamente mais tarde ou entre em contato com nossa equipe de suporte.',
-            'Algo deu errado nesta ação'
+            'Algo deu errado nesta ação',
           );
         }
       });
@@ -202,10 +226,12 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.$unsub))
       .subscribe((error) => {
         if (!!error) {
-          this.store$.dispatch(new MfaStoreActions.SetNoErrorVerificationCompletedAction());
+          this.store$.dispatch(
+            new MfaStoreActions.SetNoErrorVerificationCompletedAction(),
+          );
           this.notificationService.showError(
             'Por favor, tente novamente mais tarde ou entre em contato com nossa equipe de suporte.',
-            'Algo deu errado nesta ação'
+            'Algo deu errado nesta ação',
           );
         }
       });
@@ -236,9 +262,11 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.$unsub))
       .subscribe((changedPassword: boolean) => {
         if (changedPassword) {
-          this.store$.dispatch(new IdentityStoreActions.ChangedPasswordAction());
+          this.store$.dispatch(
+            new IdentityStoreActions.ChangedPasswordAction(),
+          );
           this.notificationService.showSuccess(
-            'Sua senha foi definida com sucesso para acessar ao Portal e APP Punto'
+            'Sua senha foi definida com sucesso para acessar ao Portal e APP',
           );
           this.dialogRef.close(true);
         }
@@ -257,7 +285,9 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
   }
 
   private selectGetEconomicGroupPhone() {
-    this.store$.dispatch(new AdministrationStoreActions.GetEconomicGroupPhoneAction());
+    this.store$.dispatch(
+      new AdministrationStoreActions.GetEconomicGroupPhoneAction(),
+    );
   }
 
   private subscribeSelectIsManager() {
@@ -283,7 +313,8 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const { currentPassword, newPassword, confirmNewPassword } = this.changePasswordForm.value;
+    const { currentPassword, newPassword, confirmNewPassword } =
+      this.changePasswordForm.value;
 
     if (this.validateFieldsErrors(currentPassword, confirmNewPassword)) {
       return;
@@ -301,7 +332,9 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
       if (!!this.economicGroupPhoneNumber) {
         // enviar pin por sms
         this.store$.dispatch(
-          new MfaStoreActions.SendPinSmsAction({ phoneNumber: this.economicGroupPhoneNumber })
+          new MfaStoreActions.SendPinSmsAction({
+            phoneNumber: this.economicGroupPhoneNumber,
+          }),
         );
         step = 3;
       } else {
@@ -319,8 +352,8 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
           step,
           emailSelected: this.userEmail,
           isMfa: step === 1,
-          isVerify: true
-        }
+          isVerify: true,
+        },
       })
       .afterClosed()
       .subscribe((data) => {
@@ -337,7 +370,7 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
       .open(DialogCancelComponent, {
         width: '392px',
         hasBackdrop: true,
-        disableClose: true
+        disableClose: true,
       })
       .afterClosed()
       .subscribe((data) => {
@@ -359,8 +392,8 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
     this.store$.dispatch(
       new IdentityStoreActions.ChangePasswordAction({
         currentPassword: currentPassword,
-        newPassword
-      })
+        newPassword,
+      }),
     );
   }
 
@@ -369,7 +402,7 @@ export class DialogChangePasswordComponent implements OnInit, OnDestroy {
       .open(DialogVerificationCompletedComponent, {
         width: '392px',
         hasBackdrop: true,
-        disableClose: true
+        disableClose: true,
       })
       .afterClosed()
       .subscribe((data) => {

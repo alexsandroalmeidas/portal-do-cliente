@@ -83,25 +83,26 @@ export class SidebarComponent implements AfterViewInit {
     this.navItems = this.originalNavItems;
     if (!isEmpty(this.navItems)) {
       this.navItems.map((nav) => {
-        if (nav.label === 'app.navigation.prepayments') {
-          nav.hasPermission = !this.isManager && this.hasPermission;
-        } else if (nav.label === 'app.navigation.sales') {
-          nav.hasPermission = this.hasSalesPermission;
-        } else if (nav.label === 'app.navigation.receivables') {
-          nav.hasPermission = this.hasReceivablesPermission;
-        } else if (nav.label === 'app.navigation.statements') {
-          nav.hasPermission = this.hasStatementsPermission;
-        } else if (nav.label === 'app.navigation.reports') {
-          nav.hasPermission = this.hasReportsPermission;
-        } else if (nav.label === 'app.navigation.commercial-terms') {
-          nav.hasPermission = this.hasScheduledPermission;
-        } else if (nav.label === 'app.navigation.rates-fees') {
-          if (!!this.loggedUser && this.loggedUser.showRates) {
-            nav.hasPermission = true;
-          } else {
-            nav.hasPermission = this.hasRatesPermission;
-          }
-        }
+        nav.hasPermission = true;
+        // if (nav.label === 'app.navigation.prepayments') {
+        //   nav.hasPermission = !this.isManager && this.hasPermission;
+        // } else if (nav.label === 'app.navigation.sales') {
+        //   nav.hasPermission = this.hasSalesPermission;
+        // } else if (nav.label === 'app.navigation.receivables') {
+        //   nav.hasPermission = this.hasReceivablesPermission;
+        // } else if (nav.label === 'app.navigation.statements') {
+        //   nav.hasPermission = this.hasStatementsPermission;
+        // } else if (nav.label === 'app.navigation.reports') {
+        //   nav.hasPermission = this.hasReportsPermission;
+        // } else if (nav.label === 'app.navigation.commercial-terms') {
+        //   nav.hasPermission = this.hasScheduledPermission;
+        // } else if (nav.label === 'app.navigation.rates-fees') {
+        //   if (!!this.loggedUser && this.loggedUser.showRates) {
+        //     nav.hasPermission = true;
+        //   } else {
+        //     nav.hasPermission = this.hasRatesPermission;
+        //   }
+        // }
 
         if (!isEmpty(nav.children)) {
           nav.children?.map((child) => {

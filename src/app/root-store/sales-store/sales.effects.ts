@@ -129,12 +129,12 @@ export class SalesStoreEffects {
           debitAmount,
           debitAmountPercent: percent(debitAmount, totalAmount),
           debitCount,
-          debitPercent: percent(debitCount, totalCount),
+          debitCountPercent: percent(debitCount, totalCount),
 
           creditAmount,
           creditAmountPercent: percent(creditAmount, totalAmount),
           creditCount,
-          creditPercent: percent(creditCount, totalCount),
+          creditCountPercent: percent(creditCount, totalCount),
 
           voucherAmount,
           voucherAmountPercent: percent(voucherAmount, totalAmount),

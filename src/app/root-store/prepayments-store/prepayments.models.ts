@@ -93,7 +93,7 @@ export interface PunctualDetail {
   totalAmount: number;
   rate: number;
   bankingAccount: BankingAccount;
-  schedule: ReceivablesSchedule
+  schedule: ReceivablesSchedule;
 }
 
 export interface GetRateResponse extends PrepaymentBaseResponse {
@@ -112,8 +112,7 @@ export interface GetAuthorizationResponse extends PrepaymentBaseResponse {
   hasAuthorization: boolean;
 }
 
-export interface GetAuthorizeResponse extends PrepaymentBaseResponse {
-}
+export interface GetAuthorizeResponse extends PrepaymentBaseResponse {}
 
 export interface GetScheduledFinalizedResponse extends PrepaymentBaseResponse {
   id: string;
@@ -134,7 +133,7 @@ export interface GetScheduledFinalizedResponse extends PrepaymentBaseResponse {
 }
 
 export type PrepaymentsViewMode =
-  'initial'
+  | 'initial'
   | 'daily'
   | 'weekly'
   | 'monthly'
@@ -143,9 +142,14 @@ export type PrepaymentsViewMode =
   | 'daily-accreditations'
   | 'weekly-check'
   | 'monthly-check'
-  | 'daily-check'
+  | 'daily-check';
 
-export interface SelectionModelDay { day: number, description: string, descriptionDay: string, selected: boolean };
+export interface SelectionModelDay {
+  day: number;
+  description: string;
+  descriptionDay: string;
+  selected: boolean;
+}
 
 export interface FinalCheck {
   viewMode: PrepaymentsViewMode;
@@ -184,11 +188,10 @@ export interface GetAccreditationsItemResponse {
   documentNumber: string;
   name: string;
   iconName: string;
-  accreditationName: string
+  accreditationName: string;
 }
 
 export function getAccreditationName(documentNumber: string) {
-
   switch (documentNumber) {
     case '01027058000191':
       return 'Cielo';
@@ -198,8 +201,6 @@ export function getAccreditationName(documentNumber: string) {
       return 'GetNet';
     case '01425787000104':
       return 'Redecard';
-    case '05406237000190':
-      return 'Punto';
     case '16501555000157':
       return 'Stone';
     default:
@@ -215,6 +216,5 @@ export interface SaveLeadResponse {
 export enum LeadAction {
   authorizationPrepayment = 0,
   punctualPrepayment = 1,
-  scheduledPrepayment = 2
+  scheduledPrepayment = 2,
 }
-

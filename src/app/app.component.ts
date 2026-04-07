@@ -86,9 +86,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    debugger;
-
-    this.store$.dispatch(new AuthStoreActions.InitializeSessionAction());
+    this.store$
+      .select(AuthStoreSelectors.selectIsAuthenticated)
+      .pipe(takeUntil(this.$unsub))
+      .subscribe((isAuthenticated) => {
+        if (isAuthenticated) {
+          this.store$.dispatch(new AuthStoreActions.InitializeSessionAction());
+        }
+      });
 
     // this.store$
     //   .select(AuthStoreSelectors.selectAuthorizationCode)

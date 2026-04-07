@@ -29,11 +29,12 @@ import {
   mockEstablishments,
   mockRatesDatabase,
   mockBankingAccountsDatabase,
+  mockEconomicGroupPhonesDatabase,
 } from './administration.mock';
 
 @Injectable()
 export class AdministrationStoreEffects {
-  private ROWKEYDEFAULT = 'punto6789-3fb7-45cb-853a-d8e9fe9ed477';
+  private ROWKEYDEFAULT = 'petlove6789-3fb7-45cb-853a-d8e9fe9ed477';
 
   constructor(
     private administrationService: AdministrationService,
@@ -163,20 +164,31 @@ export class AdministrationStoreEffects {
         this.store$.pipe(select(AuthStoreSelectors.selectUserEmail)),
       ),
       switchMap(([, userEmail]) => {
-        return this.administrationService.getEconomicGroupPhone(userEmail).pipe(
+        const phone = mockEconomicGroupPhonesDatabase.find(
+          (p) => p.email === userEmail,
+        );
+
+        const response = {
+          success: true,
+          errors: [],
+          result: {
+            phoneNumber: phone?.phoneNumber ?? '',
+            successMessage: phone?.successMessage ?? '',
+            failureMessage: phone?.failureMessage ?? 'Telefone não encontrado',
+            email: userEmail,
+            isSuccessful: !!phone,
+          },
+        };
+
+        return of(response).pipe(
           map(
             (response) =>
               new AdministrationStoreActions.GetEconomicGroupPhoneSuccessAction(
-                { response },
+                {
+                  response,
+                },
               ),
           ),
-          catchError((error: any) => {
-            return of(
-              new AdministrationStoreActions.GetEconomicGroupPhoneFailureAction(
-                { error },
-              ),
-            );
-          }),
         );
       }),
     ),

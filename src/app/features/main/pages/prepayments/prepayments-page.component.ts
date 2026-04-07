@@ -1,22 +1,25 @@
 import { environment } from '@/environments/environment';
 import {
   AdministrationStoreActions,
-  AdministrationStoreSelectors
+  AdministrationStoreSelectors,
 } from '@/root-store/administration-store';
 import {
   EconomicGroupRateResponse,
-  EconomicGroupRatesResponse
+  EconomicGroupRatesResponse,
 } from '@/root-store/administration-store/administration.models';
 import { AuthStoreSelectors } from '@/root-store/auth-store';
 import { IdentityStoreSelectors } from '@/root-store/identity-store';
 import { MfaStoreActions, MfaStoreSelectors } from '@/root-store/mfa-store';
-import { PrepaymentsStoreActions, PrepaymentsStoreSelectors } from '@/root-store/prepayments-store';
+import {
+  PrepaymentsStoreActions,
+  PrepaymentsStoreSelectors,
+} from '@/root-store/prepayments-store';
 import {
   BankingAccount,
   FinalCheck,
   FinalizeScheduledRequest,
   GetScheduledFinalizedResponse,
-  ReceivablesScheduleGroupingResponse
+  ReceivablesScheduleGroupingResponse,
 } from '@/root-store/prepayments-store/prepayments.models';
 import { SelectOption } from '@/shared/models/select-options';
 import { NavigationService } from '@/shared/services/navigation.service';
@@ -53,12 +56,15 @@ import { HistoricPrepaymentPageComponent } from './historic-prepayment-page/hist
     SelectEstablishmentsComponent,
     CardPrepaymentsScheduledComponent,
     CardPrepaymentsPunctualComponent,
-    HistoricPrepaymentPageComponent
-  ]
+    HistoricPrepaymentPageComponent,
+  ],
 })
-export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDestroy, AfterViewInit {
+export class PrepaymentsPageComponent
+  extends BasePage
+  implements OnInit, OnDestroy, AfterViewInit
+{
   scheduledFinalized: GetScheduledFinalizedResponse = {
-    id: null as any
+    id: null as any,
   } as GetScheduledFinalizedResponse;
   prepaymentsEstablishments: string[] = [];
   prepaymentEstablishmentsSelected: string = null as any;
@@ -85,7 +91,9 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
   get totalAvailableAmountPrepayment() {
     return !isEmpty(this.filteredReceivablesSchedule)
       ? (this.filteredReceivablesSchedule
-          .filter((p) => p.documentNumber === this.prepaymentEstablishmentsSelected)
+          .filter(
+            (p) => p.documentNumber === this.prepaymentEstablishmentsSelected,
+          )
           ?.sumBy((p) => p.availableValue ?? 0) ?? 0)
       : 0;
   }
@@ -102,7 +110,9 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
 
   get hasPermission() {
     return (
-      this.hasPunctualPermission && this.hasScheduledPermission && this.hasAuthorizationPermission
+      this.hasPunctualPermission &&
+      this.hasScheduledPermission &&
+      this.hasAuthorizationPermission
     );
   }
 
@@ -120,13 +130,15 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
           'Quarta',
           'Quinta',
           'Sexta',
-          'Sábado'
+          'Sábado',
         );
 
         if (this.scheduledFinalized.daysOfWeek.length === 1) {
           return dayName[this.scheduledFinalized.daysOfWeek[0]];
         } else {
-          const listOrdered = this.scheduledFinalized.daysOfWeek.sortBy((x) => x);
+          const listOrdered = this.scheduledFinalized.daysOfWeek.sortBy(
+            (x) => x,
+          );
           return `${dayName[listOrdered[0]]} - ${dayName[listOrdered[1]]}`;
         }
       }
@@ -135,7 +147,9 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
         if (this.scheduledFinalized.daysOfMonth.length === 1) {
           return this.scheduledFinalized.daysOfMonth[0];
         } else {
-          const listOrdered = this.scheduledFinalized.daysOfMonth.sortBy((x) => x);
+          const listOrdered = this.scheduledFinalized.daysOfMonth.sortBy(
+            (x) => x,
+          );
 
           return `${listOrdered[0]} e ${listOrdered[1]}`;
         }
@@ -152,6 +166,8 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
   }
 
   get hasMfa() {
+    return true;
+
     if (environment.debug) {
       return true;
     }
@@ -165,7 +181,7 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
 
   get establishmentSelected() {
     const establishmentSelected = this.establishmentsToSelect.filter(
-      (p) => p.value === this.prepaymentEstablishmentsSelected
+      (p) => p.value === this.prepaymentEstablishmentsSelected,
     );
 
     if (!!establishmentSelected) {
@@ -180,7 +196,7 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
     navigationService: NavigationService,
     private notifcationService: NotificationService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ) {
     super(store$, navigationService);
 
@@ -224,6 +240,7 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
   }
 
   private allSelects() {
+    debugger;
     if (this.hasMfa) {
       this.selectGetReceivablesSchedule();
       this.selectGetBankingAccount();
@@ -238,8 +255,8 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
     if (!!this.prepaymentEstablishmentsSelected) {
       this.store$.dispatch(
         new AdministrationStoreActions.GetEconomicGroupRatesAction({
-          uid: this.prepaymentEstablishmentsSelected
-        })
+          uid: this.prepaymentEstablishmentsSelected,
+        }),
       );
     }
   }
@@ -250,9 +267,8 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       .pipe(takeUntil(this.$unsub))
       .subscribe((economicGroupRates: EconomicGroupRatesResponse) => {
         if (!!economicGroupRates) {
-          const rate: EconomicGroupRateResponse = economicGroupRates?.rates.firstOrDefault(
-            (x) => !!x
-          );
+          const rate: EconomicGroupRateResponse =
+            economicGroupRates?.rates.firstOrDefault((x) => !!x);
           this.isD1 = rate.prepaidDebitPeriod === 1;
         }
       });
@@ -272,7 +288,7 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
             !isEmpty(this.selectedEstablishments) &&
             this.selectedEstablishments.some((x) => !x.activeMfa)
           ) {
-            this.openDialogUnauthorizedMfa();
+            // this.openDialogUnauthorizedMfa();
           }
         }
       });
@@ -289,9 +305,9 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
               (establishment) =>
                 new SelectOption(
                   `${establishment.companyName} - ${establishment.documentNumber}`,
-                  establishment.uid
-                )
-            )
+                  establishment.uid,
+                ),
+            ),
           ];
         }
       });
@@ -305,7 +321,9 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
         this.canceledScheduled = canceledScheduled;
 
         if (canceledScheduled) {
-          this.store$.dispatch(new PrepaymentsStoreActions.SetCanceledScheduledPrepaymentAction());
+          this.store$.dispatch(
+            new PrepaymentsStoreActions.SetCanceledScheduledPrepaymentAction(),
+          );
 
           if (this.isEdit) {
             this.isEdit = false;
@@ -355,7 +373,7 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
 
         if (!isEmpty(this.receivablesSchedule)) {
           this.receivablesSchedule.map((p) =>
-            this.prepaymentsEstablishments.push(p.documentNumber)
+            this.prepaymentsEstablishments.push(p.documentNumber),
           );
           this.filteredReceivablesSchedule = [...this.receivablesSchedule];
         }
@@ -413,10 +431,12 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       .pipe(takeUntil(this.$unsub))
       .subscribe((error) => {
         if (!!error && error !== 'No active contracts') {
-          this.store$.dispatch(new PrepaymentsStoreActions.SetNoErrorScheduledPrepaymentAction());
+          this.store$.dispatch(
+            new PrepaymentsStoreActions.SetNoErrorScheduledPrepaymentAction(),
+          );
           this.notifcationService.showError(
             'Por favor, tente novamente mais tarde ou entre em contato com nossa equipe de suporte.',
-            'Algo deu errado nesta ação'
+            'Algo deu errado nesta ação',
           );
         }
       });
@@ -429,11 +449,11 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       .subscribe((error) => {
         if (!!error) {
           this.store$.dispatch(
-            new AdministrationStoreActions.SetNoErrorGetEconomicGroupPhoneAction()
+            new AdministrationStoreActions.SetNoErrorGetEconomicGroupPhoneAction(),
           );
           this.notifcationService.showError(
             'Por favor, tente novamente mais tarde ou entre em contato com nossa equipe de suporte.',
-            'Algo deu errado nesta ação'
+            'Algo deu errado nesta ação',
           );
         }
       });
@@ -449,7 +469,7 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
 
           this.notifcationService.showError(
             'Por favor, tente novamente mais tarde ou entre em contato com nossa equipe de suporte.',
-            'Algo deu errado nesta ação'
+            'Algo deu errado nesta ação',
           );
         }
       });
@@ -461,10 +481,12 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       .pipe(takeUntil(this.$unsub))
       .subscribe((error) => {
         if (!!error) {
-          this.store$.dispatch(new MfaStoreActions.SetNoErrorVerificationCompletedAction());
+          this.store$.dispatch(
+            new MfaStoreActions.SetNoErrorVerificationCompletedAction(),
+          );
           this.notifcationService.showError(
             'Por favor, tente novamente mais tarde ou entre em contato com nossa equipe de suporte.',
-            'Algo deu errado nesta ação'
+            'Algo deu errado nesta ação',
           );
         }
       });
@@ -491,15 +513,17 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
   }
 
   private selectGetEconomicGroupPhone() {
-    this.store$.dispatch(new AdministrationStoreActions.GetEconomicGroupPhoneAction());
+    this.store$.dispatch(
+      new AdministrationStoreActions.GetEconomicGroupPhoneAction(),
+    );
   }
 
   private selectGetScheduledFinalized() {
     if (!!this.prepaymentEstablishmentsSelected) {
       this.store$.dispatch(
         new PrepaymentsStoreActions.GetScheduledFinalizedAction({
-          uid: this.prepaymentEstablishmentsSelected
-        })
+          uid: this.prepaymentEstablishmentsSelected,
+        }),
       );
     }
   }
@@ -508,8 +532,8 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
     if (!!this.prepaymentEstablishmentsSelected) {
       this.store$.dispatch(
         new PrepaymentsStoreActions.GetReceivablesScheduleGroupingAction({
-          uid: this.selectedEstablishmentsUids
-        })
+          uid: this.prepaymentEstablishmentsSelected,
+        }),
       );
     }
   }
@@ -518,8 +542,8 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
     if (!!this.prepaymentEstablishmentsSelected) {
       this.store$.dispatch(
         new PrepaymentsStoreActions.GetBankingAccountPrepaymentAction({
-          uid: this.selectedEstablishmentsUids
-        })
+          uid: this.prepaymentEstablishmentsSelected,
+        }),
       );
     }
   }
@@ -529,8 +553,8 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       this.store$.dispatch(
         new PrepaymentsStoreActions.GetPunctualRatePrepaymentAction({
           uid: this.prepaymentEstablishmentsSelected,
-          prepaymentTotalAmount: this.totalAvailableAmountPrepayment
-        })
+          prepaymentTotalAmount: this.totalAvailableAmountPrepayment,
+        }),
       );
     }
   }
@@ -540,8 +564,8 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       this.store$.dispatch(
         new PrepaymentsStoreActions.GetScheduledRatePrepaymentAction({
           uid: this.prepaymentEstablishmentsSelected,
-          prepaymentTotalAmount: this.totalAvailableAmountPrepayment
-        })
+          prepaymentTotalAmount: this.totalAvailableAmountPrepayment,
+        }),
       );
     }
   }
@@ -551,8 +575,8 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       this.store$.dispatch(
         new PrepaymentsStoreActions.CancelScheduledPrepaymentAction({
           id: this.scheduledFinalized.id,
-          uid: this.prepaymentEstablishmentsSelected
-        })
+          uid: this.prepaymentEstablishmentsSelected,
+        }),
       );
     }
   }
@@ -565,11 +589,13 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       minLimit: this.minLimit,
       frequency: this.finalCheck.frequency,
       daysOfWeek: this.finalCheck.daysOfWeek,
-      daysOfMonth: this.finalCheck.daysOfMonth
+      daysOfMonth: this.finalCheck.daysOfMonth,
     } as FinalizeScheduledRequest;
 
     this.store$.dispatch(
-      new PrepaymentsStoreActions.FinalizeScheduledPrepaymentAction({ request })
+      new PrepaymentsStoreActions.FinalizeScheduledPrepaymentAction({
+        request,
+      }),
     );
   }
 
@@ -584,11 +610,14 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
         scheduledMode: finalCheck.viewMode,
         selection: finalCheck.selectionDescription,
         bankingAccount: await this.getBankingAccount(),
-        rate: this.scheduledRate
-      }
+        rate: this.scheduledRate,
+      },
     };
 
-    const dialogFinalRef = this.dialog.open(DialogScheduledFinalCheckComponent, config);
+    const dialogFinalRef = this.dialog.open(
+      DialogScheduledFinalCheckComponent,
+      config,
+    );
 
     dialogFinalRef.afterClosed().subscribe((confirm: boolean) => {
       if (confirm === true) {
@@ -602,7 +631,7 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
 
   onSelectedEstablishmentsClick(event: any) {
     this.prepaymentEstablishmentsSelected = event;
-
+    this.verifyEstablishmentSelected();
     this.allSelects();
   }
 
@@ -619,16 +648,19 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       console.log('É Array?', Array.isArray(this.bankingAccounts));
 
       var selectedDoc = this.selectedEstablishments.filter(
-        (x) => x.uid == this.prepaymentEstablishmentsSelected
+        (x) => x.uid == this.prepaymentEstablishmentsSelected,
       );
 
       const resultado = this.bankingAccounts.some(
-        (b: any) => b.documentNumber === selectedDoc[0].documentNumber
+        (b: any) => b.documentNumber === selectedDoc[0].documentNumber,
       );
       console.log('Resultado:', resultado);
 
       return this.bankingAccounts
-        .filter((b: any) => b.documentNumber === this.selectedEstablishments[0].documentNumber)
+        .filter(
+          (b: any) =>
+            b.documentNumber === this.selectedEstablishments[0].documentNumber,
+        )
         .firstOrDefault((x: BankingAccount) => !!x);
     }
 
@@ -637,17 +669,15 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
 
   private verifyEstablishmentSelected() {
     if (!this.prepaymentEstablishmentsSelected) {
-      this.prepaymentEstablishmentsSelected = this.selectedEstablishmentsUids.firstOrDefault(
-        (x) => !!x
-      );
+      this.prepaymentEstablishmentsSelected =
+        this.selectedEstablishmentsUids.firstOrDefault((x) => !!x);
     } else {
       if (
         !isEmpty(this.selectedEstablishmentsUids) &&
         this.selectedEstablishmentsUids.length === 1
       ) {
-        const firstEstablishment: string = this.selectedEstablishmentsUids.firstOrDefault(
-          (x) => !!x
-        );
+        const firstEstablishment: string =
+          this.selectedEstablishmentsUids.firstOrDefault((x) => !!x);
 
         if (firstEstablishment !== this.prepaymentEstablishmentsSelected) {
           this.prepaymentEstablishmentsSelected = firstEstablishment;
@@ -658,7 +688,9 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
 
   openMfaTwoFactorAuthenticationDialog(isVerify: boolean = false) {
     this.store$.dispatch(
-      new MfaStoreActions.SendPinSmsAction({ phoneNumber: this.economicGroupPhoneNumber })
+      new MfaStoreActions.SendPinSmsAction({
+        phoneNumber: this.economicGroupPhoneNumber,
+      }),
     );
 
     this.dialog
@@ -669,8 +701,8 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
         data: {
           step: 3,
           isMfa: false,
-          isVerify
-        }
+          isVerify,
+        },
       })
       .afterClosed()
       .subscribe((data) => {
@@ -691,7 +723,7 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       .open(DialogCancelComponent, {
         width: '392px',
         hasBackdrop: true,
-        disableClose: true
+        disableClose: true,
       })
       .afterClosed()
       .subscribe((data) => {
@@ -705,14 +737,19 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
     const config: MatDialogConfig = {
       width: '26%',
       hasBackdrop: true,
-      disableClose: true
+      disableClose: true,
     };
 
-    const dialogSuccessRef = this.dialog.open(DialogScheduledSuccessComponent, config);
+    const dialogSuccessRef = this.dialog.open(
+      DialogScheduledSuccessComponent,
+      config,
+    );
 
     dialogSuccessRef.afterClosed().subscribe((concluido) => {
       if (concluido) {
-        this.store$.dispatch(new PrepaymentsStoreActions.FinalizedScheduledPrepaymentAction());
+        this.store$.dispatch(
+          new PrepaymentsStoreActions.FinalizedScheduledPrepaymentAction(),
+        );
         this.selectGetScheduledFinalized();
       }
     });
@@ -728,7 +765,7 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       .open(DialogUnauthorizedMfaComponent, {
         hasBackdrop: false,
         disableClose: true,
-        width: '392px'
+        width: '392px',
       })
       .afterClosed()
       .subscribe((data) => {
@@ -755,8 +792,8 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
           step,
           emailSelected: this.userEmail,
           isMfa: true,
-          isActivation
-        }
+          isActivation,
+        },
       })
       .afterClosed()
       .subscribe(async (data) => {
@@ -781,13 +818,13 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
         .open(DialogCancelComponent, {
           width: '392px',
           hasBackdrop: true,
-          disableClose: true
+          disableClose: true,
         })
         .afterClosed()
         .pipe(
           take(1),
-          map((confirm) => !!confirm)
-        )
+          map((confirm) => !!confirm),
+        ),
     );
   }
 
@@ -796,7 +833,7 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       .open(DialogActivationCompletedComponent, {
         width: '392px',
         hasBackdrop: true,
-        disableClose: true
+        disableClose: true,
       })
       .afterClosed()
       .subscribe((data) => {
@@ -810,10 +847,13 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
     const config: MatDialogConfig = {
       width: '22%',
       hasBackdrop: true,
-      disableClose: true
+      disableClose: true,
     };
 
-    const dialogScheduleCancelRef = this.dialog.open(DialogScheduledCancelComponent, config);
+    const dialogScheduleCancelRef = this.dialog.open(
+      DialogScheduledCancelComponent,
+      config,
+    );
 
     dialogScheduleCancelRef.afterClosed().subscribe((confirm) => {
       if (!confirm) {
@@ -826,10 +866,13 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
     const config: MatDialogConfig = {
       width: '26%',
       hasBackdrop: true,
-      disableClose: true
+      disableClose: true,
     };
 
-    const dialogScheduleActiveRef = this.dialog.open(DialogScheduledActiveCancelComponent, config);
+    const dialogScheduleActiveRef = this.dialog.open(
+      DialogScheduledActiveCancelComponent,
+      config,
+    );
 
     dialogScheduleActiveRef.afterClosed().subscribe((keep) => {
       if (keep === false) {
@@ -842,24 +885,24 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
   async onActivateClick() {
     await this.router.navigate(['/prepayments-scheduled'], {
       queryParams: {
-        uid: this.prepaymentEstablishmentsSelected
-      }
+        uid: this.prepaymentEstablishmentsSelected,
+      },
     });
   }
 
   async onRequestClick() {
     await this.router.navigate(['/prepayments-punctual'], {
       queryParams: {
-        uid: this.prepaymentEstablishmentsSelected
-      }
+        uid: this.prepaymentEstablishmentsSelected,
+      },
     });
   }
 
   async onHistoricClick() {
     await this.router.navigate(['/prepayments-historic'], {
       queryParams: {
-        uid: this.prepaymentEstablishmentsSelected
-      }
+        uid: this.prepaymentEstablishmentsSelected,
+      },
     });
   }
 
@@ -873,11 +916,14 @@ export class PrepaymentsPageComponent extends BasePage implements OnInit, OnDest
       hasBackdrop: true,
       disableClose: true,
       data: {
-        establishmentSelected: this.establishmentSelected
-      }
+        establishmentSelected: this.establishmentSelected,
+      },
     };
 
-    const dialogCancelRef = this.dialog.open(DialogAuthorizationPrepaymentComponent, config);
+    const dialogCancelRef = this.dialog.open(
+      DialogAuthorizationPrepaymentComponent,
+      config,
+    );
 
     dialogCancelRef.afterClosed().subscribe((data) => {
       if (data) {
