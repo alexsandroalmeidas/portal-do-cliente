@@ -343,7 +343,7 @@ export class PunctualPrepaymentPageComponent
     if (!!this.prepaymentEstablishmentsSelected) {
       this.store$.dispatch(
         new PrepaymentsStoreActions.GetBankingAccountPrepaymentAction({
-          uid: this.selectedEstablishmentsUids.firstOrDefault((x) => !!x),
+          uid: this.prepaymentEstablishmentsSelected,
         }),
       );
     }
@@ -352,7 +352,7 @@ export class PunctualPrepaymentPageComponent
   private selectGetReceivablesSchedule() {
     this.store$.dispatch(
       new PrepaymentsStoreActions.GetReceivablesScheduleGroupingAction({
-        uid: this.selectedEstablishmentsUids.firstOrDefault((x) => !!x),
+        uid: this.prepaymentEstablishmentsSelected,
       }),
     );
   }

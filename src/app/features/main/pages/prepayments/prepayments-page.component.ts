@@ -686,35 +686,41 @@ export class PrepaymentsPageComponent
   }
 
   openMfaTwoFactorAuthenticationDialog(isVerify: boolean = false) {
-    this.store$.dispatch(
-      new MfaStoreActions.SendPinSmsAction({
-        phoneNumber: this.economicGroupPhoneNumber,
-      }),
-    );
+    // this.store$.dispatch(
+    //   new MfaStoreActions.SendPinSmsAction({
+    //     phoneNumber: this.economicGroupPhoneNumber,
+    //   }),
+    // );
 
-    this.dialog
-      .open(DialogTwoFactorAuthenticationComponent, {
-        width: '392px',
-        hasBackdrop: true,
-        disableClose: true,
-        data: {
-          step: 3,
-          isMfa: false,
-          isVerify,
-        },
-      })
-      .afterClosed()
-      .subscribe((data) => {
-        if (data === true) {
-          if (this.isEdit || this.editCanceled) {
-            this.selectCancelScheduledPrepayment();
-          } else {
-            this.selectFinalizeScheduledPrepayment();
-          }
-        } else if (data === false && !isVerify) {
-          this.openMfaCancelDialog();
-        }
-      });
+    if (this.isEdit || this.editCanceled) {
+      this.selectCancelScheduledPrepayment();
+    } else {
+      this.selectFinalizeScheduledPrepayment();
+    }
+
+    // this.dialog
+    //   .open(DialogTwoFactorAuthenticationComponent, {
+    //     width: '392px',
+    //     hasBackdrop: true,
+    //     disableClose: true,
+    //     data: {
+    //       step: 3,
+    //       isMfa: false,
+    //       isVerify,
+    //     },
+    //   })
+    //   .afterClosed()
+    //   .subscribe((data) => {
+    //     if (data === true) {
+    //       if (this.isEdit || this.editCanceled) {
+    //         this.selectCancelScheduledPrepayment();
+    //       } else {
+    //         this.selectFinalizeScheduledPrepayment();
+    //       }
+    //     } else if (data === false && !isVerify) {
+    //       this.openMfaCancelDialog();
+    //     }
+    //   });
   }
 
   openMfaCancelDialog() {

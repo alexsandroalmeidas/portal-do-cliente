@@ -5,8 +5,10 @@
 <ng-template #establishments_found>
   <section class="heading">
     <div class="page-title">
-      <h3>{{ 'app.prepayments.title' | translate }}</h3>
-      <span class="page-subtitle">{{ 'app.prepayments.subtitle' | translate }}</span>
+      <h3>{{ "app.prepayments.title" | translate }}</h3>
+      <span class="page-subtitle">{{
+        "app.prepayments.subtitle" | translate
+      }}</span>
     </div>
 
     <div class="page-actions">
@@ -38,8 +40,8 @@
           <div class="card card-group-row__card">
             <div class="card-body">
               <h6 class="card-title fw-bolder text-secondary">
-                Para ter acesso a essa funcionalidade você precisa realizar a Autenticação de
-                Segurança.
+                Para ter acesso a essa funcionalidade você precisa realizar a
+                Autenticação de Segurança.
               </h6>
             </div>
           </div>
@@ -54,7 +56,9 @@
             <div class="card card-establishments">
               <div class="card-body">
                 <span class="title-label-number">1. </span>
-                <span class="title-label pb-1"> Selecione um estabelecimento</span>
+                <span class="title-label pb-1">
+                  Selecione um estabelecimento</span
+                >
 
                 <div class="row" style="padding-top: 1rem">
                   <div class="col-7">
@@ -64,8 +68,12 @@
                         [establishments]="establishmentsToSelect"
                         [multiple]="false"
                         [markFirst]="true"
-                        [selectedEstablishmentDocument]="prepaymentEstablishmentsSelected"
-                        (selectedEstablishments)="onSelectedEstablishmentsClick($event)"
+                        [selectedEstablishmentDocument]="
+                          prepaymentEstablishmentsSelected
+                        "
+                        (selectedEstablishments)="
+                          onSelectedEstablishmentsClick($event)
+                        "
                       >
                       </app-select-establishments>
                     </div>
@@ -78,7 +86,8 @@
                       <div
                         class="prepayment-icon prepayment-icon-available d-flex align-items-center"
                       >
-                        <span class="material-symbols-outlined text-primary fs-icon-available"
+                        <span
+                          class="material-symbols-outlined text-primary fs-icon-available"
                           >calendar_clock</span
                         >
                       </div>
@@ -99,9 +108,16 @@
                             </div>
                             <div class="row">
                               <div class="col-12 pr-2">
-                                <span class="info-label mr-2"><small>R$</small></span>
-                                <span class="info-currency-qtd-1 fs-30 text-primary">
-                                  {{ totalAvailableAmountPrepayment || 0 | number : '1.2-2' }}
+                                <span class="info-label mr-2"
+                                  ><small>R$</small></span
+                                >
+                                <span
+                                  class="info-currency-qtd-1 fs-30 text-primary"
+                                >
+                                  {{
+                                    totalAvailableAmountPrepayment || 0
+                                      | number: "1.2-2"
+                                  }}
                                 </span>
                               </div>
                             </div>
@@ -115,9 +131,15 @@
                       class="card-prepayment w-100 d-flex align-items-center justify-content-center gap-2"
                       *ngIf="!isD1"
                     >
-                      <div class="prepayment-icon-verified d-flex align-items-center">
-                        <span class="material-symbols-outlined fs-icon-verified">verified</span>
-                        <span class="info-label fw-bolder pl-01" (click)="openAuthorizationDialog()"
+                      <div
+                        class="prepayment-icon-verified d-flex align-items-center"
+                      >
+                        <span class="material-symbols-outlined fs-icon-verified"
+                          >verified</span
+                        >
+                        <span
+                          class="info-label fw-bolder pl-01"
+                          (click)="openAuthorizationDialog()"
                           >Autorização para consulta</span
                         >
                       </div>
@@ -135,13 +157,20 @@
               <div class="card card-prepayments">
                 <div class="card-body">
                   <span class="title-label-number">2. </span>
-                  <span class="title-label pb-1"> Selecione a forma de antecipação</span>
+                  <span class="title-label pb-1">
+                    Selecione a forma de antecipação</span
+                  >
 
                   <div class="row" style="padding: 1rem">
                     <!-- Antecipação Automática -->
-                    <div class="col-4 pr-09 pl-0" *ngIf="hasScheduledPermission">
+                    <div
+                      class="col-4 pr-09 pl-0"
+                      *ngIf="hasScheduledPermission"
+                    >
                       <app-card-prepayments-scheduled
-                        [prepaymentEstablishmentsSelected]="prepaymentEstablishmentsSelected"
+                        [prepaymentEstablishmentsSelected]="
+                          prepaymentEstablishmentsSelected
+                        "
                         [scheduledFinalized]="scheduledFinalized"
                         [finalized]="finalized"
                         [scheduledRate]="scheduledRate"
@@ -156,7 +185,9 @@
                     <!-- Antecipação Pontual -->
                     <div class="col-4 pl-0" *ngIf="hasPunctualPermission">
                       <app-card-prepayments-punctual
-                        [prepaymentEstablishmentsSelected]="prepaymentEstablishmentsSelected"
+                        [prepaymentEstablishmentsSelected]="
+                          prepaymentEstablishmentsSelected
+                        "
                         [finalized]="finalized"
                         [punctualRate]="punctualRate"
                         [prepaymentsAvailable]="prepaymentsAvailable"
@@ -167,7 +198,9 @@
 
                     <div class="col-4 pr-09">
                       <div class="card card-prepayment-img">
-                        <div class="card-body d-flex flex-column align-items-center gap-2 p-0">
+                        <div
+                          class="card-body d-flex flex-column align-items-center gap-2 p-0"
+                        >
                           <img
                             class="logo w-100 img-available-hg"
                             *ngIf="!finalized"
@@ -190,7 +223,9 @@
                 <div class="card-body">
                   <div class="row">
                     <app-historic-prepayment-page
-                      [prepaymentEstablishmentsSelected]="prepaymentEstablishmentsSelected"
+                      [prepaymentEstablishmentsSelected]="
+                        prepaymentEstablishmentsSelected
+                      "
                     >
                     </app-historic-prepayment-page>
                   </div>

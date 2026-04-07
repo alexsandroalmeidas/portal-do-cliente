@@ -427,6 +427,7 @@ export class ScheduledPrepaymentPageComponent
       .pipe(takeUntil(this.$unsub))
       .subscribe((bankingAccounts) => {
         this.bankingAccounts = bankingAccounts || [];
+        debugger;
       });
   }
 
@@ -565,7 +566,7 @@ export class ScheduledPrepaymentPageComponent
     if (!!this.prepaymentEstablishmentsSelected) {
       this.store$.dispatch(
         new PrepaymentsStoreActions.GetBankingAccountPrepaymentAction({
-          uid: this.selectedEstablishmentsUids.firstOrDefault((x) => !!!x),
+          uid: this.prepaymentEstablishmentsSelected,
         }),
       );
     }
@@ -951,7 +952,6 @@ export class ScheduledPrepaymentPageComponent
       (x) => x,
     );
 
-    debugger;
     const request = {
       uid: this.prepaymentEstablishmentsSelected,
       rate: this.rate,
