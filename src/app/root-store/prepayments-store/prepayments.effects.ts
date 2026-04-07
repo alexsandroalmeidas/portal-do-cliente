@@ -123,8 +123,10 @@ export class PrepaymentsStoreEffects {
   getScheduledRateEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PrepaymentsStoreActions.ActionTypes.GET_SCHEDULED_RATE_PREPAYMENT),
-      switchMap(() =>
-        of(buildRate()).pipe(
+      switchMap((action: any) =>
+        of(
+          buildRate(action.payload?.uid, action.payload?.documentNumber, false),
+        ).pipe(
           map(
             (response) =>
               new PrepaymentsStoreActions.GetScheduledRatePrepaymentSuccessAction(
@@ -144,8 +146,10 @@ export class PrepaymentsStoreEffects {
   getPunctualRateEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PrepaymentsStoreActions.ActionTypes.GET_PUNCTUAL_RATE_PREPAYMENT),
-      switchMap(() =>
-        of(buildRate()).pipe(
+      switchMap((action: any) =>
+        of(
+          buildRate(action.payload?.uid, action.payload?.documentNumber, true),
+        ).pipe(
           map(
             (response) =>
               new PrepaymentsStoreActions.GetPunctualRatePrepaymentSuccessAction(

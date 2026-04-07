@@ -21,6 +21,25 @@ import {
 const now = new Date();
 
 /* =========================
+   RATES
+========================= */
+
+const RATE_DATABASE = [
+  {
+    documentNumber: '12345678000199',
+    rate: 2.5,
+    maxLimit: 10000,
+    minLimit: 100,
+  },
+  {
+    documentNumber: '98765432000188',
+    rate: 1.1,
+    maxLimit: 5000,
+    minLimit: 50,
+  },
+];
+
+/* =========================
    ESTABLISHMENTS
 ========================= */
 
@@ -68,7 +87,7 @@ const SCHEDULES: ReceivablesSchedule[] = Array.from({ length: 20 }).map(
       message: '',
       arScheduleId: i,
 
-      documentNumberAccreditor: est.documentNumber,
+      documentNumberAccreditor: isFirst ? '16501555000157' : '01027058000191',
       uid: est.uid,
       documentNumber: est.documentNumber,
 
@@ -173,7 +192,6 @@ export function buildGrouping(
   uid?: string,
   documentNumber?: string,
 ): ReceivablesScheduleGroupingResponse {
-  debugger;
   const schedules = filterSchedules(uid, documentNumber);
 
   const doc = documentNumber || schedules[0]?.documentNumber;
@@ -191,14 +209,23 @@ export function buildGrouping(
   };
 }
 
-export function buildRate(): GetRateResponse {
+export function buildRate(
+  uid?: string,
+  documentNumber?: string,
+  isPunctual?: boolean,
+): GetRateResponse {
+  const documents = resolveDocuments(uid, documentNumber);
+
+  const found = RATE_DATABASE.find((r) => documents.includes(r.documentNumber));
+
+  debugger;
   return {
     timestamp: new Date(),
     error: '',
     message: '',
-    rate: 2.5,
-    maxLimit: 10000,
-    minLimit: 100,
+    rate: isPunctual ? (found?.rate ?? 0) * 1.1 : (found?.rate ?? 0),
+    maxLimit: found?.maxLimit ?? 0,
+    minLimit: found?.minLimit ?? 0,
   };
 }
 

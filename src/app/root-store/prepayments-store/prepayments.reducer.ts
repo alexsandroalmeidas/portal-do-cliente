@@ -1,15 +1,24 @@
 import { Actions, ActionTypes } from './prepayments.actions';
-import { ReceivablesScheduleGroupingResponse, PrepaymentRate } from './prepayments.models';
+import {
+  ReceivablesScheduleGroupingResponse,
+  PrepaymentRate,
+} from './prepayments.models';
 import { PrepaymentsState, initialState } from './prepayments.state';
 
-const filterPrepaymentsGrouping = (prepaymentsGrouping: ReceivablesScheduleGroupingResponse[], documentNumber: string): ReceivablesScheduleGroupingResponse[] => {
-  return prepaymentsGrouping
-    .filter(prepayment => {
-      return prepayment.documentNumber === documentNumber;
-    });
-}
+const filterPrepaymentsGrouping = (
+  prepaymentsGrouping: ReceivablesScheduleGroupingResponse[],
+  documentNumber: string,
+): ReceivablesScheduleGroupingResponse[] => {
+  return prepaymentsGrouping.filter((prepayment) => {
+    debugger;
+    return prepayment.documentNumber === documentNumber;
+  });
+};
 
-export function featureReducer(state = initialState, action: Actions): PrepaymentsState {
+export function featureReducer(
+  state = initialState,
+  action: Actions,
+): PrepaymentsState {
   switch (action.type) {
     case ActionTypes.GET_AUTHORIZATION:
     case ActionTypes.GET_FILTERED_RECEIVABLES_SCHEDULE_GROUPING:
@@ -32,7 +41,7 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
         punctualError: null,
         authorizationError: null,
         scheduledPrepaymentFinalized: false,
-        punctualPrepaymentFinalized: false
+        punctualPrepaymentFinalized: false,
       };
     }
     case ActionTypes.GET_AUTHORIZATION_SUCCESS: {
@@ -41,7 +50,7 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
       return {
         ...state,
         authorization: response.hasAuthorization,
-        authorizationError: response.error
+        authorizationError: response.error,
       };
     }
     case ActionTypes.AUTHORIZE_SUCCESS: {
@@ -50,39 +59,46 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
       return {
         ...state,
         authorizationError: response.error,
-        authorized: !response.error
+        authorized: !response.error,
       };
     }
     case ActionTypes.SET_AUTHORIZED: {
-
       return {
         ...state,
-        authorized: true
+        authorized: true,
       };
     }
     case ActionTypes.GET_RECEIVABLES_SCHEDULE_GROUPING_SUCCESS: {
       let { receivablesScheduleGrouping } = action.payload;
 
+      debugger;
       return {
         ...state,
         receivablesScheduleGrouping,
-        receivablesScheduleAvailable: receivablesScheduleGrouping.every(x => x.available)
+        receivablesScheduleAvailable: receivablesScheduleGrouping.every(
+          (x) => x.available,
+        ),
       };
     }
     case ActionTypes.GET_FILTERED_RECEIVABLES_SCHEDULE_GROUPING: {
-      let { receivablesScheduleGrouping, documentNumber: documentNumberSelected } = action.payload;
+      let {
+        receivablesScheduleGrouping,
+        documentNumber: documentNumberSelected,
+      } = action.payload;
 
       return {
         ...state,
         receivablesScheduleGrouping,
-        filteredReceivablesScheduleGrouping: filterPrepaymentsGrouping(receivablesScheduleGrouping, documentNumberSelected)
+        filteredReceivablesScheduleGrouping: filterPrepaymentsGrouping(
+          receivablesScheduleGrouping,
+          documentNumberSelected,
+        ),
       };
     }
     case ActionTypes.REQUEST_RECEIVABLES_SCHEDULE_SUCCESS: {
-
       return {
         ...state,
-        requestedReceivablesSchedule: true
+        requestedReceivablesSchedule: true,
       };
     }
     case ActionTypes.FINALIZE_PUNCTUAL_PREPAYMENT_SUCCESS: {
@@ -90,8 +106,8 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
 
       return {
         ...state,
-        punctualPrepaymentFinalized: response.schedules.every(x => x.success),
-        punctualError: response.error
+        punctualPrepaymentFinalized: response.schedules.every((x) => x.success),
+        punctualError: response.error,
       };
     }
     case ActionTypes.FINALIZE_SCHEDULED_PREPAYMENT_SUCCESS: {
@@ -100,7 +116,7 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
       return {
         ...state,
         scheduledPrepaymentFinalized: response.success,
-        scheduledError: response.error
+        scheduledError: response.error,
       };
     }
     case ActionTypes.GET_BANKING_ACCOUNT_PREPAYMENT_SUCCESS: {
@@ -108,23 +124,21 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
 
       return {
         ...state,
-        bankingAccounts: response.bankingAccounts
+        bankingAccounts: response.bankingAccounts,
       };
     }
     case ActionTypes.FINALIZED_PUNCTUAL_PREPAYMENT: {
-
       return {
         ...state,
         punctualPrepaymentFinalized: null as any,
-        punctualError: null
+        punctualError: null,
       };
     }
     case ActionTypes.FINALIZED_SCHEDULED_PREPAYMENT: {
-
       return {
         ...state,
         scheduledPrepaymentFinalized: null as any,
-        scheduledError: null
+        scheduledError: null,
       };
     }
     case ActionTypes.GET_PUNCTUAL_RATE_PREPAYMENT_SUCCESS: {
@@ -132,8 +146,12 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
 
       return {
         ...state,
-        punctualRate: { rate: response.rate, maxLimit: response.maxLimit, minLimit: response.minLimit } as PrepaymentRate,
-        punctualError: response.error
+        punctualRate: {
+          rate: response.rate,
+          maxLimit: response.maxLimit,
+          minLimit: response.minLimit,
+        } as PrepaymentRate,
+        punctualError: response.error,
       };
     }
     case ActionTypes.GET_SCHEDULED_RATE_PREPAYMENT_SUCCESS: {
@@ -141,27 +159,31 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
 
       return {
         ...state,
-        scheduledRate: { rate: response.rate, maxLimit: response.maxLimit, minLimit: response.minLimit } as PrepaymentRate,
-        scheduledError: response.error
+        scheduledRate: {
+          rate: response.rate,
+          maxLimit: response.maxLimit,
+          minLimit: response.minLimit,
+        } as PrepaymentRate,
+        scheduledError: response.error,
       };
     }
     case ActionTypes.SET_NO_ERROR_PUNCTUAL_PREPAYMENT: {
       return {
         ...state,
-        punctualError: null
-      }
+        punctualError: null,
+      };
     }
     case ActionTypes.SET_NO_ERROR_SCHEDULED_PREPAYMENT: {
       return {
         ...state,
-        scheduledError: null
-      }
+        scheduledError: null,
+      };
     }
     case ActionTypes.SET_NO_ERROR_AUTHORIZATION_PREPAYMENT: {
       return {
         ...state,
-        authorizationError: null
-      }
+        authorizationError: null,
+      };
     }
     case ActionTypes.GET_SCHEDULED_FINALIZED_SUCCESS: {
       let { response } = action.payload;
@@ -169,7 +191,7 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
       return {
         ...state,
         scheduledFinalized: response,
-        scheduledError: response.error
+        scheduledError: response.error,
       };
     }
     case ActionTypes.GET_SCHEDULED_FINALIZED_FAILURE: {
@@ -177,7 +199,7 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
 
       return {
         ...state,
-        scheduledError: error
+        scheduledError: error,
       };
     }
     case ActionTypes.CANCEL_SCHEDULED_PREPAYMENT_SUCCESS: {
@@ -186,7 +208,7 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
       return {
         ...state,
         canceledScheduled: response.success,
-        scheduledError: response.error
+        scheduledError: response.error,
       };
     }
     case ActionTypes.CANCEL_SCHEDULED_PREPAYMENT_FAILURE: {
@@ -194,14 +216,13 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
 
       return {
         ...state,
-        scheduledError: error
+        scheduledError: error,
       };
     }
     case ActionTypes.SET_CANCELED_SCHEDULED_PREPAYMENT: {
-
       return {
         ...state,
-        canceledScheduled: false
+        canceledScheduled: false,
       };
     }
     case ActionTypes.GET_HISTORIC_SUCCESS: {
@@ -210,7 +231,7 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
       return {
         ...state,
         historic: response.schedules,
-        punctualError: response.error
+        punctualError: response.error,
       };
     }
     case ActionTypes.GET_HISTORIC_FAILURE: {
@@ -218,7 +239,7 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
 
       return {
         ...state,
-        punctualError: error
+        punctualError: error,
       };
     }
     case ActionTypes.GET_PUNCTUAL_ACCREDITATIONS_SUCCESS: {
@@ -227,7 +248,7 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
       return {
         ...state,
         punctualAccreditations: response.accreditations,
-        punctualError: response.error
+        punctualError: response.error,
       };
     }
     case ActionTypes.GET_PUNCTUAL_ACCREDITATIONS_FAILURE: {
@@ -235,7 +256,7 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
 
       return {
         ...state,
-        punctualError: error
+        punctualError: error,
       };
     }
     case ActionTypes.GET_SCHEDULED_ACCREDITATIONS_SUCCESS: {
@@ -244,7 +265,7 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
       return {
         ...state,
         scheduledAccreditations: response.accreditations,
-        scheduledError: response.error
+        scheduledError: response.error,
       };
     }
     case ActionTypes.GET_SCHEDULED_ACCREDITATIONS_FAILURE: {
@@ -252,12 +273,12 @@ export function featureReducer(state = initialState, action: Actions): Prepaymen
 
       return {
         ...state,
-        scheduledError: error
+        scheduledError: error,
       };
     }
     default:
       return {
-        ...state
+        ...state,
       };
   }
 }
