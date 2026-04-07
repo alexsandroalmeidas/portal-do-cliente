@@ -240,7 +240,6 @@ export class PrepaymentsPageComponent
   }
 
   private allSelects() {
-    debugger;
     if (this.hasMfa) {
       this.selectGetReceivablesSchedule();
       this.selectGetBankingAccount();

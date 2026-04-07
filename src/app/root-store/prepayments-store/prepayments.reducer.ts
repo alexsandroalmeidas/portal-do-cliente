@@ -10,7 +10,6 @@ const filterPrepaymentsGrouping = (
   documentNumber: string,
 ): ReceivablesScheduleGroupingResponse[] => {
   return prepaymentsGrouping.filter((prepayment) => {
-    debugger;
     return prepayment.documentNumber === documentNumber;
   });
 };
@@ -71,7 +70,6 @@ export function featureReducer(
     case ActionTypes.GET_RECEIVABLES_SCHEDULE_GROUPING_SUCCESS: {
       let { receivablesScheduleGrouping } = action.payload;
 
-      debugger;
       return {
         ...state,
         receivablesScheduleGrouping,

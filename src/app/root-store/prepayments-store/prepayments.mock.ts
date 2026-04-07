@@ -80,7 +80,6 @@ const SCHEDULES: ReceivablesSchedule[] = Array.from({ length: 20 }).map(
     const est = ESTABLISHMENTS[i % 2];
 
     const isFirst = est.documentNumber === '12345678000199';
-    debugger;
     return {
       protocol: `PRT-${i}`,
       status: isFirst ? 'AVAILABLE' : 'PENDING',
@@ -218,7 +217,6 @@ export function buildRate(
 
   const found = RATE_DATABASE.find((r) => documents.includes(r.documentNumber));
 
-  debugger;
   return {
     timestamp: new Date(),
     error: '',
