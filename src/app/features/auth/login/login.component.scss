@@ -1,10 +1,4 @@
 /* =========================
-   TOKENS
-========================= */
-:root {
-}
-
-/* =========================
    PAGE
 ========================= */
 .login-page {
@@ -106,7 +100,7 @@
   border: 1px solid var(--neutral-medium);
   border-radius: var(--radius-s);
 
-  padding: 24px 16px 12px;
+  padding: 20px 48px 12px 16px;
 
   font-size: 16px;
   background: #fff;
@@ -153,26 +147,39 @@
 
   .toggle-password {
     position: absolute;
-    right: 10px;
+    right: 8px;
+
     top: 50%;
     transform: translateY(-50%);
 
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
     background: transparent;
     border: none;
+
     cursor: pointer;
-    font-size: 18px;
   }
 }
 
 .toggle-password.heart {
-  transition: all 0.2s ease;
+  font-size: 18px;
   opacity: 0.6;
+  transition: all 0.2s ease;
+}
+
+.toggle-password.heart:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .toggle-password.heart.active {
   opacity: 1;
-  transform: scale(1.2);
-  filter: drop-shadow(0 0 4px rgba(255, 0, 0, 0.4));
+  transform: translateY(-50%) scale(1.15);
 }
 
 /* =========================
@@ -195,5 +202,73 @@
 
   &:hover {
     filter: brightness(1.1);
+  }
+}
+
+small {
+  color: #ff4d4f;
+  font-size: 12px;
+}
+
+.error-message {
+  margin-top: 12px;
+  color: #ff4d4f;
+  text-align: center;
+  font-size: 14px;
+}
+
+.password-hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #999;
+
+  ul {
+    margin: 4px 0 0;
+    padding-left: 16px;
+  }
+
+  li {
+    margin-bottom: 2px;
+    color: #ff4d4f;
+  }
+
+  li.valid {
+    color: #52c41a;
+  }
+}
+
+.password-wrapper {
+  position: relative;
+
+  input {
+    width: 100%;
+    height: 64px;
+    padding: 20px 48px 12px 16px; // espaço pro botão
+  }
+
+  label {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+
+    cursor: pointer;
   }
 }

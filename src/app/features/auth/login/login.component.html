@@ -18,29 +18,88 @@
         <div class="input">
           <input type="email" formControlName="email" placeholder=" " />
           <label>Email</label>
+
+          <small
+            *ngIf="form.controls.email.touched && form.controls.email.invalid"
+          >
+            Informe um email válido
+          </small>
         </div>
 
         <!-- SENHA -->
-        <div class="input password-field">
-          <input
-            [type]="showPassword ? 'text' : 'password'"
-            formControlName="password"
-            placeholder=" "
-          />
-          <label>Senha</label>
+        <div class="input">
+          <div class="password-wrapper">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder=" "
+            />
+            <label>Senha</label>
 
-          <button
-            type="button"
-            class="toggle-password heart"
-            [class.active]="showPassword"
-            (click)="togglePassword()"
+            <button
+              type="button"
+              class="toggle-password heart"
+              [class.active]="showPassword"
+              (click)="togglePassword()"
+            >
+              ❤️
+            </button>
+          </div>
+
+          <!-- ERRO -->
+          <small
+            *ngIf="
+              form.controls.password.touched &&
+              form.controls.password.invalid &&
+              !form.controls.password.value
+            "
           >
-            ❤️
-          </button>
+            Senha é obrigatória
+          </small>
+
+          <!-- HINT -->
+          <div
+            class="password-hint"
+            *ngIf="
+              form.controls.password.value && form.controls.password.touched
+            "
+          >
+            <p>🔐 Sua senha deve conter:</p>
+
+            <ul>
+              <li [class.valid]="form.controls.password.value.length >= 8">
+                ✔ Pelo menos 8 caracteres
+              </li>
+
+              <li [class.valid]="hasUppercase(form.controls.password.value)">
+                ✔ Letra maiúscula
+              </li>
+
+              <li [class.valid]="hasLowercase(form.controls.password.value)">
+                ✔ Letra minúscula
+              </li>
+
+              <li [class.valid]="hasNumber(form.controls.password.value)">
+                ✔ Número
+              </li>
+
+              <li [class.valid]="hasSpecialChar(form.controls.password.value)">
+                ✔ Caractere especial
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ERRO GERAL -->
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
         </div>
 
         <!-- BOTÃO -->
-        <button class="primary-btn" type="submit">Continuar</button>
+        <button class="primary-btn" type="submit" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Continuar</span>
+          <span *ngIf="isLoading">Entrando...</span>
+        </button>
       </form>
     </div>
   </div>
