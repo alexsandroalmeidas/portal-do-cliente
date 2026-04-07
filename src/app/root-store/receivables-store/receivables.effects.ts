@@ -11,13 +11,11 @@ import * as ReceivablesStoreActions from './receivables.actions';
 import { mockEstablishments } from '../administration-store/administration.mock';
 
 import {
-  mockSummary,
   mockDetails,
   mockCalendar,
   mockLastUpdate,
   mockAdjustments,
   mockReceivables,
-  buildReceivablesSummary,
   buildReceivablesCalendar,
   buildReceivablesSummaryFromCalendar,
 } from './receivables.mock';
